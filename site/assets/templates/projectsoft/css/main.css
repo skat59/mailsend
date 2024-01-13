@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?v1.0.0") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?v1.0.0") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?v1.0.0") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?5e0c57c986dd7063085c1bc615917ba8") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?5e0c57c986dd7063085c1bc615917ba8") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?5e0c57c986dd7063085c1bc615917ba8") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -5984,6 +5984,7 @@ body .page-footer {
 
 body .page-header {
   border-bottom: unset;
+  margin: unset;
   color: white;
 }
 

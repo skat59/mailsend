@@ -13,6 +13,6 @@ Disallow: /install/
 
 Allow: /assets/cache/images/
 
-Host: template.school
+Host: mailsend.skat59.ru
 
-Sitemap: http://template.school/sitemap.xml
+Sitemap: https://mailsend.skat59.ru/sitemap.xml

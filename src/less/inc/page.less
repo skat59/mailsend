@@ -1,0 +1,26 @@
+html,
+body {
+	position: relative;
+	min-height: 100vh;
+}
+body {
+	.page {
+		position: relative;
+		min-height: 100vh;
+		background-image: url("@{imgpath}/background.jpg");
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
+		background-attachment: fixed;
+		display: flex;
+		flex-direction: column;
+		&-top,
+		&-header,
+		&-footer {
+			flex: 0 0 auto;
+		}
+		&-main {
+			flex: 1 0 auto;
+		}
+	}
+}

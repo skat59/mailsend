@@ -1,0 +1,86 @@
+.emoji-wrapp
+	include ../inc/0001_emoji_people.pug
+	hr
+	include ../inc/0002_emoji_animals.pug
+	hr
+	include ../inc/0003_emoji_food.pug
+	hr
+	include ../inc/0004_emoji_activity.pug
+	hr
+	include ../inc/0005_emoji_travel.pug
+	hr
+	include ../inc/0006_emoji_objects.pug
+	hr
+	include ../inc/0007_emoji_symbols.pug
+	hr
+	include ../inc/0008_emoji_flags.pug
+	hr
+// Скрипт копирования пока оставим
+script
+	|!(function(){
+	|	function clearSelection(span){
+	|		if (window.getSelection) {
+	|			window.getSelection().removeAllRanges();
+	|		} else if (document.selection) {
+	|			document.selection.empty();
+	|		}
+	|		span.setAttribute("data-copy", "Copied");
+	|		setTimeout(function(){
+	|			span.classList.remove('copy');
+	|			span.setAttribute("data-copy", "");
+	|		}, 500);
+	|	}
+	|	
+	|	document.addEventListener('click', async function(e){
+	|		console.log(e);
+	|		if(e.target.classList.contains('emoji--item--icon') || e.target.tagName == 'CODE'){
+	|			let span = e.target,
+	|				html = "", rng;
+	|			if(navigator.clipboard){
+	|				span.classList.remove('copy');
+	|				span.classList.remove('error');
+	|				span.classList.add('copy');
+	|				navigator.clipboard.writeText(span.firstChild.nodeValue).then(function(){
+	|					console.log('navigator.clipboard.writeText');
+	|					span.setAttribute("data-copy", "Copied");
+	|					setTimeout(function(){
+	|						span.classList.remove('copy');
+	|						span.setAttribute("data-copy", "");
+	|					}, 500);
+	|				}).catch(function(){
+	|					console.log('not navigator.clipboard.writeText');
+	|					span.setAttribute("data-copy", "ERROR");
+	|					span.classList.remove('copy');
+	|					span.classList.add('error');
+	|					setTimeout(function(){
+	|						span.classList.remove('error');
+	|						span.setAttribute("data-copy", "");
+	|					}, 1000);
+	|				});
+	|			}else{
+	|				span.classList.remove('copy');
+	|				span.classList.remove('error');
+	|				span.classList.add('copy');
+	|				let rnd, sel
+	|				if (document.createRange) {
+	|					console.log('document.createRange');
+	|					rng = document.createRange();
+	|					rng.selectNode(span)
+	|					sel = window.getSelection();
+	|					sel.removeAllRanges();
+	|					sel.addRange(rng);
+	|					document.execCommand("copy");
+	|					clearSelection(span);
+	|				} else {
+	|					console.log('document.body.createTextRange');
+	|					rng = document.body.createTextRange();
+	|					rng.moveToElementText(target);
+	|					rng.select();
+	|					document.execCommand("copy");
+	|					clearSelection(span);
+	|				}
+	|			}
+	|		}
+	|	});
+	|})();
+// /Скрипт копирования пока оставим

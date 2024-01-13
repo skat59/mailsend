@@ -1,0 +1,438 @@
+// Glyphs Icons
+@icon-begin: "\e900";
+@icon-bell: "\e901";
+@icon-best-banner: "\e902";
+@icon-best-video: "\e903";
+@icon-blockquote: "\e904";
+@icon-calendar: "\e905";
+@icon-callme: "\e906";
+@icon-check: "\e907";
+@icon-checkbox: "\e908";
+@icon-chrome: "\e909";
+@icon-circle-close: "\e90a";
+@icon-close: "\e90b";
+@icon-copy: "\e90c";
+@icon-down: "\e90d";
+@icon-download-pdf: "\e90e";
+@icon-download: "\e90f";
+@icon-email: "\e910";
+@icon-end: "\e911";
+@icon-error: "\e912";
+@icon-event-calendar: "\e913";
+@icon-eye-new: "\e914";
+@icon-eye: "\e915";
+@icon-facebook: "\e916";
+@icon-fbs: "\e917";
+@icon-firefox: "\e918";
+@icon-github: "\e919";
+@icon-google: "\e91a";
+@icon-home: "\e91b";
+@icon-icofb: "\e91c";
+@icon-icoinsta: "\e91d";
+@icon-icook: "\e91e";
+@icon-icosk: "\e91f";
+@icon-icotg: "\e920";
+@icon-icotw: "\e921";
+@icon-icovb: "\e922";
+@icon-icovk: "\e923";
+@icon-icoyt: "\e924";
+@icon-image: "\e925";
+@icon-menu-close: "\e926";
+@icon-menu-open: "\e927";
+@icon-modx: "\e928";
+@icon-next: "\e929";
+@icon-ok: "\e92a";
+@icon-oks: "\e92b";
+@icon-opera: "\e92c";
+@icon-phone: "\e92d";
+@icon-photo: "\e92e";
+@icon-prev: "\e92f";
+@icon-print-ic: "\e930";
+@icon-print: "\e931";
+@icon-required: "\e932";
+@icon-reset: "\e933";
+@icon-rss-logo: "\e934";
+@icon-rss: "\e935";
+@icon-rutube: "\e936";
+@icon-search: "\e937";
+@icon-share: "\e938";
+@icon-success: "\e939";
+@icon-telegram: "\e93a";
+@icon-twitter: "\e93b";
+@icon-tws: "\e93c";
+@icon-up: "\e93d";
+@icon-vk: "\e93e";
+@icon-vks: "\e93f";
+@icon-website: "\e940";
+@icon-whatsapp: "\e941";
+@icon-zoom-in: "\e942";
+@icon-zoom-out: "\e943";
+
+// Font family "LocalHost"
+@font-face {
+	font-family:"LocalHost";
+	src:url("@{fontpath}/localhost.woff?@{hashes}") format("woff"),
+		url("@{fontpath}/localhost.woff2?@{hashes}") format("woff2"),
+		url("@{fontpath}/localhost.ttf?@{hashes}") format("truetype");
+	font-weight:normal;
+	font-style:normal;
+	font-display: swap;
+}
+
+// Classes all icons
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+	font-family: "LocalHost" !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+// Classes icons
+.icon {
+	&-begin {
+		&:before {
+			content: @icon-begin;
+		}
+	}
+	&-bell {
+		&:before {
+			content: @icon-bell;
+		}
+	}
+	&-best-banner {
+		&:before {
+			content: @icon-best-banner;
+		}
+	}
+	&-best-video {
+		&:before {
+			content: @icon-best-video;
+		}
+	}
+	&-blockquote {
+		&:before {
+			content: @icon-blockquote;
+		}
+	}
+	&-calendar {
+		&:before {
+			content: @icon-calendar;
+		}
+	}
+	&-callme {
+		&:before {
+			content: @icon-callme;
+		}
+	}
+	&-check {
+		&:before {
+			content: @icon-check;
+		}
+	}
+	&-checkbox {
+		&:before {
+			content: @icon-checkbox;
+		}
+	}
+	&-chrome {
+		&:before {
+			content: @icon-chrome;
+		}
+	}
+	&-circle-close {
+		&:before {
+			content: @icon-circle-close;
+		}
+	}
+	&-close {
+		&:before {
+			content: @icon-close;
+		}
+	}
+	&-copy {
+		&:before {
+			content: @icon-copy;
+		}
+	}
+	&-down {
+		&:before {
+			content: @icon-down;
+		}
+	}
+	&-download-pdf {
+		&:before {
+			content: @icon-download-pdf;
+		}
+	}
+	&-download {
+		&:before {
+			content: @icon-download;
+		}
+	}
+	&-email {
+		&:before {
+			content: @icon-email;
+		}
+	}
+	&-end {
+		&:before {
+			content: @icon-end;
+		}
+	}
+	&-error {
+		&:before {
+			content: @icon-error;
+		}
+	}
+	&-event-calendar {
+		&:before {
+			content: @icon-event-calendar;
+		}
+	}
+	&-eye-new {
+		&:before {
+			content: @icon-eye-new;
+		}
+	}
+	&-eye {
+		&:before {
+			content: @icon-eye;
+		}
+	}
+	&-facebook {
+		&:before {
+			content: @icon-facebook;
+		}
+	}
+	&-fbs {
+		&:before {
+			content: @icon-fbs;
+		}
+	}
+	&-firefox {
+		&:before {
+			content: @icon-firefox;
+		}
+	}
+	&-github {
+		&:before {
+			content: @icon-github;
+		}
+	}
+	&-google {
+		&:before {
+			content: @icon-google;
+		}
+	}
+	&-home {
+		&:before {
+			content: @icon-home;
+		}
+	}
+	&-icofb {
+		&:before {
+			content: @icon-icofb;
+		}
+	}
+	&-icoinsta {
+		&:before {
+			content: @icon-icoinsta;
+		}
+	}
+	&-icook {
+		&:before {
+			content: @icon-icook;
+		}
+	}
+	&-icosk {
+		&:before {
+			content: @icon-icosk;
+		}
+	}
+	&-icotg {
+		&:before {
+			content: @icon-icotg;
+		}
+	}
+	&-icotw {
+		&:before {
+			content: @icon-icotw;
+		}
+	}
+	&-icovb {
+		&:before {
+			content: @icon-icovb;
+		}
+	}
+	&-icovk {
+		&:before {
+			content: @icon-icovk;
+		}
+	}
+	&-icoyt {
+		&:before {
+			content: @icon-icoyt;
+		}
+	}
+	&-image {
+		&:before {
+			content: @icon-image;
+		}
+	}
+	&-menu-close {
+		&:before {
+			content: @icon-menu-close;
+		}
+	}
+	&-menu-open {
+		&:before {
+			content: @icon-menu-open;
+		}
+	}
+	&-modx {
+		&:before {
+			content: @icon-modx;
+		}
+	}
+	&-next {
+		&:before {
+			content: @icon-next;
+		}
+	}
+	&-ok {
+		&:before {
+			content: @icon-ok;
+		}
+	}
+	&-oks {
+		&:before {
+			content: @icon-oks;
+		}
+	}
+	&-opera {
+		&:before {
+			content: @icon-opera;
+		}
+	}
+	&-phone {
+		&:before {
+			content: @icon-phone;
+		}
+	}
+	&-photo {
+		&:before {
+			content: @icon-photo;
+		}
+	}
+	&-prev {
+		&:before {
+			content: @icon-prev;
+		}
+	}
+	&-print-ic {
+		&:before {
+			content: @icon-print-ic;
+		}
+	}
+	&-print {
+		&:before {
+			content: @icon-print;
+		}
+	}
+	&-required {
+		&:before {
+			content: @icon-required;
+		}
+	}
+	&-reset {
+		&:before {
+			content: @icon-reset;
+		}
+	}
+	&-rss-logo {
+		&:before {
+			content: @icon-rss-logo;
+		}
+	}
+	&-rss {
+		&:before {
+			content: @icon-rss;
+		}
+	}
+	&-rutube {
+		&:before {
+			content: @icon-rutube;
+		}
+	}
+	&-search {
+		&:before {
+			content: @icon-search;
+		}
+	}
+	&-share {
+		&:before {
+			content: @icon-share;
+		}
+	}
+	&-success {
+		&:before {
+			content: @icon-success;
+		}
+	}
+	&-telegram {
+		&:before {
+			content: @icon-telegram;
+		}
+	}
+	&-twitter {
+		&:before {
+			content: @icon-twitter;
+		}
+	}
+	&-tws {
+		&:before {
+			content: @icon-tws;
+		}
+	}
+	&-up {
+		&:before {
+			content: @icon-up;
+		}
+	}
+	&-vk {
+		&:before {
+			content: @icon-vk;
+		}
+	}
+	&-vks {
+		&:before {
+			content: @icon-vks;
+		}
+	}
+	&-website {
+		&:before {
+			content: @icon-website;
+		}
+	}
+	&-whatsapp {
+		&:before {
+			content: @icon-whatsapp;
+		}
+	}
+	&-zoom-in {
+		&:before {
+			content: @icon-zoom-in;
+		}
+	}
+	&-zoom-out {
+		&:before {
+			content: @icon-zoom-out;
+		}
+	}
+}

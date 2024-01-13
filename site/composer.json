@@ -1,0 +1,27 @@
+{
+    "name": "evolutioncms/evolution",
+    "description": "Evolution CMS is a Content Management System, ex MODX Evolution",
+    "type": "project",
+    "keywords": [
+        "content",
+        "CMS",
+        "routing",
+        "templating"
+    ],
+    "homepage": "https://evo-cms.com/",
+    "license": "GPL-3.0+",
+    "support": {
+        "telegram": "https://t.me/evo_cms",
+        "issues": "https://github.com/evocms-community/evolution/issues/",
+        "source": "https://github.com/evocms-community/evolution/"
+    },
+    "config": {
+        "vendor-dir": "vendor"
+    },
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

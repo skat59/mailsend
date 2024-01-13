@@ -1,0 +1,41 @@
+{
+	"folders": [
+		{
+			"path": ".",
+			"name": "Шаблон рассылки",
+			"folder_exclude_patterns": [
+				"dest",
+				"test",
+				"tests",
+				"tmp"
+			],
+			"file_exclude_patterns": [
+				"*-lock.*"
+			]
+		}
+	],
+	"settings":  {
+		"font_size": 12,
+		"tab_size": 4
+	},
+	"build_systems": [
+		{
+			"name": "Запуск проекта",
+			"working_dir": "${project_path}",
+			"cmd": ["start", "grunt", "-v", "build"],
+			"shell": true
+		},
+		{
+			"name": "Генерация Favicon",
+			"working_dir": "${project_path}",
+			"cmd": ["start", "grunt", "-v", "favicon"],
+			"shell": true
+		},
+		{
+			"name": "Запуск полной сборки проекта",
+			"working_dir": "${project_path}",
+			"cmd": ["start", "grunt", "-v"],
+			"shell": true
+		},
+	]
+}

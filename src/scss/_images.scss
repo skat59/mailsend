@@ -1,0 +1,62 @@
+.bvi-images {
+  width: 18px;
+  height: 18px;
+  letter-spacing: normal;
+  display: inline-block;
+  vertical-align: middle;
+  z-index: 1;
+  background-size: 100% 100%;
+  -o-background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+
+  &.bvi-images-cog {
+    background-image:  url($cog);
+    background-repeat: no-repeat;
+  }
+
+  &.bvi-images-eye-slash {
+    background-image: url($eye-slash);
+    background-repeat: no-repeat;
+  }
+
+  &.bvi-images-volume-up {
+    background-image: url($volume-up);
+    background-repeat: no-repeat;
+  }
+
+  &.bvi-images-volume-off {
+    background-image: url($volume-off);
+    background-repeat: no-repeat;
+  }
+
+  &.bvi-images-adjust {
+    background-image: url($adjust);
+    background-repeat: no-repeat;
+  }
+
+  &.bvi-images-minus-circle {
+    background-image: url($minus-circle);
+    background-repeat: no-repeat;
+  }
+
+  &.bvi-images-image {
+    background-image: url($image);
+    background-repeat: no-repeat;
+  }
+
+  &.bvi-images-minus {
+    background-image:  url($minus);
+    background-repeat: no-repeat;
+  }
+
+  &.bvi-images-eye {
+    background-image: url($eye);
+    background-repeat: no-repeat;
+    fill: green;
+  }
+
+  &.bvi-images-size-32 {
+    width: 32px !important;
+    height: 32px !important;
+  }
+}

@@ -1,0 +1,62 @@
+{
+	"name": "mailsend",
+	"version": "1.0.0",
+	"description": "Шаблон рассылки",
+	"main": "Gruntfile.js",
+	"font_version": "1.0.0",
+	"scripts": {
+		"inst": "npm i --legacy-peer-deps && bower install",
+		"build": "grunt -v build",
+		"default": "grunt -v",
+		"watch": "grunt -v watch"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/skat59/mailsend.git"
+	},
+	"author": "ProjectSoft <projectsoft2009@yandex.ru>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/skat59/mailsend/issues"
+	},
+	"homepage": "https://github.com/skat59/mailsend#readme",
+    "support": {
+        "telegram": "https://t.me/ProjectSoft",
+        "issues": "https://github.com/skat59/mailsend/issues",
+        "source": "https://github.com/skat59/mailsend"
+    },
+	"devDependencies": {
+		"dotenv": "latest",
+		"grunt": "latest",
+		"grunt-autoprefixer": "latest",
+		"grunt-contrib-clean": "latest",
+		"grunt-contrib-concat": "latest",
+		"grunt-contrib-copy": "latest",
+		"grunt-contrib-cssmin": "latest",
+		"grunt-contrib-imagemin": "latest",
+		"grunt-contrib-less": "latest",
+		"grunt-contrib-pug": "latest",
+		"grunt-contrib-requirejs": "latest",
+		"grunt-contrib-uglify-es": "latest",
+		"grunt-contrib-watch": "latest",
+		"grunt-datauri": "latest",
+		"grunt-group-css-media-queries": "latest",
+		"grunt-lineending": "latest",
+		"grunt-real-favicon": "latest",
+		"grunt-replace": "latest",
+		"grunt-sass": "latest",
+		"grunt-tinyimg": "latest",
+		"grunt-ttf2eot": "latest",
+		"grunt-ttf2woff": "latest",
+		"grunt-ttf2woff2": "latest",
+		"grunt-webfont": "latest",
+		"less-plugin-npm-import": "latest",
+		"load-grunt-tasks": "latest",
+		"md5": "latest",
+		"node-sass": "latest",
+		"time-grunt": "git+https://github.com/ProjectSoft-STUDIONIONS/time-grunt.git"
+	},
+	"dependencies": {
+		"less": "latest"
+	}
+}

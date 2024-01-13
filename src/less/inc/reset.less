@@ -1,0 +1,42 @@
+* {
+	&,
+	&::before,
+	&::after {
+		box-sizing: border-box;
+	}
+}
+html,
+body {
+	font-family: var(--font-sans-serif);
+}
+a {
+	color: var(--link-color);
+	text-decoration: none;
+	&:hover {
+		color: var(--link-hover-color);
+		text-decoration: underline;
+	}
+}
+img,
+video,
+audio,
+iframe,
+object {
+	max-width: 100%;
+}
+ul {
+	li {
+		margin-bottom: 5px;
+		> ul {
+			margin-top: 5px;
+		}
+	}
+}
+.h1, .h2, .h3, .h4, .h5, .h6,
+h1, h2, h3, h4, h5, h6,
+strong, b {
+	font-weight: 600;
+}
+.emoji {
+	font-family: var(--font-emoji);
+}

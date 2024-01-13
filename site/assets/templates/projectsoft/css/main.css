@@ -5957,6 +5957,10 @@ body {
   min-height: 100vh;
 }
 
+body {
+  background-color: black;
+}
+
 body .page {
   position: relative;
   min-height: 100vh;
@@ -5976,6 +5980,11 @@ body .page-header,
 body .page-footer {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
+}
+
+body .page-header {
+  border-bottom: unset;
+  color: white;
 }
 
 body .page-main {

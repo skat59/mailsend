@@ -25,4 +25,4 @@ jobs:
         npm install -g bower
         npm install --legacy-peer-deps
         bower install
-        grunt -v
+        npm run build

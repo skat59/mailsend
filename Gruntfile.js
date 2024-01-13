@@ -6,8 +6,8 @@ module.exports = function(grunt) {
 		VERSION = process.env.VERSION == undefined ? PACK.font_version : process.env.VERSION,
 		font = `localhost`,
 		fontName = `LocalHost`,
-		domAin = `template.school`,
-		porT = `http`,
+		domAin = `mailsend.skat59.ru`,
+		porT = `https`,
 		domain_url = `${porT}://${domAin}`;
 	var fs = require('fs'),
 		chalk = require('chalk'),
@@ -118,7 +118,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				src: 'src/favicon/favicon.png',
 				dest: 'site/',
 				options: {
-					iconsPath: domAin,
+					iconsPath: domain_url,
 					//html: [ 'favicons.txt' ],
 					design: {
 						ios: {

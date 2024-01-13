@@ -15,14 +15,33 @@ jobs:
       matrix:
         node-version: [18.x]
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Build
-      run: |
-        npm install -g bower
-        npm install --legacy-peer-deps
-        bower install
-        npm run build
+      - name: Checkout Repository
+      - uses: actions/checkout@v4.1.1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build
+        run: |
+          npm install -g bower
+          npm install --legacy-peer-deps
+          bower install
+          npm run build
+      - name: Deploy to Hosting
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /
+          local-dir: ./site/
+          state-name: .status.json
+      - name: Remove Status
+        uses: StephanThierry/ftp-delete-action@v2.1
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          remoteFiles: ".status.json;assets/cache/docid_*.php"
+          workingDir: /
+          ignoreSSL: 1

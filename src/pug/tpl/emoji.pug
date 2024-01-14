@@ -1,20 +1,46 @@
 .emoji-wrapp
-	include ../inc/0001_emoji_people.pug
-	hr
-	include ../inc/0002_emoji_animals.pug
-	hr
-	include ../inc/0003_emoji_food.pug
-	hr
-	include ../inc/0004_emoji_activity.pug
-	hr
-	include ../inc/0005_emoji_travel.pug
-	hr
-	include ../inc/0006_emoji_objects.pug
-	hr
-	include ../inc/0007_emoji_symbols.pug
-	hr
-	include ../inc/0008_emoji_flags.pug
-	hr
+	.emoji-tabs
+		.tabs-item
+			label
+				inpyt(type="radio" name="emoji-tab[]")
+				|Smileys & People
+		.tabs-item
+			label
+				inpyt(type="radio" name="emoji-tab[]")
+				|Animals & Nature
+		.tabs-item
+			label
+				inpyt(type="radio" name="emoji-tab[]")
+				|Food & Drink
+		.tabs-item
+			label
+				inpyt(type="radio" name="emoji-tab[]")
+				|Activity
+		.tabs-item
+			label
+				inpyt(type="radio" name="emoji-tab[]")
+				|Travel & Places
+		.tabs-item
+			label
+				inpyt(type="radio" name="emoji-tab[]")
+				|Objects
+		.tabs-item
+			label
+				inpyt(type="radio" name="emoji-tab[]")
+				|Symbols
+		.tabs-item
+			label
+				inpyt(type="radio" name="emoji-tab[]")
+				|Flags
+	.emoji-content
+		include ../inc/0001_emoji_people.pug
+		include ../inc/0002_emoji_animals.pug
+		include ../inc/0003_emoji_food.pug
+		include ../inc/0004_emoji_activity.pug
+		include ../inc/0005_emoji_travel.pug
+		include ../inc/0006_emoji_objects.pug
+		include ../inc/0007_emoji_symbols.pug
+		include ../inc/0008_emoji_flags.pug
 // Скрипт копирования пока оставим
 script
 	|!(function(){

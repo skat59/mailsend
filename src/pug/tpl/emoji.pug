@@ -108,5 +108,13 @@ script
 	|			}
 	|		}
 	|	});
+	|	document.addEventListener("input", function(e){
+	|		console.log(e);
+	|		if(e.target.name && e.target.name == "emoji"){
+	|			e.preventDefault();
+	|			console.log(e.target.checked);
+	|			return !1;
+	|		}
+	|	});
 	|})();
 // /Скрипт копирования пока оставим

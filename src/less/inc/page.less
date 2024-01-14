@@ -5,6 +5,7 @@ body {
 }
 body {
 	background-color: black;
+	color: white;
 	.page {
 		position: relative;
 		min-height: 100vh;
@@ -23,10 +24,16 @@ body {
 		&-header {
 			border-bottom: unset;
 			margin: unset;
-			color: white;
 		}
 		&-main {
 			flex: 1 0 auto;
+		}
+	}
+	&.nobg {
+		background-color: white;
+		color: #333;
+		.page {
+			background-image: unset;
 		}
 	}
 }

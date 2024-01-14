@@ -3,56 +3,65 @@
 		.tabs-item.active
 			label(for="emoji-radio-people")
 				input#emoji-radio-people(type="radio" name="emoji" value="people" checked)
-				|Smileys & People
+				|Смайлики и народы
 		.tabs-item
 			label(for="emoji-radio-nature")
 				input#emoji-radio-nature(type="radio" name="emoji" value="nature")
-				|Animals & Nature
+				|Животные и Природа
 		.tabs-item
 			label(for="emoji-radio-food")
 				input#emoji-radio-food(type="radio" name="emoji" value="food")
-				|Food & Drink
+				|Еда, напиток
 		.tabs-item
 			label(for="emoji-radio-activy")
 				input#emoji-radio-activy(type="radio" name="emoji" value="activy")
-				|Activity
+				|Мероприятия
 		.tabs-item
 			label(for="emoji-radio-travel")
 				input#emoji-radio-travel(type="radio" name="emoji" value="travel")
-				|Travel & Places
+				|Путешествия и Места
 		.tabs-item
 			label(for="emoji-radio-objects")
 				input#emoji-radio-objects(type="radio" name="emoji" value="objects")
-				|Objects
+				|Объекты
 		.tabs-item
 			label(for="emoji-radio-symbols")
 				input#emoji-radio-symbols(type="radio" name="emoji" value="symbols")
-				|Symbols
+				|Символы
 		.tabs-item
 			label(for="emoji-radio-flags")
 				input#emoji-radio-flags(type="radio" name="emoji" value="flags")
-				|Flags
+				|Флаги
 	.emoji-content
 		#emoji-people.tabs-content.clearfix.active
-			include ../inc/0001_emoji_people.pug
+			include 0001_emoji_people.pug
 		#emoji-nature.tabs-content.clearfix
-			include ../inc/0002_emoji_animals.pug
+			include 0002_emoji_animals.pug
 		#emoji-food.tabs-content.clearfix
-			include ../inc/0003_emoji_food.pug
+			include 0003_emoji_food.pug
 		#emoji-activy.tabs-content.clearfix
-			include ../inc/0004_emoji_activity.pug
+			include 0004_emoji_activity.pug
 		#emoji-travel.tabs-content.clearfix
-			include ../inc/0005_emoji_travel.pug
+			include 0005_emoji_travel.pug
 		#emoji-objects.tabs-content.clearfix
-			include ../inc/0006_emoji_objects.pug
+			include 0006_emoji_objects.pug
 		#emoji-symbols.tabs-content.clearfix
-			include ../inc/0007_emoji_symbols.pug
+			include 0007_emoji_symbols.pug
 		#emoji-flags.tabs-content.clearfix
-			include ../inc/0008_emoji_flags.pug
+			include 0008_emoji_flags.pug
 // Скрипт копирования пока оставим
 style
 	|*, *::after, *::before {
 	|	box-sizing: border-box;
+	|}
+	|html, body {
+	|	padding: 0;
+	|	margin: 0;
+	|}
+	|.emoji-wrapp {
+	|	padding-left: 15px;
+	|	padding-right: 15px;
+	|	margin-bottom: 15px;
 	|}
 	|.clearfix::before, .clearfix::after {
 	|	content: "";
@@ -77,6 +86,7 @@ style
 	|}
 	|.emoji-wrapp .emoji-content {
 	|	box-shadow: 0 0 1px #000;
+	|	padding-bottom: 15px;
 	|}
 	|.emoji-wrapp .emoji-tabs {
 	|	font-family: 'Tahoma', sans-serif;
@@ -154,16 +164,16 @@ style
 	|	line-height: 1;
 	|	padding: 5px;
 	|	border-radius: 4px;
-	|	box-shadow: 0 0 1px black;
+	|	box-shadow: 0 0 1px 1px #d3d3d3;
 	|	margin: 5px;
+	|	padding-top: 15px;
 	|	cursor: pointer;
 	|	transition: all .3s ease;
-	|	transform-origin: 50% 50%;
-	|	transform: scale(1);
 	|	overflow: hidden;
 	|	font-size: 2em;
 	|	min-width: 2em;
 	|	text-align: center;
+	|	flex: 1;
 	|}
 	|.emoji--icon::before {
 	|	opacity: 0;
@@ -178,8 +188,7 @@ style
 	|	background-color: rgb(146 255 146 / 70%);
 	|}
 	|.emoji--icon:hover {
-	|	transform: scale(1.2);
-	|	box-shadow: 0 0 2px black;
+	|	box-shadow: 0 0 20px 5px #bbbbbb;
 	|}
 	|.emoji--icon.copy {
 	|	background-color: #92ff92;

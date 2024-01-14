@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?v1.0.0.0002") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?v1.0.0.0002") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?v1.0.0.0002") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?v1.0.0.0003") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?v1.0.0.0003") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?v1.0.0.0003") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -6387,8 +6387,6 @@ body.nobg .page {
   flex-direction: row;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  -ms-flex-align: center;
-  align-items: center;
   -ms-flex-pack: start;
   justify-content: flex-start;
   position: relative;
@@ -6403,10 +6401,20 @@ body.nobg .page {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  -ms-flex: 1;
+  flex: 1;
+  min-height: 100%;
+  text-align: center;
 }
 
 .emoji-wrapp .emoji-tabs .tabs-item > label {
-  display: block;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
   cursor: pointer;
   padding: 15px 10px;
   position: relative;
@@ -6515,11 +6523,11 @@ body.nobg .page {
   content: attr(data-copy);
   font-size: 14px;
   color: black;
-  background-color: rgba(146, 255, 146, 0.7);
 }
 
 .emoji-wrapp .emoji--icon:hover {
   box-shadow: 0 0 20px 5px #bbbbbb;
+  background-color: #92ff92;
 }
 
 .emoji-wrapp .emoji--icon.copy::before,
@@ -6529,6 +6537,7 @@ body.nobg .page {
 
 .emoji-wrapp .emoji--icon.copy {
   background-color: #92ff92;
+  box-shadow: 0 0 20px 5px #bbb, inset 0 0 10px 3px #00dcff;
 }
 
 .emoji-wrapp .emoji--icon.error {
@@ -6536,7 +6545,14 @@ body.nobg .page {
   background-color: red;
 }
 
-.emoji-wrapp .emoji--icon.error::before {
+.emoji-wrapp .emoji--icon.error,
+.emoji-wrapp .emoji--icon.error:hover {
+  transition: none;
+  background-color: red;
+}
+
+.emoji-wrapp .emoji--icon.error::before,
+.emoji-wrapp .emoji--icon.error:hover::before {
   background-color: rgba(255, 0, 0, 0.7);
 }
 .clipboard .emoji--icon {

@@ -505,8 +505,8 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			serv: {
 				options: {
 					client: false,
-					pretty: DEBUG ? '\t' : '\t',
-					separator:  DEBUG? '\n' : '\n',
+					pretty: DEBUG ? '\t' : '',
+					separator:  DEBUG? '\n' : '',
 					data: function(dest, src) {
 						return {
 							"base": "[(site_url)]",
@@ -530,8 +530,8 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			tpl: {
 				options: {
 					client: false,
-					pretty: DEBUG ? '\t' : '\t',
-					separator:  DEBUG? '\n' : '\n',
+					pretty: DEBUG ? '\t' : '',
+					separator:  DEBUG? '\n' : '',
 					data: function(dest, src) {
 						return {
 							"base": "[(site_url)]",

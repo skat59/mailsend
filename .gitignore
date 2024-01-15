@@ -4,8 +4,10 @@ temp
 test
 tests
 tmp
+email
 site/*.*
 *.txt
+*.zip
 
 # sublime
 *.sublime-workspace
@@ -61,6 +63,8 @@ site/assets/tvs/*
 !site/*.webmanifest
 !site/*.json
 !site/robots.txt
+
+site/email.json
 
 # Templates
 !site/assets/templates/projectsot

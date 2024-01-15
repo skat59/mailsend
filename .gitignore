@@ -65,6 +65,7 @@ site/assets/tvs/*
 !site/robots.txt
 
 site/email.json
+site/output-data.json
 
 # Templates
 !site/assets/templates/projectsot

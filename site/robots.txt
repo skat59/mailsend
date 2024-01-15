@@ -2,5 +2,3 @@ User-agent: *
 Disallow: /
 
 Host: mailsend.skat59.ru
-
-Sitemap: https://mailsend.skat59.ru/sitemap.xml

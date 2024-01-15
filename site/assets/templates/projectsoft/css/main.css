@@ -8,14 +8,14 @@
   --ptsans: "PT Sans", sans-serif;
   --arial: "Arial", sans-serif;
   --body-width: 1425px;
-  --font-sans-serif: 'Tahoma', sans-serif;
-  --font-serif: 'Tahoma', sans-serif;
+  --font-sans-serif: 'Calibri', 'Tahoma', sans-serif;
+  --font-serif: 'Calibri', 'Tahoma', sans-serif;
   --font-emoji: 'apple color emoji', 'segoe ui emoji', 'noto color emoji', 'android emoji', 'emojisymbols', 'emojione mozilla', 'twemoji mozilla', 'segoe ui symbol', 'Noto Color Emoji Compat', 'emoji', sans-serif;
 }
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?v1.0.0.0003.0002") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?v1.0.0.0003.0002") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?v1.0.0.0003.0002") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?v1.0.0.0003.0007") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?v1.0.0.0003.0007") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?v1.0.0.0003.0007") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -309,6 +309,7 @@
 
 body {
   font-family: var(--font-emoji);
+  font-size: 22px;
 }
 
 .clearfix:before,
@@ -6333,6 +6334,10 @@ body {
   min-height: 100vh;
 }
 
+.container-fluid {
+  min-width: 100%;
+}
+
 body {
   background-color: black;
   color: white;
@@ -6341,7 +6346,7 @@ body {
 body .page {
   position: relative;
   min-height: 100vh;
-  background-image: url("/assets/templates/projectsoft/images/background.jpg");
+  background-image: url("/assets/templates/projectsoft/images/background.jpg?v1.0.0.0003.0007");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -6367,6 +6372,28 @@ body .page-header {
 body .page-main {
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+body .page-main-bg {
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("/assets/templates/projectsoft/images/center_bg.png?v1.0.0.0003.0007");
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+
+body .page-footer {
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("/assets/templates/projectsoft/images/footer_bg.png?v1.0.0.0003.0007");
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
 }
 
 body.nobg {
@@ -6374,16 +6401,20 @@ body.nobg {
   color: #333;
 }
 
-body.nobg .page {
+body.nobg .page,
+body.nobg .page-main-bg,
+body.nobg .page-footer {
   background-image: unset;
+  aspect-ratio: unset;
 }
 
 .emoji {
-  font-family: 'Tahoma', sans-serif;
+  font-family: var(--font-sans-serif);
 }
 
 .emoji-wrapp {
   margin-bottom: 15px;
+  font-size: 14px;
 }
 
 .emoji-wrapp .emoji-tabs {

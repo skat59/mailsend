@@ -3,13 +3,16 @@ body {
 	position: relative;
 	min-height: 100vh;
 }
+.container-fluid {
+	min-width: 100%;
+}
 body {
 	background-color: black;
 	color: white;
 	.page {
 		position: relative;
 		min-height: 100vh;
-		background-image: url("@{imgpath}/background.jpg");
+		background-image: url("@{imgpath}/background.jpg?@{hashes}");
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: cover;
@@ -27,13 +30,34 @@ body {
 		}
 		&-main {
 			flex: 1 0 auto;
+			display: flex;
+			flex-direction: column;
+			&-bg {
+				background-position: center bottom;
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-image: url("@{imgpath}/center_bg.png?@{hashes}");
+				flex: 1 0 auto;
+			}
+		}
+		&-footer {
+			background-position: center top;
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-image: url("@{imgpath}/footer_bg.png?@{hashes}");
+			flex: 1 0 auto;
 		}
 	}
 	&.nobg {
 		background-color: white;
 		color: #333;
 		.page {
-			background-image: unset;
+			&,
+			&-main-bg,
+			&-footer {
+				background-image: unset;
+				aspect-ratio: unset;
+			}
 		}
 	}
 }

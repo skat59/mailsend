@@ -8,14 +8,14 @@
   --ptsans: "PT Sans", sans-serif;
   --arial: "Arial", sans-serif;
   --body-width: 1425px;
-  --font-sans-serif: 'Tahoma', sans-serif;
-  --font-serif: 'Tahoma', sans-serif;
+  --font-sans-serif: 'Calibri', 'Tahoma', sans-serif;
+  --font-serif: 'Calibri', 'Tahoma', sans-serif;
   --font-emoji: 'apple color emoji', 'segoe ui emoji', 'noto color emoji', 'android emoji', 'emojisymbols', 'emojione mozilla', 'twemoji mozilla', 'segoe ui symbol', 'Noto Color Emoji Compat', 'emoji', sans-serif;
 }
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?v1.0.0.0003.0002") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?v1.0.0.0003.0002") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?v1.0.0.0003.0002") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?v1.0.0.0003.0007") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?v1.0.0.0003.0007") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?v1.0.0.0003.0007") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -309,6 +309,7 @@
 
 body {
   font-family: var(--font-emoji);
+  font-size: 22px;
 }
 
 .clearfix:before,

@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?v1.0.0.0003") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?v1.0.0.0003") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?v1.0.0.0003") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?v1.0.0.0003.0001") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?v1.0.0.0003.0001") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?v1.0.0.0003.0001") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -6314,6 +6314,13 @@ h6,
 strong,
 b {
   font-weight: 600;
+}
+
+code,
+kbd,
+pre,
+samp {
+  white-space: pre-line;
 }
 
 .emoji {

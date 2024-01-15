@@ -1,4 +1,18 @@
 User-agent: *
-Disallow: /
+Disallow: /assets/backup/
+Disallow: /assets/cache/
+Disallow: /assets/docs/
+Disallow: /assets/export/
+Disallow: /assets/import/
+Disallow: /assets/modules/
+Disallow: /assets/plugins/
+Disallow: /assets/snippets/
+Disallow: /assets/packages/ 
+Disallow: /assets/tvs/
+Disallow: /install/
+
+Allow: /assets/cache/images/
 
 Host: mailsend.skat59.ru
+
+Sitemap: https://mailsend.skat59.ru/sitemap.xml

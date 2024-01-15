@@ -2707,7 +2707,7 @@ code,
 kbd,
 pre,
 samp {
-  white-space: pre-line;
+  white-space: pre;
 }
 
 .emoji {

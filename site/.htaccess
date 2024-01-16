@@ -14,6 +14,11 @@ ErrorDocument 404 /404/
 RewriteEngine On
 RewriteBase /
 
+<Files "cron.php">
+	Order Allow, Deny
+	Deny from all
+</Files>
+
 <IfModule mod_expires.c>
 	ExpiresActive on
 	ExpiresDefault "access plus 1 month"

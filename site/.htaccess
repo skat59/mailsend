@@ -14,8 +14,8 @@ ErrorDocument 404 /404/
 RewriteEngine On
 RewriteBase /
 
-<Files "cron.php">
-	Order Allow, Deny
+<Files cron.php>
+	Order Allow,Deny
 	Deny from all
 </Files>
 

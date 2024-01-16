@@ -63,6 +63,7 @@ site/assets/tvs/*
 !site/*.webmanifest
 !site/*.json
 !site/robots.txt
+!site/cron.php
 
 site/email.json
 site/output-data.json

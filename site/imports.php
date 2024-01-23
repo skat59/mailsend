@@ -13,9 +13,14 @@ function gen_token($nm, $eml) {
 	$token = md5(microtime() . $nm . time() . $eml);
 	return $token;
 }
+$modx->db->connect();
+if (empty($modx->config)) {
+	$modx->getSettings();
+}
 
 //$res = $modx->db->select("id", $modx->getFullTableName('web_users'),  "username='" . $username ."' AND password='".md5($password)."'");
 
+$table = $modx->getFullTableName( 'mailsend_users' );
 $out_array = array();
 $dir = dirname(__FILE__) . "/".
 $inputFileName = $dir . 'data.xlsx';
@@ -69,8 +74,22 @@ if(is_file($inputFileName)):
 			$std->groups = $groups;
 			$std->token = gen_token($std->name, $std->email);
 			$std->unsubscribe = "0";
-			$out_array[] = $std;
+			$result = $modx->db->select("name", $table,  "email='" .$std->email ."'");
+			$total_rows = $modx->db->getRecordCount( $result );
+			if($total_rows < 1):
+				$out_array[] = $std;
+				$fields = array(
+					'name'        => $std->name,  
+					'email'       => $std->email,  
+					'groups'      => $std->groups,  
+					'unsubscribe' => $std->unsubscribe, 
+					'token'       => $std->token
+				);
+				if($id = $modx->db->insert( $fields, $table)):
+					echo str_pad((string)$id, 10, " ", STR_PAD_RIGHT) . $std->email . PHP_EOL;
+				endif;
+			endif;
 		endforeach;
 	endforeach;
 endif;
-print_r($out_array);
+//print_r($out_array);

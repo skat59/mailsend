@@ -12,7 +12,7 @@ include_once(dirname(__FILE__) . "/index.php");
 
 $modx->db->connect();
 if (empty($modx->config)) {
-    $modx->getSettings();
+	$modx->getSettings();
 }
 
 //дальше можно делать, что угодно
@@ -25,11 +25,10 @@ $usr->id = "null";
 $usr->token = "developer";
 
 $mailArray = array(
-    $usr
+	$usr
 );
 
 $site_name = mb_convert_encoding($modx->getConfig('site_name'), 'UTF-8');
-
 
 
 /*
@@ -41,18 +40,22 @@ $site_name = mb_convert_encoding($modx->getConfig('site_name'), 'UTF-8');
 
 // Выбрать из таблицы адреса для отправки
 // Перед рассылкой раскомментировать
-/*
+
 $table = $modx->getFullTableName( 'mailsend_users' );
 $result = $modx->db->select("*", $table,  "unsubscribe='0'", "id ASC");
-$idGroup = 1;
+
+// Выбор группы
+$idGroup = 2;
+
 $slt = "SELECT * FROM $table WHERE (`groups` LIKE '$idGroup,%' OR `groups` LIKE '%,$idGroup' OR `groups` LIKE '%,$idGroup,%' OR `groups`='$idGroup') AND `unsubscribe`='0'";
+
 $result = $modx->db->query($slt);
 // $mailArray = array();
 while( $row = $modx->db->getRow( $result ) ) {
 	$usr = json_decode(json_encode($row), false);
 	$mailArray[] = $usr;
 }
-*/
+
 
 // выбрать из таблицы нужное сообщение и заголовок для отправки
 $messageTitle = "В наличии в Перми ЭКСКАВАВАТОРЫ-ПОГРУЗЧИКИ ROAD-STAR YC-B30VH";
@@ -113,12 +116,16 @@ foreach($mailArray as $key => $value):
 		$mailer->AltBody = strip_tags($msgMail);
 		// Устанавливаем заоловок с рассылкой (отпиской)
 		$mailer->AddCustomHeader("List-Unsubscribe: <mailto:ofis@skat59.ru?subject=Unsubscribe>, <https://mailsend.skat59.ru/unsubscribe/?token=" . $token . ">");
-        // Логотип
+		// Логотип
 		$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
-        
-        // Файлы
-		$mailer->addAttachment(MODX_BASE_PATH . 'assets/files/test/foto.pdf', "Фото.pdf");
-		$mailer->addAttachment(MODX_BASE_PATH . 'assets/files/test/heli.pdf', 'Коммерческое  предложение Телескопический погрузчик HELI.pdf');
+		
+		// Файлы
+		/*
+		** assets/images/2024.01.23/yc-b30vh-blue.jpg
+		** assets/images/2024.01.23/yc-b30vh-yieh.jpg
+		*/
+		$mailer->addAttachment(MODX_BASE_PATH . 'assets/images/2024.01.23/yc-b30vh-blue.jpg', "YC-B30VH-Blue.jpg");
+		$mailer->addAttachment(MODX_BASE_PATH . 'assets/images/2024.01.23/yc-b30vh-yieh.jpg', 'YC-B30VH-Yieh.jpg');
 		
 		// Отправляем
 		if($mailer->send()){
@@ -127,25 +134,21 @@ foreach($mailArray as $key => $value):
 			$re = '/<(.+)@.+$/';
 			$message_id = preg_replace($re, "$1", $message_id);
 			// Запись в базу об удачной отпрвке
-			ob_start();
 			echo PHP_EOL . 'Отправлено: ' . $message_id . " : " . $user . " -> " . $email . PHP_EOL;
-			ob_flush();
 			unset($mailer);
 			sleep(10);
 		}else{
 			// Запись в базу об неудачной отпрвке
-			ob_start();
 			echo PHP_EOL . $user . " -> " . $email . PHP_EOL . "Ошибка Mailler: {$mailer->ErrorInfo}" . PHP_EOL;
-			ob_flush();
 			unset($mailer);
+			sleep(10);
 		}
 	} catch (Exception $e) {
 		// Ошибка{
 		// Запись в базу об неудачной отпрвке
-		ob_start();
 		echo PHP_EOL . $user . " -> " . $email . PHP_EOL . "Ошибка Mailler: {$mailer->ErrorInfo}" . PHP_EOL;
-		ob_flush();
 		unset($mailer);
+		sleep(10);
 	}
 endforeach;
 echo PHP_EOL . "ОКОНЧЕНО";

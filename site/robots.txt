@@ -1,5 +1,4 @@
 User-agent: *
-
 Disallow: /assets/backup/
 Disallow: /assets/cache/
 Disallow: /assets/docs/
@@ -13,13 +12,6 @@ Disallow: /assets/tvs/
 Disallow: /install/
 
 Allow: /assets/cache/images/
-
-Clean-param: C
-Clean-param: D
-Clean-param: C
-Clean-param: utm
-Clean-param: s
-Clean-params: search
 
 Host: mailsend.skat59.ru
 

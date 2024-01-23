@@ -82,7 +82,7 @@ $messageOut = '<table border="0" cellpadding="0" cellspacing="0" width="100%" st
 $unsub = '<a href="https://mailsend.skat59.ru/unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
 $messageID = 0;
 // Начало цикла
-echo "ЗАПУСК" . PHP_EOL;
+echo "START" . PHP_EOL;
 foreach($mailArray as $key => $value):
 	$user = $value->user;
 	$email = $value->email;

@@ -10,6 +10,9 @@ define('MODX_BASE_URL', 'https://mailsend.skat59.ru/');
 
 include_once(dirname(__FILE__) . "/index.php");
 
+// Пауза
+$sleep = 10;
+
 $modx->db->connect();
 if (empty($modx->config)) {
 	$modx->getSettings();
@@ -76,6 +79,7 @@ $messageOut = '<table border="0" cellpadding="0" cellspacing="0" width="100%" st
 <p> </p>
 <p style="text-align: right;"><b>С огромным уважением к Вам<br /><a href="https://www.skat59.ru/" target="_blank">Компания ООО «СКАТ»</a></b></p>
 </td></tr><tr><td colspan="2" style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.<br /><a href="https://mailsend.skat59.ru/unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table>';
+$unsub = '<a href="https://mailsend.skat59.ru/unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
 $messageID = 0;
 // Начало цикла
 echo "ЗАПУСК" . PHP_EOL;
@@ -131,25 +135,30 @@ foreach($mailArray as $key => $value):
 		if($mailer->send()){
 			// Получаем ID отправленного сообщения
 			$message_id = $mailer->getLastMessageID();
-			$re = '/<(.+)@.+$/';
-			$message_id = preg_replace($re, "$1", $message_id);
+			/**
+			 * Отписка (TEST)
+			 */
+			$re = '/%token%/';
+			$lnk = preg_replace($re, $token, $unsub, 1);
 			// Запись в базу об удачной отпрвке
-			echo PHP_EOL . 'Отправлено: ' . $message_id . " : " . $user . " -> " . $email . PHP_EOL;
-			unset($mailer);
-			sleep(10);
+			echo " -----------------------" . PHP_EOL . "SUCCESFULL" PHP_EOL . $email . " -> " . $lnk . PHP_EOL . "-------------------------------" . PHP_EOL;
+			unset( $mailer );
+			sleep( $sleep );
 		}else{
 			// Запись в базу об неудачной отпрвке
-			echo PHP_EOL . $user . " -> " . $email . PHP_EOL . "Ошибка Mailler: {$mailer->ErrorInfo}" . PHP_EOL;
-			unset($mailer);
-			sleep(10);
+			$err = print_r($mailer->ErrorInfo, true);
+			echo PHP_EOL . $email . PHP_EOL . "-------------------------------" . PHP_EOL . "ERROR MAILER: " . $err . PHP_EOL;
+			unset( $mailer );
+			sleep( $sleep );
 		}
 	} catch (Exception $e) {
 		// Ошибка{
 		// Запись в базу об неудачной отпрвке
-		echo PHP_EOL . $user . " -> " . $email . PHP_EOL . "Ошибка Mailler: {$mailer->ErrorInfo}" . PHP_EOL;
-		unset($mailer);
-		sleep(10);
+		$err = print_r($mailer->ErrorInfo, true);
+		echo PHP_EOL . $email . PHP_EOL . "-------------------------------" . PHP_EOL . "ERROR MAILER: " . $err . PHP_EOL;
+		unset( $mailer );
+		sleep( $sleep );
 	}
 endforeach;
-echo PHP_EOL . "ОКОНЧЕНО";
+echo PHP_EOL . "END";
 // Конец цикла

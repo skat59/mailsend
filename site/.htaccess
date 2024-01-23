@@ -19,6 +19,11 @@ RewriteBase /
 	Deny from all
 </Files>
 
+<Files index.html>
+	Order Deny,Allow
+	Deny from all
+</Files>
+
 <IfModule mod_expires.c>
 	ExpiresActive on
 	ExpiresDefault "access plus 1 month"
@@ -117,11 +122,6 @@ RewriteRule .* - [F]
 # Fix Apache internal dummy connections from breaking [(site_url)] cache
 RewriteCond %{HTTP_USER_AGENT} ^.*internal\ dummy\ connection.*$ [NC]
 RewriteRule .* - [F,L]
-
-<Files index.html>
-	Order Deny,Allow
-	Deny from all
-</Files>
 
 php_flag zlib.output_compression On
 php_value zlib.output_compression_level 5

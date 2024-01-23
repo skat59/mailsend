@@ -40,7 +40,7 @@ $site_name = mb_convert_encoding($modx->getConfig('site_name'), 'UTF-8');
 
 // Выбрать из таблицы адреса для отправки
 // Перед рассылкой раскомментировать
-
+/*
 $table = $modx->getFullTableName( 'mailsend_users' );
 $result = $modx->db->select("*", $table,  "unsubscribe='0'", "id ASC");
 
@@ -55,7 +55,7 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$usr = json_decode(json_encode($row), false);
 	$mailArray[] = $usr;
 }
-
+*/
 
 // выбрать из таблицы нужное сообщение и заголовок для отправки
 $messageTitle = "В наличии в Перми ЭКСКАВАВАТОРЫ-ПОГРУЗЧИКИ ROAD-STAR YC-B30VH";

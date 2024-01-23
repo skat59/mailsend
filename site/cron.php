@@ -30,6 +30,8 @@ $mailArray = array(
 
 $site_name = mb_convert_encoding($modx->getConfig('site_name'), 'UTF-8');
 
+
+
 /*
 ------------------------------------
 -- Выбрать по определённой группе --
@@ -53,23 +55,19 @@ while( $row = $modx->db->getRow( $result ) ) {
 */
 
 // выбрать из таблицы нужное сообщение и заголовок для отправки
-$messageTitle = "Хорошая техника - в хорошие руки";
+$messageTitle = "В наличии в Перми ЭКСКАВАВАТОРЫ-ПОГРУЗЧИКИ ROAD-STAR YC-B30VH";
 $messageOut = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">ООО «СКАТ» - надёжный поставщик спецтехники на Западном Урале</p></td></tr><tr><td colspan="2">
 <!-- // -->
-<p>Компания ООО «СКАТ» предлагает вашему вниманию <b>Телескопический погрузчик г/п 4,0 тонны HELI 40H51-90.</b></p>
-<p><b>Телескопический погрузчик г/п 4,0 тонны HELI 40H51-90</b> &ndash; имеет гидростатическую трансмиссию с полным приводом, высокой тягой и эффективностью обеспечивающей автономное передвижение погрузчика, работу системы предотвращения опрокидывания (динамическая стабилизация), распределение мощности между навесным оборудованием и системой движения.</p>
-<p><b>Ключевые особенности телескопического погрузчика г/п 4,0 тонны HELI 40H51-90:</b></p>
+<h1>В наличии в Перми ЭКСКАВАВАТОРЫ-ПОГРУЗЧИКИ ROAD-STAR YC-B30VH</h1>
 <ul>
-<li>Максимальная грузоподъёмность  4 000 кг.</li>
-<li>Максимальный вылет стрелы 5,1 метра</li>
-<li>Максимальная высота подъёма 9,0 метров</li>
-<li>Экономичный и надёжный двигатель DEUTZ AG / Perkins</li>
-<li>Высококачественная сборка на крупнейшем заводе КНР</li>
-<li>Хороший обзор и легкое управление повышают уровень безопасности при эксплуатации телескопического погрузчика</li>
-<li>Автоматическая трансмиссия обеспечивает высокую производительность</p>
-<li>Простая конструкция погрузчика значительно сокращает затраты на техническое обслуживание и ремонт</li>
+<li>Двигатель YUCHAI</li>
+<li>Гидромеханическая трансмиссия</li>
+<li>Все колеса управляемые и ведущие</li>
+<li>Крабовый ход</li>
+<li>Кабина ROPS/FOPS с кондиционером и камерой заднего вида</li>
+<li>Телескопическая рукоять</li>
+<li>Ковш 4 в 1.</li>
 </ul>
-<p>С более подробным описанием Вы сможете ознакомиться в прикреплённых PDF файлах.</p>
 <!-- // -->
 <p style="text-align: center;">Телефон для обратной связи: +7(342)270-00-10 доб. 3005<br>Или просто напишите нам: <a href="mailto:ofis@skat59.ru">ofis@skat59.ru</a></p>
 <p> </p>
@@ -77,7 +75,7 @@ $messageOut = '<table border="0" cellpadding="0" cellspacing="0" width="100%" st
 </td></tr><tr><td colspan="2" style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.<br /><a href="https://mailsend.skat59.ru/unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table>';
 $messageID = 0;
 // Начало цикла
-$output = "START" . PHP_EOL;
+echo "ЗАПУСК" . PHP_EOL;
 foreach($mailArray as $key => $value):
 	$user = $value->user;
 	$email = $value->email;
@@ -120,7 +118,7 @@ foreach($mailArray as $key => $value):
         
         // Файлы
 		$mailer->addAttachment(MODX_BASE_PATH . 'assets/files/test/foto.pdf', "Фото.pdf");
-		$mailer->addAttachment(MODX_BASE_PATH . 'assets/files/test/heli.pdf', 'Коммерческое  преложение Телескопический погрузчик HELI.pdf');
+		$mailer->addAttachment(MODX_BASE_PATH . 'assets/files/test/heli.pdf', 'Коммерческое  предложение Телескопический погрузчик HELI.pdf');
 		
 		// Отправляем
 		if($mailer->send()){
@@ -130,7 +128,7 @@ foreach($mailArray as $key => $value):
 			$message_id = preg_replace($re, "$1", $message_id);
 			// Запись в базу об удачной отпрвке
 			ob_start();
-			echo 'Отправлено: ' . $message_id . " : " . $user . " -> " . $email . PHP_EOL;
+			echo PHP_EOL . 'Отправлено: ' . $message_id . " : " . $user . " -> " . $email . PHP_EOL;
 			ob_flush();
 			unset($mailer);
 			sleep(10);
@@ -150,4 +148,5 @@ foreach($mailArray as $key => $value):
 		unset($mailer);
 	}
 endforeach;
+echo PHP_EOL . "ОКОНЧЕНО";
 // Конец цикла

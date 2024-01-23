@@ -141,7 +141,7 @@ foreach($mailArray as $key => $value):
 			$re = '/%token%/';
 			$lnk = preg_replace($re, $token, $unsub, 1);
 			// Запись в базу об удачной отпрвке
-			echo " -----------------------" . PHP_EOL . "SUCCESFULL" PHP_EOL . $email . " -> " . $lnk . PHP_EOL . "-------------------------------" . PHP_EOL;
+			echo " -----------------------" . PHP_EOL . "SUCCESFULL" . PHP_EOL . $email . " -> " . $lnk . PHP_EOL . "-------------------------------" . PHP_EOL;
 			unset( $mailer );
 			sleep( $sleep );
 		}else{

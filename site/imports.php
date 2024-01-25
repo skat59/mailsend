@@ -9,6 +9,10 @@ define('MODX_BASE_URL', 'https://mailsend.skat59.ru/');
 
 include_once(dirname(__FILE__) . "/index.php");
 
+function isValidEmail($email) {
+	return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/@.+\./', $email);
+}
+
 function gen_token($nm, $eml) {
 	$token = md5(microtime() . $nm . time() . $eml);
 	return $token;
@@ -22,9 +26,14 @@ if (empty($modx->config)) {
 
 $table = $modx->getFullTableName( 'mailsend_users' );
 $out_array = array();
-$dir = dirname(__FILE__) . "/".
-$inputFileName = $dir . 'data.xlsx';
+
+$dir = str_replace('\\','/',dirname(__FILE__));
+
+$file = isset($_GET["prefix"]) ? $_GET["prefix"] : false;
+$inputFileName = $dir . "/xlsx/" . $file . '.xlsx';
+
 if(is_file($inputFileName)):
+	echo "START" .PHP_EOL . "<------------------------------------------------>" . PHP_EOL . PHP_EOL;
 	/**  Identify the type of $inputFileName  **/
 	$inputFileType = IOFactory::identify($inputFileName);
 
@@ -62,34 +71,41 @@ if(is_file($inputFileName)):
 
 		$mails = explode("\n", $item[1]);
 		$mail_array = array();
-
-		$std = new stdClass;
-		$std->name = $item[0];
+		
 		$groups = trim($item[2], "\t\n\r\s\,;");
 		$groups = $groups ? $groups : 2;
 		foreach($mails as $mail):
-			$std = new stdClass;
-			$std->name = $item[0];
-			$std->email = mb_convert_case(trim($mail, "\r\n\t;,."), MB_CASE_LOWER, "UTF-8");
-			$std->groups = $groups;
-			$std->token = gen_token($std->name, $std->email);
-			$std->unsubscribe = "0";
-			$result = $modx->db->select("name", $table,  "email='" .$std->email ."'");
-			$total_rows = $modx->db->getRecordCount( $result );
-			if($total_rows < 1):
-				$out_array[] = $std;
-				$fields = array(
-					'name'        => $std->name,  
-					'email'       => $std->email,  
-					'groups'      => $std->groups,  
-					'unsubscribe' => $std->unsubscribe, 
-					'token'       => $std->token
-				);
-				if($id = $modx->db->insert( $fields, $table)):
-					echo str_pad((string)$id, 10, " ", STR_PAD_RIGHT) . $std->email . PHP_EOL;
+			$email = mb_convert_case(trim($mail, "\r\n\t;,."), MB_CASE_LOWER, "UTF-8");
+			if(isValidEmail($email)):
+				$std = new stdClass;
+				$std->name = $item[0];
+				$std->email = $email;
+				$std->groups = $groups;
+				$std->token = gen_token($std->name, $std->email);
+				$std->unsubscribe = "0";
+				$result = $modx->db->select("name", $table,  "email='" .$std->email ."'");
+				$total_rows = $modx->db->getRecordCount( $result );
+				if($total_rows < 1):
+					$out_array[] = $std;
+					$fields = array(
+						'name'        => $std->name,  
+						'email'       => $std->email,  
+						'groups'      => $std->groups,  
+						'unsubscribe' => $std->unsubscribe, 
+						'token'       => $std->token
+					);
+					if($id = $modx->db->insert( $fields, $table)):
+						$out_array[] = $std->email;
+						echo str_pad((string)$id, 10, " ", STR_PAD_RIGHT) . $std->email . PHP_EOL;
+					endif;
 				endif;
 			endif;
 		endforeach;
 	endforeach;
+	$count = count($out_array);
+	echo ($count ? PHP_EOL . PHP_EOL : "") . "Inserted " . $count . " records" . PHP_EOL . PHP_EOL;
+	echo ">------------------------------------------------<" . PHP_EOL. "END" . PHP_EOL;
+else:
+	echo "Not Found File" . PHP_EOL;
 endif;
-//print_r($out_array);
+echo PHP_EOL . PHP_EOL . "Developed by ProjectSoft © 2008 - all right reserved" . PHP_EOL . PHP_EOL . "Чернышёв Андрей aka ProjectSoft" . PHP_EOL;

@@ -3,6 +3,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+// header("Content-type: text/plain; charset=utf-8");
+
 define('MODX_API_MODE', true);
 define('MODX_BASE_PATH', dirname(__FILE__) . "/");
 define('MODX_SITE_URL', 'https://mailsend.skat59.ru/');
@@ -19,6 +21,11 @@ if (empty($modx->config)) {
 }
 
 //дальше можно делать, что угодно
+
+function gen_token(string $assets = "") {
+	$token = md5(microtime() . $assets . microtime(true) . MODX_SITE_URL);
+	return $token;
+}
 
 // Первое письмо себе
 $usr = new stdClass;
@@ -59,27 +66,48 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$mailArray[] = $usr;
 }
 */
+// Временно
+// Забор контента и его парсинг
+function parseContentMsg($content) {
+	$return = array();
+	$re = '/<img.*src="(.+)"/Usi';
+	$matches = array();
+	preg_match_all($re, $content, $matches, PREG_SET_ORDER, 0);
+	foreach($matches as $arr):
+		$uid = gen_token($arr[1]);
+		$subst = "cid:" . $uid;
+		$re = "%" . $arr[1] . "%Usi";
+		$arr[] = $uid;
+		$content = preg_replace($re, $subst, $content);
+		$return[] = $arr;
+	endforeach;
+	$arr_return = array(
+		"content" => $content,
+		"matches" => $return
+	);
+	return $arr_return;
+}
+// Парсим на изображения
+$name_content = "tiger";
+$attach_files = array();
+$file_content = MODX_BASE_PATH . "content/" . $name_content. ".html";
+$content = is_file($file_content) ? file_get_contents($file_content) : "content";
+
+$content_arr = parseContentMsg($content);
 
 // выбрать из таблицы нужное сообщение и заголовок для отправки
-$messageTitle = "В наличии в Перми ЭКСКАВАВАТОРЫ-ПОГРУЗЧИКИ ROAD-STAR YC-B30VH";
-$messageOut = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">ООО «СКАТ» - надёжный поставщик спецтехники на Западном Урале</p></td></tr><tr><td colspan="2">
+$messageTitle = "В наличии в Перми Полуприцеп лесотранспортный ТИГЕР";
+
+$messageOut = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">ООО «СКАТ» - надёжный поставщик спецтехники на Западном Урале</p></td></tr><tr><td colspan="2">
 <!-- // -->
-<h1>В наличии в Перми ЭКСКАВАВАТОРЫ-ПОГРУЗЧИКИ ROAD-STAR YC-B30VH</h1>
-<ul>
-<li>Двигатель YUCHAI</li>
-<li>Гидромеханическая трансмиссия</li>
-<li>Все колеса управляемые и ведущие</li>
-<li>Крабовый ход</li>
-<li>Кабина ROPS/FOPS с кондиционером и камерой заднего вида</li>
-<li>Телескопическая рукоять</li>
-<li>Ковш 4 в 1.</li>
-</ul>
+' . $content_arr["content"] . '
 <!-- // -->
 <p style="text-align: center;">Телефон для обратной связи: +7(342)270-00-10 доб. 3005<br>Или просто напишите нам: <a href="mailto:ofis@skat59.ru">ofis@skat59.ru</a></p>
 <p> </p>
 <p style="text-align: right;"><b>С огромным уважением к Вам<br /><a href="https://www.skat59.ru/" target="_blank">Компания ООО «СКАТ»</a></b></p>
 </td></tr><tr><td colspan="2" style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.<br /><a href="https://mailsend.skat59.ru/unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table>';
 $unsub = '<a href="https://mailsend.skat59.ru/unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
+
 $messageID = 0;
 // Начало цикла
 echo "START" . PHP_EOL;
@@ -123,13 +151,14 @@ foreach($mailArray as $key => $value):
 		// Логотип
 		$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
 		
+		// Изображения на странице
+		foreach($content_arr["matches"] as $match):
+			$mailer->AddEmbeddedImage(MODX_BASE_PATH . $match[1], $match[2]);
+		endforeach;
+
 		// Файлы
-		/*
-		** assets/images/2024.01.23/yc-b30vh-blue.jpg
-		** assets/images/2024.01.23/yc-b30vh-yieh.jpg
-		*/
-		$mailer->addAttachment(MODX_BASE_PATH . 'assets/images/2024.01.23/yc-b30vh-blue.jpg', "YC-B30VH-Blue.jpg");
-		$mailer->addAttachment(MODX_BASE_PATH . 'assets/images/2024.01.23/yc-b30vh-yieh.jpg', 'YC-B30VH-Yieh.jpg');
+		//$mailer->addAttachment(MODX_BASE_PATH . 'assets/images/2024.01.23/yc-b30vh-blue.jpg', "YC-B30VH-Blue.jpg");
+		//$mailer->addAttachment(MODX_BASE_PATH . 'assets/images/2024.01.23/yc-b30vh-yieh.jpg', 'YC-B30VH-Yieh.jpg');
 		
 		// Отправляем
 		if($mailer->send()){

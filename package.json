@@ -8,7 +8,8 @@
 		"inst": "npm i --legacy-peer-deps && bower install",
 		"build": "grunt -v build",
 		"default": "grunt -v",
-		"watch": "grunt -v watch"
+		"watch": "grunt -v watch",
+		"presets": "phplint 'site/cron.php'"
 	},
 	"repository": {
 		"type": "git",
@@ -54,6 +55,7 @@
 		"load-grunt-tasks": "latest",
 		"md5": "latest",
 		"node-sass": "latest",
+		"phplint": "~1.0.0",
 		"time-grunt": "git+https://github.com/ProjectSoft-STUDIONIONS/time-grunt.git"
 	},
 	"dependencies": {

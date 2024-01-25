@@ -109,7 +109,14 @@ site/assets/modules/clientsettings/config/*
 site/assets/tvs/multitv/*
 !site/assets/tvs/multitv/configs
 site/assets/tvs/multitv/configs/*
-!site/assets/tvs/multitv/configs/photogallery.config.inc.php
-!site/assets/tvs/multitv/configs/site_photogallery.config.inc.php
-!site/assets/tvs/multitv/configs/site_links.config.inc.php
-!site/assets/tvs/multitv/configs/*widgets.config.inc.php
+!site/assets/tvs/multitv/configs/files.config.inc.php
+
+# TV groups
+!site/assets/tvs/groups
+!site/assets/tvs/groups/*.*
+!site/assets/tvs/groups/**/*.*
+
+# TV evodate
+!site/assets/tvs/evodate
+!site/assets/tvs/evodate/*.*
+!site/assets/tvs/evodate/**/*.*

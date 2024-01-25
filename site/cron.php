@@ -93,6 +93,22 @@ $attach_files = array();
 $file_content = MODX_BASE_PATH . "content/" . $name_content. ".html";
 $content = is_file($file_content) ? file_get_contents($file_content) : "content";
 
+// Получение записи по дате
+// В cron мы получаем только одну запись за текущий день
+$evoPage = $modx->runSnippet('DocLister',
+	array(
+		'parents'           => '9',
+		'display'           => '1',
+		'tvList'            => 'news_date',
+		'tvPrefix'          => '',
+		'orderBy'           => 'news_date DESC',
+		'sortBy'            => 'news_date'
+		'sortDir'      		=> 'DESC'
+		'showParent'        => '0'
+	)
+);
+
+
 $content_arr = parseContentMsg($content);
 
 // выбрать из таблицы нужное сообщение и заголовок для отправки

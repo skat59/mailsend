@@ -4,7 +4,7 @@ if (IN_MANAGER_MODE != 'true') {
 }
 $value = empty($row['value']) ? $row['default_text'] : $row['value'];
 $id = $row['id'];
-$out = '<select id="tv' . $id . '" name="tv' . $id . '[]" multiple="multiple" onchange="documentDirty=true;" size="8">';
+$out = '<select id="tv' . $id . '" name="tv' . $id . '" onchange="documentDirty=true;" size="8">';
 $value_arr = explode('||', $value);
 
 if(in_array(false, $value_arr)) {

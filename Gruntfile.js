@@ -556,7 +556,46 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			}
 		}
 	});
-	grunt.registerTask('default',   ["clean:all", "realFavicon", "robots", "concat", "uglify", "webfont", "ttf2woff", "ttf2woff2", "imagemin", "tinyimg", "datauri", "sass", "less", "autoprefixer", "group_css_media_queries", "replace", "cssmin", "copy", "pug"]);
-	grunt.registerTask('favicon',   ["clean:favicon", "realFavicon"]);
-	grunt.registerTask('build',	    ["clean:build", "robots", "concat", "uglify", "imagemin", "tinyimg", "datauri", "sass", "less", "autoprefixer", "group_css_media_queries", "replace", "cssmin", "copy", "pug"]);
+	grunt.registerTask('default',   [
+		"clean:all",
+		"realFavicon",
+		"robots",
+		"concat",
+		"uglify",
+		"webfont",
+		"ttf2woff",
+		"ttf2woff2",
+		"imagemin",
+		"tinyimg",
+		"datauri",
+		"sass",
+		"less",
+		"autoprefixer",
+		"group_css_media_queries",
+		"replace",
+		"cssmin",
+		"copy",
+		"pug"
+	]);
+	grunt.registerTask('favicon',   [
+		"clean:favicon",
+		"realFavicon"
+	]);
+	grunt.registerTask('build',	    [
+		"clean:build",
+		"robots",
+		"concat",
+		"uglify",
+		"imagemin",
+		"tinyimg",
+		"datauri",
+		"sass",
+		"less",
+		"autoprefixer",
+		"group_css_media_queries",
+		"replace",
+		"cssmin",
+		"copy",
+		"pug"
+	]);
 }

@@ -1,10 +1,11 @@
 <?php
+
+header("Content-type: text/plain; charset=utf-8");
+header('HTTP/1.0 404 Not Found');
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-header("Content-type: text/plain; charset=utf-8");
-
 $dir = str_replace('\\','/',dirname(__FILE__)) . "/";
 
 define('MODX_API_MODE',  true);

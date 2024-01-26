@@ -1,5 +1,6 @@
 <?php
 header("Content-type: text/plain; charset=utf8");
+header('HTTP/1.0 404 Not Found');
 use \PhpOffice\PhpSpreadsheet\IOFactory;
 
 $dir = str_replace('\\','/',dirname(__FILE__)) . "/";
@@ -8,6 +9,49 @@ define('MODX_API_MODE', true);
 define('MODX_BASE_PATH', dirname(__FILE__) . "/");
 define('MODX_SITE_URL', 'https://mailsend.skat59.ru/');
 define('MODX_BASE_URL', 'https://mailsend.skat59.ru/');
+
+// RUN MODX Evolution CMS
+include_once($dir  . "index.php");
+
+function mb_str_pad($input, $pad_length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT, $encoding = 'UTF-8')
+{
+	$input_length = mb_strlen($input, $encoding);
+	$pad_string_length = mb_strlen($pad_string, $encoding);
+
+	if ($pad_length <= 0 || ($pad_length - $input_length) <= 0) {
+		return $input;
+	}
+
+	$num_pad_chars = $pad_length - $input_length;
+
+	switch ($pad_type) {
+		case STR_PAD_RIGHT:
+			$left_pad = 0;
+			$right_pad = $num_pad_chars;
+			break;
+
+		case STR_PAD_LEFT:
+			$left_pad = $num_pad_chars;
+			$right_pad = 0;
+			break;
+
+		case STR_PAD_BOTH:
+			$left_pad = floor($num_pad_chars / 2);
+			$right_pad = $num_pad_chars - $left_pad;
+			break;
+	}
+
+	$result = '';
+	for ($i = 0; $i < $left_pad; ++$i) {
+		$result .= mb_substr($pad_string, $i % $pad_string_length, 1, $encoding);
+	}
+	$result .= $input;
+	for ($i = 0; $i < $right_pad; ++$i) {
+		$result .= mb_substr($pad_string, $i % $pad_string_length, 1, $encoding);
+	}
+
+	return $result;
+}
 
 function isValidEmail($email) {
 	return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/@.+\./', $email);
@@ -18,8 +62,9 @@ function gen_token($nm, $eml) {
 	return $token;
 }
 
-// RUN MODX Evolution CMS
-include_once($dir  . "index.php");
+$len = mb_strlen('START');
+$pad = ($len % 2) + $len + 5;
+$padLen = 30;
 
 $modx->db->connect();
 if (empty($modx->config)) {
@@ -41,8 +86,8 @@ $file = isset($_GET["prefix"]) ? $_GET["prefix"] : "";
 
 $inputFileName = MODX_BASE_PATH . "xlsx/" . $file . '.xlsx';
 
+echo mb_str_pad(mb_str_pad('START', $pad, ' ', STR_PAD_BOTH), $padLen, "▆", STR_PAD_BOTH) . PHP_EOL;
 if(is_file($inputFileName)):
-	echo "START" .PHP_EOL . "<" . str_pad("-", 60, "-", STR_PAD_RIGHT) . ">" . PHP_EOL . PHP_EOL;
 	/**  Identify the type of $inputFileName  **/
 	$inputFileType = IOFactory::identify($inputFileName);
 
@@ -99,9 +144,9 @@ if(is_file($inputFileName)):
 		endforeach;
 	endforeach;
 	$count = count($out_array);
-	echo ($count ? PHP_EOL . PHP_EOL : "") . "Inserted " . $count . " records" . PHP_EOL . PHP_EOL;
-	echo ">" . str_pad("-", 60, "-", STR_PAD_RIGHT) . "<" . PHP_EOL. "END" . PHP_EOL;
+	echo PHP_EOL . "Inserted " . $count . " records" . PHP_EOL . PHP_EOL;
 else:
-	echo "Not Found File" . PHP_EOL;
+	echo PHP_EOL . "Not Found File" . PHP_EOL . PHP_EOL;
 endif;
+echo mb_str_pad(mb_str_pad(' END ', $pad, ' ', STR_PAD_BOTH), $padLen, "▆", STR_PAD_BOTH) . PHP_EOL;
 echo PHP_EOL . PHP_EOL . "Developed by ProjectSoft © 2008 - all right reserved" . PHP_EOL . PHP_EOL . "Чернышёв Андрей aka ProjectSoft" . PHP_EOL;

@@ -5,15 +5,21 @@ use PHPMailer\PHPMailer\Exception;
 
 header("Content-type: text/plain; charset=utf-8");
 
-define('MODX_API_MODE', true);
-define('MODX_BASE_PATH', dirname(__FILE__) . "/");
-define('MODX_SITE_URL', 'https://mailsend.skat59.ru/');
-define('MODX_BASE_URL', 'https://mailsend.skat59.ru/');
+$dir = str_replace('\\','/',dirname(__FILE__)) . "/";
 
-include_once(dirname(__FILE__) . "/index.php");
+define('MODX_API_MODE',  true);
+define('MODX_BASE_PATH', $dir);
+define('MODX_SITE_URL',  'https://mailsend.skat59.ru/');
+define('MODX_BASE_URL',  'https://mailsend.skat59.ru/');
+
+$dir = str_replace('\\','/',dirname(__FILE__)) . '/';
+
+include_once($dir . "index.php");
 
 // Пауза
 $sleep = 10;
+// заполнитель
+$pad = 30;
 
 $modx->db->connect();
 if (empty($modx->config)) {
@@ -62,14 +68,14 @@ function parseContentMsg($content) {
 <p style="text-align: right;"><b>С огромным уважением к Вам<br /> &nbsp;<a href="https://www.skat59.ru/" target="_blank">Компания ООО «СКАТ»</a></b></p';
 	$text = strip_tags($content);
 	$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
-	
-	return array(
+	$arr_return = array(
 		"title"   => "",
 		"content" => $content,
 		"text"    => $text,
 		"files"   => array(),
 		"matches" => $return
 	);
+	return $arr_return;
 }
 
 // Получение записи по дате
@@ -144,13 +150,13 @@ $table = $modx->getFullTableName( 'mailsend_users' );
 $slt = "SELECT * FROM $table WHERE (`groups` LIKE '$groupID,%' OR `groups` LIKE '%,$groupID' OR `groups` LIKE '%,$groupID,%' OR `groups`='$groupID') AND `unsubscribe`='0'";
 
 $result = $modx->db->query($slt);
-
+// $mailArray = array();
 while( $row = $modx->db->getRow( $result ) ) {
 	$usr = json_decode(json_encode($row), false);
 	$mailArray[] = $usr;
 }
 
-echo "START" . PHP_EOL . str_pad("-", 30, "-", STR_PAD_RIGHT) . PHP_EOL;
+echo "START" . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL;
 
 if($content_arr):
 
@@ -161,8 +167,9 @@ if($content_arr):
 	' . $content_arr["content"] . '
 	<!-- // -->
 	</td></tr><tr><td colspan="2" style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.<br /><a href="https://mailsend.skat59.ru/unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table>';
-	$unsub = '<a href="https://mailsend.skat59.ru/unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
+	$unsub = '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
 
+	$messageID = 0;
 	// Начало цикла
 	foreach($mailArray as $key => $value):
 		$user = $value->user;
@@ -200,7 +207,7 @@ if($content_arr):
 			// Текстовое сообщение
 			$mailer->AltBody = $content_arr["text"];
 			// Устанавливаем заоловок с рассылкой (отпиской)
-			$mailer->AddCustomHeader("List-Unsubscribe: <mailto:ofis@skat59.ru?subject=Unsubscribe>, <https://mailsend.skat59.ru/unsubscribe/?token=" . $token . ">");
+			$mailer->AddCustomHeader("List-Unsubscribe: <mailto:ofis@skat59.ru?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
 			// Логотип
 			$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
 
@@ -224,13 +231,13 @@ if($content_arr):
 				$re = '/%token%/';
 				$lnk = preg_replace($re, $token, $unsub, 1);
 				// Запись в базу об удачной отпрвке
-				echo str_pad("-", 30, "-", STR_PAD_RIGHT) . PHP_EOL . "SUCCESFULL" . PHP_EOL . $email . " -> " . $lnk . PHP_EOL . str_pad("-", 30, "-", STR_PAD_RIGHT) . PHP_EOL;
+				echo str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "SUCCESFULL" . PHP_EOL . $email . " -> " . $lnk . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL;
 				unset( $mailer );
 				sleep( $sleep );
 			}else{
 				// Запись в базу об неудачной отпрвке
 				$err = print_r($mailer->ErrorInfo, true);
-				echo PHP_EOL . $email . PHP_EOL . str_pad("-", 30, "-", STR_PAD_RIGHT) . PHP_EOL . "ERROR MAILER: " . $err . PHP_EOL;
+				echo PHP_EOL . $email . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "ERROR MAILER: " . $err . PHP_EOL;
 				unset( $mailer );
 				sleep( $sleep );
 			}
@@ -238,11 +245,11 @@ if($content_arr):
 			// Ошибка{
 			// Запись в базу об неудачной отпрвке
 			$err = print_r($mailer->ErrorInfo, true);
-			echo PHP_EOL . $email . PHP_EOL . str_pad("-", 30, "-", STR_PAD_RIGHT) . PHP_EOL . "ERROR MAILER: " . $err . PHP_EOL;
+			echo PHP_EOL . $email . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "ERROR MAILER: " . $err . PHP_EOL;
 			unset( $mailer );
 			sleep( $sleep );
 		}
 	endforeach;
 endif;
-echo PHP_EOL . str_pad("-", 30, "-", STR_PAD_RIGHT) . PHP_EOL . "END";
+echo PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "END";
 // Конец цикла

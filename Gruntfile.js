@@ -200,7 +200,8 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					'bower_components/slick-carousel/slick/slick.js',
 					'bower_components/js-cookie/src/js.cookie.js',
 					'bower_components/jquery.cookie/jquery.cookie.js',
-					'bower_components/button-visually-impaired-javascript/dist/js/bvi.js'
+					'bower_components/button-visually-impaired-javascript/dist/js/bvi.js',
+					"src/js/prism.js",
 				],
 				dest: 'test/js/app.js'
 			},
@@ -308,7 +309,8 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				},
 				files : {
 					'test/css/main.css' : [
-						'src/less/main.less'
+						'src/less/main.less',
+						'src/less/plugins/prism.css'
 					],
 					'test/css/tinymce.css' : [
 						'src/less/tinymce.less'

@@ -3,25 +3,25 @@ header("Content-type: text/plain; charset=utf8");
 use \PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-include_once(dirname(__FILE__) . "/vendor/autoload.php");
+$dir = str_replace('\\','/',dirname(__FILE__)) . "/";
+
+include_once($dir . "vendor/autoload.php");
 
 $out_array = array();
-
-$dir = dirname(__FILE__) . "/";
 
 $file = isset($_GET["prefix"]) ? $_GET["prefix"] : "";
 $file = $file . '.xlsx';
 
-if(is_dir($dir . '/input/')):
-	@mkdir(, 0777, TRUE);
+if(is_dir($dir . 'input/')):
+	@mkdir($dir . 'input/', 0777, TRUE);
 endif;
 
-if(is_dir($dir . '/xlsx/')):
-	@mkdir(, 0777, TRUE);
+if(is_dir($dir . 'xlsx/')):
+	@mkdir($dir . 'xlsx/', 0777, TRUE);
 endif;
 
-$inputFileName = $dir . '/input/' . $file;
-$outputFileName = $dir . '/xlsx/' . $file;
+$inputFileName = $dir . 'input/' . $file;
+$outputFileName = $dir . 'xlsx/' . $file;
 
 if(is_file($inputFileName)):
 	/**  Identify the type of $inputFileName  **/

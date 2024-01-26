@@ -2,6 +2,8 @@
 header("Content-type: text/plain; charset=utf8");
 use \PhpOffice\PhpSpreadsheet\IOFactory;
 
+$dir = str_replace('\\','/',dirname(__FILE__)) . "/";
+
 define('MODX_API_MODE', true);
 define('MODX_BASE_PATH', dirname(__FILE__) . "/");
 define('MODX_SITE_URL', 'https://mailsend.skat59.ru/');
@@ -17,20 +19,27 @@ function gen_token($nm, $eml) {
 }
 
 // RUN MODX Evolution CMS
-include_once(dirname(__FILE__) . "/index.php");
+include_once($dir  . "index.php");
 
 $modx->db->connect();
 if (empty($modx->config)) {
 	$modx->getSettings();
 }
 
+if(is_dir(MODX_BASE_PATH . 'input/')):
+	@mkdir(MODX_BASE_PATH . 'input/', 0777, TRUE);
+endif;
+
+if(is_dir(MODX_BASE_PATH . 'xlsx/')):
+	@mkdir(MODX_BASE_PATH . 'xlsx/', 0777, TRUE);
+endif;
+
 $table = $modx->getFullTableName( 'mailsend_users' );
 $out_array = array();
 
-$dir = str_replace('\\','/',dirname(__FILE__));
-
 $file = isset($_GET["prefix"]) ? $_GET["prefix"] : "";
-$inputFileName = $dir . "/xlsx/" . $file . '.xlsx';
+
+$inputFileName = MODX_BASE_PATH . "xlsx/" . $file . '.xlsx';
 
 if(is_file($inputFileName)):
 	echo "START" .PHP_EOL . "<" . str_pad("-", 60, "-", STR_PAD_RIGHT) . ">" . PHP_EOL . PHP_EOL;

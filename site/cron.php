@@ -150,8 +150,8 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$mailArray[] = $usr;
 }
 
-
 echo "START" . PHP_EOL . str_pad("-", 30, "-", STR_PAD_RIGHT) . PHP_EOL;
+
 if($content_arr):
 
 	$messageTitle = $content_arr["title"];

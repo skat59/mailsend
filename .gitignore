@@ -69,7 +69,9 @@ site/assets/tvs/*
 !site/*.json
 !site/robots.txt
 !site/cron.php
-!site/imports.php
+!site/import.php
+!site/format.php
+!site/*test.php
 
 site/email.json
 site/output-data.json

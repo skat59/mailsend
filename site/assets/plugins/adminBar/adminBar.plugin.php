@@ -8,12 +8,17 @@ $e = &$modx->event;
 $params = $e->params;
 switch ($e->name) {
 	case "OnManagerMenuPrerender":
+		$logotip = $modx->runSnippet('phpthumb', array(
+			'input' => $params["logotip"],
+			'options' => 'w=144,h=40,f=png,far=C',
+			'noImage' => 'assets/plugins/adminBar/noimage-logotip.png'
+		));
 		$out = '<style id="gbou_sosh_school">
 @media (min-width: 1200px) {
 	body.light #mainMenu #nav #site::before,
 	body.dark #mainMenu #nav #site::before,
 	body.darkness #mainMenu #nav #site::before {
-		background: url(/' . $params["logotip"] . ') 0 50% no-repeat;
+		background: url(/' . $logotip . ') 0 50% no-repeat;
 		background-size: 9rem;
 	}
 }

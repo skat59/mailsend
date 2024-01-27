@@ -83,6 +83,7 @@
 		}
 	});
 })();
+/*
 (function($){
 	// Default fancybox options
 	var $style = $("<style></style>")[0];
@@ -114,9 +115,7 @@
 		$style.innerText = ``;
 	};
 
-	/**
-	 * Slick
-	 */
+	
 	$('#slick').slick({
 		infinite: true,
 		slidesToShow: 1,
@@ -272,3 +271,4 @@
 		fontSize: 14
 	});
 }(jQuery));
+*/

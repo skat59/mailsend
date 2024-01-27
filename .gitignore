@@ -97,9 +97,9 @@ site/assets/plugins/tinymce4/tinymce/plugins/*
 site/assets/plugins/tinymce4/tinymce/skins/*
 !site/assets/plugins/tinymce4/tinymce/skins/school
 
-# Plugin Pokrovka
-!site/assets/plugins/pokrovka
-!site/assets/plugins/pokrovka/*
+# Plugin MailSend
+!site/assets/plugins/adminBar
+!site/assets/plugins/adminBar/*.*
 
 # Module clientSettings
 !site/assets/modules/clientsettings

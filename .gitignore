@@ -32,6 +32,7 @@ site/*.txt
 
 site/vendor
 site/manager
+site/content/*.*
 site/assets/*.*
 site/assets/.*
 site/assets/.thumbs
@@ -72,6 +73,7 @@ site/assets/tvs/*
 !site/import.php
 !site/format.php
 !site/*test.php
+!site/content/.htaccess
 
 site/email.json
 site/output-data.json

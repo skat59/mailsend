@@ -98,8 +98,8 @@ site/assets/plugins/tinymce4/tinymce/skins/*
 !site/assets/plugins/tinymce4/tinymce/skins/school
 
 # Plugin MailSend
-!site/assets/plugins/adminBar
-!site/assets/plugins/adminBar/*.*
+!site/assets/plugins/DocSave
+!site/assets/plugins/DocSave/*.*
 
 # Module clientSettings
 !site/assets/modules/clientsettings

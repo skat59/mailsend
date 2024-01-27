@@ -1,4 +1,6 @@
-<FilesMatch ~ "\.(*)$">
+Options All -Indexes
+
+<FilesMatch ~ "\.(php|htm|html|js|css|txt|xls|xlsx|doc|docx|md)$">
 	Order allow,deny
 	Deny from all
 </FilesMatch>

@@ -13,7 +13,7 @@ switch ($e->name) {
 	body.light #mainMenu #nav #site::before,
 	body.dark #mainMenu #nav #site::before,
 	body.darkness #mainMenu #nav #site::before {
-		background: url(/' . $params["image"] . ') 0 50% no-repeat;
+		background: url(/' . $params["logotip"] . ') 0 50% no-repeat;
 		background-size: 9rem;
 	}
 }

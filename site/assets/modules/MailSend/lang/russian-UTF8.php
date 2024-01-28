@@ -1,0 +1,5 @@
+<?php
+
+$_MailSendLang = array(
+	
+);

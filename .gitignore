@@ -6,12 +6,16 @@ tests
 tmp
 email
 site/*.*
+
+# Files
 *.txt
 *.zip
+*.rar
 *.doc
 *.docx
 *.xls
 *.xlsx
+
 # sublime
 *.sublime-workspace
 
@@ -102,11 +106,10 @@ site/assets/plugins/tinymce4/tinymce/skins/*
 !site/assets/plugins/DocSave/*.*
 
 # Module clientSettings
-!site/assets/modules/clientsettings
-site/assets/modules/clientsettings/*
-!site/assets/modules/clientsettings/config
-site/assets/modules/clientsettings/config/*
-!site/assets/modules/clientsettings/config/*.php
+!site/assets/modules/MailSend
+!site/assets/modules/MailSend/*
+!site/assets/modules/MailSend/*.*
+!site/assets/modules/MailSend/**/*.*
 
 # TV multiTV configs
 !site/assets/tvs/multitv
@@ -117,6 +120,7 @@ site/assets/tvs/multitv/configs/*
 
 # TV groups
 !site/assets/tvs/groups
+!site/assets/tvs/groups/*
 !site/assets/tvs/groups/*.*
 !site/assets/tvs/groups/**/*.*
 

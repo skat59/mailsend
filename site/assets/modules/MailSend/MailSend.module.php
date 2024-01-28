@@ -45,5 +45,5 @@ function getLang()
 $_lang = getLang();
 
 include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
-echo '<pre><code>' . print_r($_lang, true) . '</code></pre>';
+include_once MODX_MAILSEND_BASE_PATH . 'tpl/.default.php';
 include_once MODX_MANAGER_PATH . 'includes/footer.inc.php';

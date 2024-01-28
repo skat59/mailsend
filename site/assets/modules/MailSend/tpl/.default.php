@@ -1,6 +1,8 @@
 <?php
-if(IN_MANAGER_MODE!='true' && !$modx->hasPermission('exec_module'))
-	die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Please use the MODX Content Manager instead of accessing this file directly.');
+if(IN_MANAGER_MODE!='true' && !$modx->hasPermission('exec_module')) {
+	http_response_code(403);
+	die('For');
+}
 global $content;
 if(is_string($content['icon'])){
 	if(trim($content["icon"]) == ""){
@@ -11,13 +13,17 @@ if(is_string($content['icon'])){
 }
 $page = (int)$page > 0 ? "&page=" . $page : "";
 $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $content['id'] . $page;
-//$css_path = MODX_FORM_BASE_PATH . "css/style.css";
-//$vars_path = MODX_FORM_BASE_PATH . "css/variables.css";
-//$main_path = MODX_FORM_BASE_PATH . "css/main.css";
-//if(is_file($css_path)):
-//	$css = file_get_contents($vars_path) . file_get_contents($main_path) . file_get_contents($css_path);
-//	$css = $modform->minimize_css($css);
 ?>
-<?= $start_link; ?>
-<?php
-endif;
+<h1 class="d-none"><i class="fa fa-file-text"></i><?= $content["name"]; ?></h1>
+<hr>
+<div id="actions">
+    <div class="btn-group">
+        <a id="Button1" class="btn btn-success" href="javascript:;" onclick="window.location.href='index.php?a=106';">
+            <i class="fa fa-times-circle"></i><span><?= $_lang["mailsend.close"]; ?></span>
+        </a>
+    </div>
+</div>
+<div class="container-fluid">
+	<h3><i class="fa fa-file-text"></i><?= $_lang["mailsend.title"]; ?></h3>
+	<?= $content["icon"] ?>
+</div>

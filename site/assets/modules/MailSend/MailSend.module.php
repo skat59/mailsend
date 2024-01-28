@@ -14,30 +14,29 @@ $formid = (isset($_REQUEST['formid']) && (int)$_REQUEST['formid'] > 0) ? (int)$_
 $_lang = array();
 $modx = evolutionCMS();
 
-function getLang()
-{
+function getLang() {
 	global $modx;
 	$_lang = array();
 	$lang_path = MODX_MAILSEND_BASE_PATH . "lang/";
 	$userId = $modx->getLoginUserID();
-	if (!empty($userId)):
+	if (!empty($userId)) {
 		$lang = $modx->db->select('setting_value', $modx->getFullTableName('user_settings'), "setting_name='manager_language' AND user='{$userId}'");
-		if ($lng = $modx->db->getValue($lang)):
+		if ($lng = $modx->db->getValue($lang)) {
 			$managerLanguage = $lng;
-		endif;
-	endif;
+		}
+	}
 	include MODX_MANAGER_PATH.'includes/lang/english.inc.php';
-	if($managerLanguage != 'english'):
-		if (file_exists(MODX_MANAGER_PATH.'includes/lang/'.$managerLanguage.'.inc.php')):
+	if($managerLanguage != 'english') {
+		if (file_exists(MODX_MANAGER_PATH.'includes/lang/'.$managerLanguage.'.inc.php')) {
 			include MODX_MANAGER_PATH.'includes/lang/'.$managerLanguage.'.inc.php';
-		endif;
-	endif;
+		}
+	}
 	include $lang_path . 'english.php';
-	if($managerLanguage != 'english'):
-		if (file_exists($lang_path . $managerLanguage.'.php')):
+	if($managerLanguage != 'english') {
+		if (file_exists($lang_path . $managerLanguage.'.php')) {
 			include $lang_path . $managerLanguage.'.php';
-		endif;
-	endif;
+		}
+	}
 	$_lang = array_merge($_lang, $_MailSendLang);
 	return $_lang;
 }

@@ -15,7 +15,6 @@ $page = (int)$page > 0 ? "&page=" . $page : "";
 $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $content['id'] . $page;
 ?>
 <h1 class="d-none"><i class="fa fa-file-text"></i><?= $content["name"]; ?></h1>
-<hr>
 <div id="actions">
     <div class="btn-group">
         <a id="Button1" class="btn btn-success" href="javascript:;" onclick="window.location.href='index.php?a=106';">
@@ -24,6 +23,7 @@ $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $conte
     </div>
 </div>
 <div class="container-fluid">
-	<h3><i class="fa fa-file-text"></i><?= $_lang["mailsend.title"]; ?></h3>
+	<h3><i class="fa fa-file-text"></i>&nbsp;&nbsp;<?= $_lang["mailsend.title"]; ?></h3>
+	<hr>
 	<?= $content["icon"] ?>
 </div>

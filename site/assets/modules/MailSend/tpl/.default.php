@@ -23,7 +23,7 @@ $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $conte
     </div>
 </div>
 <div class="container-fluid">
-	<h3><i class="fa fa-file-text"></i>&nbsp;&nbsp;<?= $_lang["mailsend.title"]; ?></h3>
+	<h3 style="font-size: 1.5em; line-height: 1.5rem; padding: 0.8rem 0; margin-bottom: 1.6rem; margin-left: 10px;"><i class="fa fa-file-text"></i>&nbsp;&nbsp;<?= $_lang["mailsend.title"]; ?></h3>
 	<hr>
 	<?= $content["icon"] ?>
 </div>

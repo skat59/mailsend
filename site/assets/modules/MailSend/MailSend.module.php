@@ -11,11 +11,13 @@ $action = isset($_REQUEST['action']) ? trim(strip_tags($_REQUEST['action'])) : n
 $page = (isset($_REQUEST['page']) && (int)$_REQUEST['page'] > 0) ? (int)$_REQUEST['page'] : 0;
 $a = (isset($_REQUEST['a']) && (int)$_REQUEST['a'] > 0) ? (int)$_REQUEST['a'] : 0;
 $formid = (isset($_REQUEST['formid']) && (int)$_REQUEST['formid'] > 0) ? (int)$_REQUEST['formid'] : 0;
+$_lang = array();
+$modx = evolutionCMS();
 
 function getLang()
 {
-	global $_lang;
-	$modx = evolutionCMS();
+	global $modx;
+	$_lang = array();
 	$lang_path = MODX_MAILSEND_BASE_PATH . "lang/";
 	$userId = $modx->getLoginUserID();
 	if (!empty($userId)):
@@ -37,9 +39,10 @@ function getLang()
 		endif;
 	endif;
 	$_lang = array_merge($_lang, $_MailSendLang);
+	return $_lang;
 }
 
-getLang();
+$_lang = getLang();
 
 include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
 echo '<pre><code>' . print_r($_lang, true) . '</code></pre>';

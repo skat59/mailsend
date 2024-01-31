@@ -2,6 +2,25 @@
 	if(navigator.clipboard){
 		!document.body.classList.contains("clipboard") && document.body.classList.add('clipboard');
 	}
+
+	/**
+	 * Изменяем location.hash при клике по табу
+	 */
+	function showEmoji(input) {
+		if(Boolean(input)){
+			if(input.tagName == 'INPUT'){
+				let id = input.id;
+				if(id) {
+					window.location.hash = id;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Очистка после копирования
+	 * если нет поддержки navigator.clipboard
+	 */
 	function clearSelection(span){
 		if (window.getSelection) {
 			window.getSelection().removeAllRanges();
@@ -15,6 +34,10 @@
 		}, 500);
 	}
 	
+	/**
+	 * Клик по иконке
+	 * Копирование
+	 */
 	document.addEventListener('click', async function(e){
 		if(e.target.classList.contains('emoji--icon')){
 			let span = e.target,
@@ -61,6 +84,10 @@
 			}
 		}
 	});
+
+	/**
+	 * Клик по табу
+	 */
 	document.addEventListener("input", function(e){
 		if(e.target.name && e.target.name == "emoji"){
 			e.preventDefault();
@@ -78,12 +105,32 @@
 				a.classList.remove('active');
 			});
 			wrap.querySelector("#emoji-" + value).classList.add('active');
-			tab.classList.add('active')
+			tab.classList.add('active');
+			showEmoji(input);
 			return !1;
 		}
 	});
+
+	/**
+	 * location.hash при загрузке
+	 * Функция не идеальна. Нужна дороботка
+	 */
+	let idHash = window.location.hash;
+	let inp = document.querySelector(idHash);
+	if(Boolean(inp)){
+		if(inp.tagName == 'INPUT'){
+			inp.checked = true;
+			let event = new Event('input', {
+				bubbles: true,
+				cancelable: true,
+				target: inp
+			});
+			inp.dispatchEvent(event);
+			setTimeout(function(){inp.closest('.tabs-item').scrollIntoView({behavior: "smooth"});}, 200);
+		}
+	}
 })();
-/*
+
 (function($){
 	// Default fancybox options
 	var $style = $("<style></style>")[0];
@@ -115,16 +162,6 @@
 		$style.innerText = ``;
 	};
 
-	
-	$('#slick').slick({
-		infinite: true,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		autoplay: true,
-		autoplaySpeed: 5000,
-		dots: false,
-		arrows: false
-	});
 	$(document)
 		.on('click', function(e){
 			$('[role="navigation"]').removeClass('open-menu');
@@ -261,14 +298,4 @@
 			}
 		}
 	});
-	new isvek.Bvi({
-		target: '.eya-panel',
-		builtElements: true,
-		images: true,
-		lang: 'ru-RU',
-		panelFixed: true,
-		speech: false,
-		fontSize: 14
-	});
 }(jQuery));
-*/

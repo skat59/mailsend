@@ -93,16 +93,11 @@ $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $conte
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>Название организации</td>
-									<td>Адрес Email</td>
-									<td>Группы рассылки</td>
-									<td>
-										<div class="btn-group">
-											<a class="btn btn-success" title="Редактировать адресат"><i class="fas fa-user-edit"></i></a>&nbsp;<a class="btn btn-danger" title="Удалить адресат"><i class="fas fa-user-times"></i></a>
-										</div>
-									</td>
-								</tr>
+<?php
+								//$table_user = $modx->getFullTableName('');
+								//$sql = "SELEC * ";
+								//$result = $modx->db->query($sql);
+?>
 							</tbody>
 						</table>
 					</form>

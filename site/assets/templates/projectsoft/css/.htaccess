@@ -1,0 +1,8 @@
+
+<IfModule mod_headers.c>
+	FileETag None
+	<FilesMatch ".(css|js|txt|json)$">
+		Header unset Cache-Control
+	</FilesMatch>
+</IfModule>
+php_flag zlib.output_compression Off

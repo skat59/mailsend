@@ -1,8 +1,16 @@
 
 <IfModule mod_headers.c>
 	FileETag None
-	<FilesMatch ".(css|js|txt|json)$">
-		Header unset Cache-Control
-	</FilesMatch>
+	Header append Cache-Control "no-store, no-cache, must-revalidate"
 </IfModule>
+# Заголовок Cache-Control
+<IfModule mod_headers.c>
+	Header append Cache-Control "no-store, no-cache, must-revalidate"
+</IfModule>
+ 
+# Заголовок Expires
+<IfModule mod_expires.c>
+	ExpiresActive On ExpiresDefault "now"
+</IfModule>
+
 php_flag zlib.output_compression Off

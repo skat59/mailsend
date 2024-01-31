@@ -143,6 +143,8 @@ endif;
 ------------------------------------
 -- Выбрать по определённой группе --
 ------------------------------------
+*/
+
 $table = $modx->getFullTableName( 'mailsend_users' );
 
 // Выбор группы
@@ -154,8 +156,8 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$usr = json_decode(json_encode($row), false);
 	$mailArray[] = $usr;
 }
-*/
 
+echo count($mailArray) . PHP_EOL;
 echo "START" . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL;
 
 if($content_arr):

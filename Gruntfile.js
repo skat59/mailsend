@@ -501,6 +501,22 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					'**'
 				],
 				dest: __dirname + "/site/comon/json/",
+			},
+			css_htaccess: {
+				expand: true,
+				cwd: 'src/copy/',
+				src: [
+					'.*'
+				],
+				dest: __dirname + "/site/assets/templates/projectsoft/css/",
+			},
+			js_htaccess: {
+				expand: true,
+				cwd: 'src/copy/',
+				src: [
+					'.*'
+				],
+				dest: __dirname + "/site/assets/templates/projectsoft/js/",
 			}
 		},
 		pug: {

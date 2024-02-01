@@ -87,35 +87,50 @@ $file = isset($_GET["prefix"]) ? $_GET["prefix"] : "";
 $inputFileName = MODX_BASE_PATH . "xlsx/" . $file . '.xlsx';
 
 echo mb_str_pad(mb_str_pad('START', $pad, ' ', STR_PAD_BOTH), $padLen, "▆", STR_PAD_BOTH) . PHP_EOL;
+
 if(is_file($inputFileName)):
-	/**  Identify the type of $inputFileName  **/
+	/**
+	 * Определяем тип файла
+	*/
 	$inputFileType = IOFactory::identify($inputFileName);
-
-	/**  Create a new Reader of the type that has been identified  **/
+	/**
+	 * Создаём новый объект Reader определенного типа.
+	*/
 	$reader = IOFactory::createReader($inputFileType);
-
-	/**  Load $inputFileName to a Spreadsheet Object  **/
+	/**
+	 * Загружаем файл в объект и получаем SpreadSheet
+	*/
 	$spreadsheet = $reader->load($inputFileName);
-	// Только чтение данных
+	/**
+	 * Только чтение данных
+	 */
 	$reader->setReadDataOnly(true);
-	//$worksheet = $spreadsheet->getActiveSheet();
-
-	// Данные в виде массива
+	/**
+	 * Данные в виде массива
+	 */
 	$data = $spreadsheet->getActiveSheet()->toArray();
-
+	/**
+	 * Цикл по данным
+	 */
 	foreach ($data as $item):
-		/**  Группа  **/
+		/**
+		 * Группа
+		 */
 		$groups = trim($item[2], "\t\n\r\s\,;");
 		$groups = $groups ? $groups : 2;
-		
-		/**  Email's  **/
+		/**
+		 * Email's
+		 */
 		$mails = explode("\n", $item[1]);
 		$mail_array = array();
-		
-		/**  Пробежим по массиву адресов  **/
+		/**
+		 * Пробежим по массиву адресов
+		 */
 		foreach($mails as $mail):
 			$email = mb_convert_case(trim($mail, "\r\n\t;,."), MB_CASE_LOWER, "UTF-8");
-			/** Если адрес валидный  **/
+			/**
+			 * Если адрес валидный
+			 */
 			if(isValidEmail($email)):
 				$std = new stdClass;
 				$std->name = $item[0];
@@ -125,8 +140,9 @@ if(is_file($inputFileName)):
 				$std->unsubscribe = "0";
 				$result = $modx->db->select("name", $table,  "email='" .$std->email ."'");
 				$total_rows = $modx->db->getRecordCount( $result );
-				
-				/** Если в базе нет адресов  **/
+				/**
+				 * Если в базе нет адресов
+				 */
 				if($total_rows < 1):
 					$fields = array(
 						'name'        => $std->name,  
@@ -135,7 +151,9 @@ if(is_file($inputFileName)):
 						'unsubscribe' => $std->unsubscribe, 
 						'token'       => $std->token
 					);
-					/** Если удалось внести адрес  **/
+					/**
+					 * Если удалось внести адрес
+					 */
 					if($id = $modx->db->insert( $fields, $table)):
 						$out_array[] = str_pad((string)$id, 10, " ", STR_PAD_RIGHT) . "->" . $std->email . PHP_EOL;
 					endif;

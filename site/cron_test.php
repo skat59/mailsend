@@ -38,15 +38,22 @@ function gen_token(string $assets = "") {
 }
 
 // Первое письмо себе
-$usr = new stdClass;
-$usr->user = "ProjectSoft";
-$usr->email = "projectsoft2009@yandex.ru";
-$usr->id = "null";
-$usr->token = "developer";
-
+$usr_ps = new stdClass;
+$usr_ps->user = "ProjectSoft";
+$usr_ps->email = "projectsoft2009@yandex.ru";
+$usr_ps->id = "null";
+$usr_ps->token = "developer";
+$usr_sk = new stdClass;
+$usr_sk->user = "Центр спецтехники ООО «СКАТ»";
+$usr_sk->email = "ofis@skat59.ru";
+$usr_sk->id = "null";
+$usr_sk->token = "developer";
 $mailArray = array(
-	$usr
+	$usr_ps,
+	$usr_sk
 );
+
+// Первое письмо себе
 
 $site_name = mb_convert_encoding($modx->getConfig('site_name'), 'UTF-8');
 

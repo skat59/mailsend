@@ -73,32 +73,44 @@ $rw = 0;
 
 echo mb_str_pad(mb_str_pad('START', $pad, ' ', STR_PAD_BOTH), $padLen, "▆", STR_PAD_BOTH) . PHP_EOL;
 if(is_file($inputFileName)):
-	/**  Identify the type of $inputFileName  **/
+	/**
+	 * Определяем тип файла
+	*/
 	$inputFileType = IOFactory::identify($inputFileName);
-
-	/**  Create a new Reader of the type that has been identified  **/
+	/**
+	 * Создаём новый объект Reader определенного типа.
+	*/
 	$reader = IOFactory::createReader($inputFileType);
-
-	/**  Load $inputFileName to a Spreadsheet Object  **/
+	/**
+	 * Загружаем файл в объект и получаем SpreadSheet
+	*/
 	$spreadsheet = $reader->load($inputFileName);
-	
-	/**  Только чтение данных **/
+	/**
+	 * Только чтение данных
+	 */
 	$reader->setReadDataOnly(true);
 	$sheet = $spreadsheet->setActiveSheetIndex(0);
-	
-	/**  Данные в виде массива  **/
+	/**
+	 * Данные в виде массива
+	 */
 	$data = $spreadsheet->setActiveSheetIndex(0)->toArray();
-	
-	/**  Для записи **/
+	/**
+	 * Для записи
+	 */
 	$spread = new Spreadsheet();
 	$sheet = $spread->getActiveSheet();
-	
-	/**  Название листа  **/
+	/**
+	 * Название листа
+	 */
 	$sheet->setTitle('Worksheet 1');
-	
-	
+	/**
+	 * Цикл по данным
+	 */
 	foreach ($data as $item):
 		++$rw;
+		/**
+		 * Обрабатываем название компании
+		 */
 		$re = '/(")(.*)(")$/';
 		$subst = "«$2»";
 		$item[0] = preg_replace($re, $subst, $item[0], 1);
@@ -117,24 +129,35 @@ if(is_file($inputFileName)):
 		$re = '/"/';
 		$subst = "";
 		$item[0] = preg_replace($re, $subst, $item[0], 1);
+		/**
+		 * Обрабатываем адреса
+		 */
 		$mails = preg_replace('/([;,\s]+)/m', "\n", $item[1]);
 		$mails = mb_convert_case(trim($mails, "\r\n\t;,."), MB_CASE_LOWER, "UTF-8");
+		/**
+		 * Группы
+		 */
 		$groups = trim($item[2], "\t\n\r\s\,;");
 		$groups = $groups ? $groups : 2;
-		//echo "SET " . 'A' . $rw . PHP_EOL . $item[0] . PHP_EOL . str_pad("-", 100, "-", STR_PAD_LEFT) . PHP_EOL;
-		//echo "SET " . 'B' . $rw . PHP_EOL . $mails   . PHP_EOL . str_pad("-", 100, "-", STR_PAD_LEFT) . PHP_EOL;
-		//echo "SET " . 'C' . $rw . PHP_EOL . $groups  . PHP_EOL . str_pad("-", 100, "-", STR_PAD_LEFT) . PHP_EOL . PHP_EOL . PHP_EOL;
-		//echo " " . PHP_EOL . PHP_EOL;
+		/**
+		 * Заносим в ячейки
+		 */
 		$sheet->setCellValue('A' . $rw, $item[0]);
 		$sheet->setCellValue('B' . $rw, $mails);
 		$sheet->setCellValue('C' . $rw, $groups);
 	endforeach;
-	
-	/**  Create writter  **/
+	/**
+	 * Создаём объект записаи
+	*/
 	$writer = IOFactory::createWriter($spread, "Xlsx");
 	$writer->setPreCalculateFormulas(false);
+	/**
+	 * Пишем в файл
+	 */
 	$writer->save($outputFileName);
-	//echo "SAVE to file: " . $outputFileName . PHP_EOL . PHP_EOL;
+	/**
+	 * Вывод
+	 */
 	echo PHP_EOL . "The file is saved." . PHP_EOL . $rw . " records processed" . PHP_EOL . PHP_EOL;
 else:
 	echo PHP_EOL . "Not Found File" . PHP_EOL . PHP_EOL;

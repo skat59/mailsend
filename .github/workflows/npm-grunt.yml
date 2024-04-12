@@ -15,9 +15,6 @@ jobs:
     name: 🎉 Развёртывание
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Получить последний код
-      uses: actions/checkout@v4
-    
     - name: 📂 Заливка файлов
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:

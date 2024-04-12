@@ -21,11 +21,11 @@
 		"url": "https://github.com/skat59/mailsend/issues"
 	},
 	"homepage": "https://github.com/skat59/mailsend#readme",
-    "support": {
-        "telegram": "https://t.me/ProjectSoft",
-        "issues": "https://github.com/skat59/mailsend/issues",
-        "source": "https://github.com/skat59/mailsend"
-    },
+	"support": {
+		"telegram": "https://t.me/ProjectSoft",
+		"issues": "https://github.com/skat59/mailsend/issues",
+		"source": "https://github.com/skat59/mailsend"
+	},
 	"devDependencies": {
 		"dotenv": "latest",
 		"grunt": "latest",
@@ -34,7 +34,7 @@
 		"grunt-contrib-concat": "latest",
 		"grunt-contrib-copy": "latest",
 		"grunt-contrib-cssmin": "latest",
-		"grunt-contrib-imagemin": "latest",
+		"grunt-contrib-imagemin": "^4.0.0",
 		"grunt-contrib-less": "latest",
 		"grunt-contrib-pug": "latest",
 		"grunt-contrib-requirejs": "latest",
@@ -51,14 +51,18 @@
 		"grunt-ttf2woff": "latest",
 		"grunt-ttf2woff2": "latest",
 		"grunt-webfont": "latest",
+		"jpegtran-bin": "^7.0.0",
 		"less-plugin-npm-import": "latest",
 		"load-grunt-tasks": "latest",
 		"md5": "latest",
 		"node-sass": "latest",
+		"optipng-bin": "^9.0.0",
 		"phplint": "~1.0.0",
 		"time-grunt": "git+https://github.com/ProjectSoft-STUDIONIONS/time-grunt.git"
 	},
 	"dependencies": {
+		"gifsicle": "^7.0.1",
+		"imagemin-gifsicle": "^7.0.0",
 		"less": "latest"
 	}
 }

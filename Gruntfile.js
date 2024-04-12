@@ -431,7 +431,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 						expand: true,
 						flatten : true,
 						src: [
-							'src/images/*.{gif,svg}'
+							'src/images/*.{svg}'
 						],
 						dest: '<%= globalConfig.gosave %>/images/',
 						filter: 'isFile'
@@ -492,7 +492,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				src: [
 					'**'
 				],
-				dest: __dirname + "/site/",
+				dest: "site/",
 			},
 			form: {
 				expand: true,
@@ -500,7 +500,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				src: [
 					'**'
 				],
-				dest: __dirname + "/site/comon/json/",
+				dest: "site/comon/json/",
 			},
 			css_htaccess: {
 				expand: true,
@@ -508,7 +508,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				src: [
 					'.*'
 				],
-				dest: __dirname + "/site/assets/templates/projectsoft/css/",
+				dest: "site/assets/templates/projectsoft/css/",
 			},
 			js_htaccess: {
 				expand: true,
@@ -516,7 +516,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				src: [
 					'.*'
 				],
-				dest: __dirname + "/site/assets/templates/projectsoft/js/",
+				dest: "site/assets/templates/projectsoft/js/",
 			}
 		},
 		pug: {
@@ -538,9 +538,9 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				files: [
 					{
 						expand: true,
-						cwd: __dirname + '/src/pug/',
+						cwd: 'src/pug/',
 						src: [ '*.pug' ],
-						dest: __dirname + '/' + '<%= globalConfig.gosave %>/',
+						dest: '<%= globalConfig.gosave %>/',
 						ext: '.html'
 					}
 				]
@@ -563,8 +563,8 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				files: [
 					{
 						expand: true,
-						dest: __dirname + '/<%= globalConfig.gosave %>/tpl/',
-						cwd:  __dirname + '/src/pug/tpl/',
+						dest: '<%= globalConfig.gosave %>/tpl/',
+						cwd:  'src/pug/tpl/',
 						src: '*.pug',
 						ext: '.html'
 					}

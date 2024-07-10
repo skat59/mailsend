@@ -44,6 +44,11 @@ if (empty($modx->config)) {
 	$modx->getSettings();
 }
 
+// Массив адресов для рассылки
+$mailArray = array();
+// Массив адресов разработчиков
+$mailDev = array();
+
 // Дальше можно делать, что угодно
 // Первое письмо себе
 $usr = new stdClass;
@@ -51,10 +56,24 @@ $usr->user = "ProjectSoft";
 $usr->email = "projectsoft2009@yandex.ru";
 $usr->id = "null";
 $usr->token = "developer";
+// Добавляем в массив рассылки
+$mailArray[] = $usr;
+// Добавляем в массив разработчиков
+$mailDev[] = $usr;
 
-$mailArray = array(
-	$usr
-);
+// Второе письмо Грише
+$chgi = new stdClass;
+$chgi->user = "Чумаченко Григорий Иванович";
+$chgi->email = "chgi@skat59.ru";
+$chgi->id = "null";
+$chgi->token = "developer";
+// Добавляем в массив рассылки
+$mailArray[] = $chgi;
+// Добавляем в массив разработчиков
+$mailDev[] = $chgi;
+
+// Кол-во Разработчиков
+$countDev = count($mailDev);
 
 $site_name = mb_convert_encoding($modx->getConfig('site_name'), 'UTF-8');
 
@@ -166,7 +185,7 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$mailArray[] = $usr;
 }
 
-outputFn(count($mailArray) . PHP_EOL);
+outputFn('Кол-во адресов: ' . (count($mailArray) - $countDev) . PHP_EOL);
 outputFn("START" . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL);
 
 if($content_arr):
@@ -243,13 +262,13 @@ if($content_arr):
 				$re = '/%token%/';
 				$lnk = preg_replace($re, $token, $unsub, 1);
 				// Запись в базу об удачной отпрвке
-				outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "SUCCESFULL" . PHP_EOL . $email . " -> " . $lnk . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL);
+				outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "SUCCESFULL" . PHP_EOL . $email . " -> " . $lnk . PHP_EOL);
 				unset( $mailer );
 				sleep( $sleep );
 			}else{
 				// Запись в базу об неудачной отпрвке
 				$err = print_r($mailer->ErrorInfo, true);
-				outputFn(PHP_EOL . $email . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "ERROR MAILER: " . $err . PHP_EOL);
+				outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "ERROR MAILER:" . PHP_EOL . $email . " -> " . $lnk . PHP_EOL . $err . PHP_EOL);
 				unset( $mailer );
 				sleep( $sleep );
 			}
@@ -257,54 +276,58 @@ if($content_arr):
 			// Ошибка{
 			// Запись в базу об неудачной отпрвке
 			$err = print_r($mailer->ErrorInfo, true);
-			outputFn(PHP_EOL . $email . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "ERROR MAILER: " . $err . PHP_EOL);
+			outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "ERROR MAILER:" . PHP_EOL . $email . " -> " . $lnk . PHP_EOL . $err . PHP_EOL);
 			unset( $mailer );
 			sleep( $sleep );
 		}
+		outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL);
 	endforeach;
 endif;
 outputFn(PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "END");
 // Конец цикла
 
-// Отправка сообщения разработчику.
-// Первое письмо себе
-$usr = new stdClass;
-$usr->user = "ProjectSoft";
-$usr->email = "projectsoft2009@yandex.ru";
 
-$mailer = new PHPMailer(true);
-$mailer->setLanguage('ru');
-// Настройки SMTP Yandex
-$mailer->isSMTP();
-$mailer->Encoding = $mailer::ENCODING_8BIT;
-$mailer->CharSet = $mailer::CHARSET_UTF8;
-// SMTP settings
-$mailer->Mailer = 'smtp';
-$mailer->SMTPAuth = true;
-$mailer->Port = 465;
-$mailer->Host = 'ssl://smtp.yandex.ru';
-$mailer->Username = 'ofis@skat59.ru';
-$mailer->Password = 'U2w9O7z5';
-// Кто шлёт
-$mailer->setFrom('ofis@skat59.ru', "CRON");
-// Кому ответить
-$mailer->addReplyTo('ofis@skat59.ru', "CRON");
-// Адрес получателя
-$mailer->addAddress($usr->email, $usr->user);
-// Разрешить HTML
-$mailer->isHTML(true);
-// Заголовок письма
-$mailer->Subject = "Выполнение крона";
-// HTML текст письма
-$content = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table><h1>Результат выполнения КРОН</h1><br />' . nl2br($output);
-// Текст письма
-$text = strip_tags($content);
-$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
-// Письмо
-$mailer->Body = $content;
-// Текстовое сообщение
-$mailer->AltBody = $text;
-// Логотип
-$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
-// Отправляем
-$mailer->send();
+
+// Отправка сообщения результата разработчикам.
+foreach ($mailDev as $key => $value) {
+		$usr = new stdClass;
+		$usr->user = $value["user"];
+		$usr->email = $value["email"];
+
+		$mailer = new PHPMailer(true);
+		$mailer->setLanguage('ru');
+		// Настройки SMTP Yandex
+		$mailer->isSMTP();
+		$mailer->Encoding = $mailer::ENCODING_8BIT;
+		$mailer->CharSet = $mailer::CHARSET_UTF8;
+		// SMTP settings
+		$mailer->Mailer = 'smtp';
+		$mailer->SMTPAuth = true;
+		$mailer->Port = 465;
+		$mailer->Host = 'ssl://smtp.yandex.ru';
+		$mailer->Username = 'ofis@skat59.ru';
+		$mailer->Password = 'U2w9O7z5';
+		// Кто шлёт
+		$mailer->setFrom('ofis@skat59.ru', "CRON");
+		// Кому ответить
+		$mailer->addReplyTo('ofis@skat59.ru', "CRON");
+		// Адрес получателя
+		$mailer->addAddress($usr->email, $usr->user);
+		// Разрешить HTML
+		$mailer->isHTML(true);
+		// Заголовок письма
+		$mailer->Subject = "Выполнение крона";
+		// HTML текст письма
+		$content = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table><h1>Результат выполнения КРОН</h1><br />' . nl2br($output);
+		// Текст письма
+		$text = strip_tags($content);
+		$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
+		// Письмо
+		$mailer->Body = $content;
+		// Текстовое сообщение
+		$mailer->AltBody = $text;
+		// Логотип
+		$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
+		// Отправляем
+		$mailer->send();
+}

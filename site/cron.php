@@ -28,9 +28,11 @@ $pad = 30;
 $output = "";
 
 // Функция сбора данных
-function outputFn($msg = "") {
+function outputFn($msg = "", $otp = true) {
 	global $output;
-	$output .= $msg;
+	if($otp){
+		$output .= $msg;
+	}
 	echo $msg;
 }
 
@@ -184,8 +186,11 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$usr = json_decode(json_encode($row), false);
 	$mailArray[] = $usr;
 }
-
-outputFn('Кол-во адресов: ' . (count($mailArray) - $countDev) . PHP_EOL);
+// Кол-во адресов
+$cnt = count($mailArray) - $countDev;
+// Кол-во адресов записей
+$cnt_wr = count($content_arr) ? '1' : '0';
+outputFn('Number of addresses: ' . $cnt . PHP_EOL);
 outputFn("START" . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL);
 
 if($content_arr):
@@ -293,7 +298,6 @@ foreach ($mailDev as $key => $value):
 		$usr = new stdClass;
 		$usr->user = $value["user"];
 		$usr->email = $value["email"];
-
 		$mailer = new PHPMailer(true);
 		$mailer->setLanguage('ru');
 		try {
@@ -332,12 +336,15 @@ foreach ($mailDev as $key => $value):
 			// Отправляем
 			if($mailer->send()){
 				// Отправлено
+				outputFn('Sending for: ' . $usr->user . '<' . $usr->email . '> SUCCESSFUL', false);
 				unset( $mailer );
 			}else{
 				// Не отправлено
+				outputFn('Sending for: ' . $usr->user . '<' . $usr->email . '> FAILED', false);
 				unset( $mailer );
 			}
 		} catch (Exception $e) {
+			outputFn('Sending for: ' . $usr->user . '<' . $usr->email . '> FAILED', false);
 			unset( $mailer );
 		}
 endforeach;

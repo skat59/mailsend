@@ -289,45 +289,55 @@ outputFn(PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL . "END");
 
 
 // Отправка сообщения результата разработчикам.
-foreach ($mailDev as $key => $value) {
+foreach ($mailDev as $key => $value):
 		$usr = new stdClass;
 		$usr->user = $value["user"];
 		$usr->email = $value["email"];
 
 		$mailer = new PHPMailer(true);
 		$mailer->setLanguage('ru');
-		// Настройки SMTP Yandex
-		$mailer->isSMTP();
-		$mailer->Encoding = $mailer::ENCODING_8BIT;
-		$mailer->CharSet = $mailer::CHARSET_UTF8;
-		// SMTP settings
-		$mailer->Mailer = 'smtp';
-		$mailer->SMTPAuth = true;
-		$mailer->Port = 465;
-		$mailer->Host = 'ssl://smtp.yandex.ru';
-		$mailer->Username = 'ofis@skat59.ru';
-		$mailer->Password = 'U2w9O7z5';
-		// Кто шлёт
-		$mailer->setFrom('ofis@skat59.ru', "CRON");
-		// Кому ответить
-		$mailer->addReplyTo('ofis@skat59.ru', "CRON");
-		// Адрес получателя
-		$mailer->addAddress($usr->email, $usr->user);
-		// Разрешить HTML
-		$mailer->isHTML(true);
-		// Заголовок письма
-		$mailer->Subject = "Выполнение крона";
-		// HTML текст письма
-		$content = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table><h1>Результат выполнения КРОН</h1><br />' . nl2br($output);
-		// Текст письма
-		$text = strip_tags($content);
-		$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
-		// Письмо
-		$mailer->Body = $content;
-		// Текстовое сообщение
-		$mailer->AltBody = $text;
-		// Логотип
-		$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
-		// Отправляем
-		$mailer->send();
-}
+		try {
+			// Настройки SMTP Yandex
+			$mailer->isSMTP();
+			$mailer->Encoding = $mailer::ENCODING_8BIT;
+			$mailer->CharSet = $mailer::CHARSET_UTF8;
+			// SMTP settings
+			$mailer->Mailer = 'smtp';
+			$mailer->SMTPAuth = true;
+			$mailer->Port = 465;
+			$mailer->Host = 'ssl://smtp.yandex.ru';
+			$mailer->Username = 'ofis@skat59.ru';
+			$mailer->Password = 'U2w9O7z5';
+			// Кто шлёт
+			$mailer->setFrom('ofis@skat59.ru', "CRON");
+			// Кому ответить
+			$mailer->addReplyTo('ofis@skat59.ru', "CRON");
+			// Адрес получателя
+			$mailer->addAddress($usr->email, $usr->user);
+			// Разрешить HTML
+			$mailer->isHTML(true);
+			// Заголовок письма
+			$mailer->Subject = "Выполнение крона";
+			// HTML текст письма
+			$content = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table><h1>Результат выполнения КРОН</h1><br />' . nl2br($output);
+			// Текст письма
+			$text = strip_tags($content);
+			$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
+			// Письмо
+			$mailer->Body = $content;
+			// Текстовое сообщение
+			$mailer->AltBody = $text;
+			// Логотип
+			$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
+			// Отправляем
+			if($mailer->send()){
+				// Отправлено
+				unset( $mailer );
+			}else{
+				// Не отправлено
+				unset( $mailer );
+			}
+		} catch (Exception $e) {
+			unset( $mailer );
+		}
+endforeach;

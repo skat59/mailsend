@@ -58,10 +58,6 @@ $usr->user = "ProjectSoft";
 $usr->email = "projectsoft2009@yandex.ru";
 $usr->id = "null";
 $usr->token = "developer";
-// Добавляем в массив рассылки
-$mailArray[] = $usr;
-// Добавляем в массив разработчиков
-$mailDev[] = $usr;
 
 // Второе письмо Грише
 $chgi = new stdClass;
@@ -69,6 +65,11 @@ $chgi->user = "Чумаченко Григорий Иванович";
 $chgi->email = "chgi@skat59.ru";
 $chgi->id = "null";
 $chgi->token = "developer";
+
+// Добавляем в массив рассылки
+$mailArray[] = $usr;
+// Добавляем в массив разработчиков
+$mailDev[] = $usr;
 // Добавляем в массив рассылки
 $mailArray[] = $chgi;
 // Добавляем в массив разработчиков
@@ -188,8 +189,6 @@ while( $row = $modx->db->getRow( $result ) ) {
 }
 // Кол-во адресов
 $cnt = count($mailArray) - $countDev;
-// Кол-во адресов записей
-$cnt_wr = count($content_arr) ? '1' : '0';
 outputFn('Number of addresses: ' . $cnt . PHP_EOL);
 outputFn("START" . PHP_EOL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . PHP_EOL);
 

@@ -112,12 +112,20 @@ site/assets/plugins/tinymce4/tinymce/skins/*
 !site/assets/modules/MailSend/*.*
 !site/assets/modules/MailSend/**/*.*
 
+# Module clientSettings
+!site/assets/modules/clientsettings
+site/assets/modules/clientsettings/*
+!site/assets/modules/clientsettings/config
+site/assets/modules/clientsettings/config/*
+!site/assets/modules/clientsettings/config/*.php
+
 # TV multiTV configs
 !site/assets/tvs/multitv
 site/assets/tvs/multitv/*
 !site/assets/tvs/multitv/configs
 site/assets/tvs/multitv/configs/*
 !site/assets/tvs/multitv/configs/files.config.inc.php
+!site/assets/tvs/multitv/configs/dispatch_checkers.config.inc.php
 
 # TV groups
 !site/assets/tvs/groups

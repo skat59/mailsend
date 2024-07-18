@@ -21,7 +21,7 @@ define('SEND_PASSWORD', 'U2w9O7z5');
 define('SMTP_HOST', 'ssl://smtp.yandex.ru');
 define('SMTP_PORT', 465);
 // Пауза
-define('SLEEP', 10);
+define('SLEEP', 2);
 
 $dir = str_replace('\\','/',dirname(__FILE__)) . '/';
 
@@ -313,7 +313,7 @@ if($content_arr):
 			} catch (Exception $e) {
 				// Ошибка{
 				// Запись в базу об неудачной отпрвке
-				$err = print_r($e, true);
+				$err = print_r($e->getMessage(), true);
 				outputFn("<br />\n" . $email . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n" . "ERROR MAILER CATCH: " . $err . "<br />\n");
 				unset( $mailer );
 				sleep( SLEEP );

@@ -364,7 +364,7 @@ foreach($mailerDev as $key => $value):
 
 		$outmsg = preg_replace($re, $end, $output, 1);
 		// HTML текст письма
-		$content = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table><h1>Результат выполнения КРОН</h1><br />' . $outmsg;
+		$content = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table><h1>Результат выполнения КРОН</h1><br />' . $outmsg . '<code><pre style="font-family: Consolas; white-space: pre-wrap;">' . print_r($mailArray, true) . '</pre></code>';
 		// Текст письма
 		$text = strip_tags($content);
 		$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));

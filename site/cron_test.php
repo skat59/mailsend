@@ -140,7 +140,7 @@ foreach ($mailerDev as $checker):
 	$mailerDev[$index]->groups = '0';
 	$mailerDev[$index]->unsubscribe = "0";
 	$mailerDev[$index]->token = 'developer';
-	$mailerDev[$index]->option = $mailerDev[$index]->option;
+	$mailerDev[$index]->option = (string) $mailerDev[$index]->option;
 	++$index;
 endforeach;
 
@@ -153,57 +153,6 @@ $time = time() + $modx->config['server_offset_time'];
 
 $current = strtotime(date("d-m-Y 0:00:00", $time));
 $next = strtotime(date('d-m-Y 0:00:00', $current + 86400));
-
-/*
-------------------------------------
--- Выбрать по определённой группе --
-------------------------------------
-*/
-
-$table = $modx->getFullTableName( 'mailsend_users' );
-// Выбор группы
-$slt = "SELECT * FROM $table WHERE (`groups` LIKE '$groupID,%' OR `groups` LIKE '%,$groupID' OR `groups` LIKE '%,$groupID,%' OR `groups`='$groupID') AND `unsubscribe`='0'";
-$result = $modx->db->query($slt);
-while( $row = $modx->db->getRow( $result ) ) {
-	$usr = json_decode(json_encode($row), false);
-	$usr->user = debugDecode($usr->name);
-	$usr->option = "1";
-	unset($usr->name);
-	$mailArray[] = $usr;
-}
-
-// Старт скрипта
-outputFn("<table>\n<tbody>\n");
-outputFn('<tr>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Start script execution:</strong></td>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">' . date('d-m-Y H:i:s', $time) . '</td>
-</tr>
-');
-// Кпнец работы скрипта
-outputFn("<tr>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Ending script execution:</strong></td>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">%ENDSCRIPT%" . '</td>
-</tr>
-');
-// Начало выбора
-outputFn('<tr>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Start time for mailing selection:</strong></td>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">' . date("d-m-Y G:i:s", $current) . '</td>
-</tr>
-');
-// Конец выбора
-outputFn('<tr>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Final time for selecting a mailing:</strong></td>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">' . date("d-m-Y G:i:s", $next) . '</td>
-</tr>
-');
-
-outputFn('<tr>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Number of addresses:</strong></td>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">' . count($mailArray) . '</td>
-</tr>
-');
-outputFn("</tbody>\n</table><br />\n");
 
 // выбрать нужное сообщение, заголовок, файлы, дату отправки
 // Выбираем только один документ
@@ -226,6 +175,57 @@ $evoPage = $modx->runSnippet('DocLister',
 $groupID = 0;
 $content_arr = getDocument(json_decode($evoPage, true));
 
+/*
+------------------------------------
+-- Выбрать по определённой группе --
+------------------------------------
+*/
+
+$table = $modx->getFullTableName( 'mailsend_users' );
+// Выбор группы
+$slt = "SELECT * FROM $table WHERE (`groups` LIKE '$groupID,%' OR `groups` LIKE '%,$groupID' OR `groups` LIKE '%,$groupID,%' OR `groups`='$groupID') AND `unsubscribe`='0'";
+$result = $modx->db->query($slt);
+while( $row = $modx->db->getRow( $result ) ) {
+	$usr = json_decode(json_encode($row), false);
+	$usr->user = debugDecode($usr->name);
+	unset($usr->name);
+	$usr->option = "1";
+	$mailArray[] = $usr;
+}
+
+// Старт скрипта
+outputFn("<table>\n<tbody>\n");
+outputFn('<tr>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Start script execution:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;">' . date('d-m-Y H:i:s', $time) . '</td>
+</tr>
+');
+// Кпнец работы скрипта
+outputFn('<tr>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Ending script execution:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;">%ENDSCRIPT%</td>
+</tr>
+');
+// Начало выбора
+outputFn('<tr>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Start time for mailing selection:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;">' . date("d-m-Y G:i:s", $current) . '</td>
+</tr>
+');
+// Конец выбора
+outputFn('<tr>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Final time for selecting a mailing:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;">' . date("d-m-Y G:i:s", $next) . '</td>
+</tr>
+');
+
+outputFn('<tr>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Number of addresses:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;">' . count($mailArray) . '</td>
+</tr>
+');
+outputFn("</tbody>\n</table><br />\n");
+
 outputFn("START<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
 
 $mailArray = array_merge($mailerDev, $mailArray);
@@ -245,7 +245,7 @@ if($content_arr):
 	
 	// Начало цикла
 	foreach($mailArray as $key => $value):
-		if((int) $value->option):
+		if((string) $value->option == "1"):
 			try {
 				$user = $value->user;
 				$email = $value->email;

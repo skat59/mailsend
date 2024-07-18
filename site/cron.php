@@ -140,7 +140,7 @@ foreach ($mailerDev as $checker):
 	$mailerDev[$index]->groups = '0';
 	$mailerDev[$index]->unsubscribe = "0";
 	$mailerDev[$index]->token = 'developer';
-	$mailerDev[$index]->option = (int) $mailerDev[$index]->option;
+	$mailerDev[$index]->option = $mailerDev[$index]->option;
 	++$index;
 endforeach;
 
@@ -167,7 +167,7 @@ $result = $modx->db->query($slt);
 while( $row = $modx->db->getRow( $result ) ) {
 	$usr = json_decode(json_encode($row), false);
 	$usr->user = debugDecode($usr->name);
-	$usr->option = 1;
+	$usr->option = "1";
 	unset($usr->name);
 	$mailArray[] = $usr;
 }

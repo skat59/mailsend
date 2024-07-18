@@ -88,13 +88,11 @@ function parseContentMsg($content) {
 
 // Получаем документ
 function getDocument($object) {
-	global $groupID;
 	$content_arr = array();
 	if($object["rows"]):
 		foreach($object["rows"] as $doc):
 			$content = $doc["content"];
 			$files = $doc["files"];
-			$groupID = $doc["groups_send"];
 			$files_arr = array();
 			if($files) {
 				$files = json_decode($files, true);
@@ -106,6 +104,7 @@ function getDocument($object) {
 				endif;
 			}
 			$content_arr = parseContentMsg($content);
+			$content_arr["group_id"] = $doc["groups_send"];
 			$content_arr["title"] = debugDecode($doc["pagetitle"]);
 			$content_arr["files"] = $files_arr;
 		endforeach;
@@ -140,7 +139,7 @@ foreach ($mailerDev as $checker):
 	$mailerDev[$index]->groups = '0';
 	$mailerDev[$index]->unsubscribe = "0";
 	$mailerDev[$index]->token = 'developer';
-	$mailerDev[$index]->option = (string) $mailerDev[$index]->option;
+	$mailerDev[$index]->option = (int) $checker->option;
 	++$index;
 endforeach;
 
@@ -153,6 +152,39 @@ $time = time() + $modx->config['server_offset_time'];
 
 $current = strtotime(date("d-m-Y 0:00:00", $time));
 $next = strtotime(date('d-m-Y 0:00:00', $current + 86400));
+
+// Старт скрипта
+outputFn("<table>\n<tbody>\n");
+outputFn("<tr>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Start script execution:</strong></td>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . date('d-m-Y H:i:s', $time) . "</td>
+</tr>
+");
+// Кпнец работы скрипта
+outputFn("<tr>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Ending script execution:</strong></td>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">%ENDSCRIPT%" . "</td>
+</tr>
+");
+// Начало выбора
+outputFn("<tr>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Start time for mailing selection:</strong></td>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . date("d-m-Y G:i:s", $current) . "</td>
+</tr>
+");
+// Конец выбора
+outputFn("<tr>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Final time for selecting a mailing:</strong></td>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . date("d-m-Y G:i:s", $next) . "</td>
+</tr>
+");
+
+outputFn("<tr>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Number of addresses:</strong></td>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count($mailArray) . "</td>
+</tr>
+");
+outputFn("</tbody>\n</table><br />\n");
 
 // выбрать нужное сообщение, заголовок, файлы, дату отправки
 // Выбираем только один документ
@@ -172,12 +204,12 @@ $evoPage = $modx->runSnippet('DocLister',
 	)
 );
 
-$groupID = 0;
 $content_arr = getDocument(json_decode($evoPage, true));
+$groupID = $content_arr["group_id"];
 
 /*
 ------------------------------------
--- Выбрать по определённой группе --
+-- Выбрать по определённой группе $groupID --
 ------------------------------------
 */
 
@@ -188,43 +220,10 @@ $result = $modx->db->query($slt);
 while( $row = $modx->db->getRow( $result ) ) {
 	$usr = json_decode(json_encode($row), false);
 	$usr->user = debugDecode($usr->name);
+	$usr->option = 1;
 	unset($usr->name);
-	$usr->option = "1";
 	$mailArray[] = $usr;
 }
-
-// Старт скрипта
-outputFn("<table>\n<tbody>\n");
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Start script execution:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;">' . date('d-m-Y H:i:s', $time) . '</td>
-</tr>
-');
-// Кпнец работы скрипта
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Ending script execution:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;">%ENDSCRIPT%</td>
-</tr>
-');
-// Начало выбора
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Start time for mailing selection:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;">' . date("d-m-Y G:i:s", $current) . '</td>
-</tr>
-');
-// Конец выбора
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Final time for selecting a mailing:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;">' . date("d-m-Y G:i:s", $next) . '</td>
-</tr>
-');
-
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Number of addresses:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;">' . count($mailArray) . '</td>
-</tr>
-');
-outputFn("</tbody>\n</table><br />\n");
 
 outputFn("START<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
 
@@ -245,7 +244,7 @@ if($content_arr):
 	
 	// Начало цикла
 	foreach($mailArray as $key => $value):
-		if((string) $value->option == "1"):
+		if($value->option):
 			try {
 				$user = $value->user;
 				$email = $value->email;
@@ -271,7 +270,6 @@ if($content_arr):
 				$mailer->setFrom(SEND_EMAIL, SEND_USER);
 				// Кому ответить
 				$mailer->addReplyTo(SEND_EMAIL, SEND_USER);
-
 				// Адрес получателя
 				$mailer->addAddress($email, $user);
 				// Разрешить HTML
@@ -282,7 +280,6 @@ if($content_arr):
 				$mailer->Body    = $msgMail;
 				// Текстовое сообщение
 				$mailer->AltBody = $content_arr["text"];
-
 				// Устанавливаем заоловок с рассылкой (отпиской)
 				$mailer->AddCustomHeader("List-Unsubscribe: <mailto:" . SEND_EMAIL . "?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
 				// Логотип
@@ -292,12 +289,10 @@ if($content_arr):
 				foreach($content_arr["matches"] as $match):
 					$mailer->AddEmbeddedImage(MODX_BASE_PATH . $match[1], $match[2]);
 				endforeach;
-
 				// Файлы
 				foreach($content_arr["files"] as $file):
 					$mailer->addAttachment(MODX_BASE_PATH . $file["file"], $file["title"]);
 				endforeach;
-
 				// Отправляем
 				if($mailer->send()){
 					// Получаем ID отправленного сообщения
@@ -364,7 +359,7 @@ foreach($mailerDev as $key => $value):
 
 		$outmsg = preg_replace($re, $end, $output, 1);
 		// HTML текст письма
-		$content = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table><h1>Результат выполнения КРОН</h1><br />' . $outmsg . '<code><pre style="font-family: Consolas; white-space: pre-wrap;">' . print_r($mailArray, true) . '</pre></code>';
+		$content = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table><h1>Результат выполнения КРОН</h1><br />' . $outmsg;
 		// Текст письма
 		$text = strip_tags($content);
 		$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
@@ -377,14 +372,14 @@ foreach($mailerDev as $key => $value):
 		// Отправляем
 		if($mailer->send()):
 			unset( $mailer );
-			sleep( SLEEP );
+			//sleep( SLEEP );
 		else:
 			unset( $mailer );
-			sleep( SLEEP );
+			//sleep( SLEEP );
 		endif;
 	} catch (Exception $e) {
 		// Ошибка
 		unset( $mailer );
-		sleep( SLEEP );
+		//sleep( SLEEP );
 	}
 endforeach;

@@ -253,6 +253,9 @@ if($content_arr):
 				//$code .= $user . " -> " . $email . "<br>";
 				$re = '/%token%/';
 				$msgMail = preg_replace($re, $token, $messageOut, 1);
+
+				outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
+
 				$mailer = new PHPMailer(true);
 				$mailer->setLanguage('ru');
 				// Настройки SMTP Yandex
@@ -300,13 +303,13 @@ if($content_arr):
 					$re = '/%token%/';
 					$lnk = preg_replace($re, $token, $unsub, 1);
 					// Запись в базу об удачной отпрвке
-					outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\nSUCCESFULL<br />\n" . $email . " -> " . $user . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
+					outputFn("SUCCESFULL<br />\n" . $email . " -> " . $user . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
 					unset( $mailer );
 					sleep( SLEEP );
 				}else{
 					// Запись в базу об неудачной отпрвке
 					$err = print_r($mailer->ErrorInfo, true);
-					outputFn("<br />\n" . $email . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n" . "ERROR MAILER IF: " . $err . "<br />\n");
+					outputFn("ERROR MAILER IF: " . $err . "<br />\n" . $email  . " -> " . $user . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n" );
 					unset( $mailer );
 					sleep( SLEEP );
 				}
@@ -314,7 +317,7 @@ if($content_arr):
 				// Ошибка{
 				// Запись в базу об неудачной отпрвке
 				$err = print_r($e->getMessage(), true);
-				outputFn("<br />\n" . $email . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n" . "ERROR MAILER CATCH: " . $err . "<br />\n");
+				outputFn("ERROR MAILER CATCH: " . $err . "<br />\n" . $email  . " -> " . $user . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n" );
 				unset( $mailer );
 				sleep( SLEEP );
 			}

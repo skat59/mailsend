@@ -169,7 +169,7 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$usr->user = debugDecode($usr->name);
 	$usr->option = 1;
 	unset($usr->name);
-	//$mailArray[] = $usr;
+	$mailArray[] = $usr;
 }
 
 // Старт скрипта

@@ -225,13 +225,16 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$mailArray[] = $usr;
 }
 
-outputFn("START<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
 
 $mailArray = array_merge($mailerDev, $mailArray);
 
+
+//outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . print_r($content_arr, true) . "</pre></code><br />\n");
+
+outputFn("START<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
 // ПОНЕСЛАСЬ
 if($content_arr):
-	//outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . print_r($mailArray, true) . "</pre></code><br />");
+	
 	$messageTitle = $content_arr["title"];
 
 	$messageOut = '<div style="padding: 15px;"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr><tr><td colspan="2">

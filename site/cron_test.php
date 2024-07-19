@@ -216,13 +216,6 @@ outputFn("<tr>
 </tr>
 ");
 
-outputFn("<tr>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Number of addresses:</strong></td>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count($mailArray) . "</td>
-</tr>
-");
-outputFn("</tbody>\n</table>" . BRNL);
-
 // выбрать нужное сообщение, заголовок, файлы, дату отправки
 // Выбираем только один документ
 $evoPage = $modx->runSnippet('DocLister',
@@ -262,7 +255,14 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$mailArray[] = $usr;
 }
 
+outputFn("<tr>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Number of addresses:</strong></td>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count($mailArray) . "</td>
+</tr>
+");
+outputFn("</tbody>\n</table>" . BRNL);
 
+// Присоединяем проверяющих
 $mailArray = array_merge($mailerDev, $mailArray);
 
 

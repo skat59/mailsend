@@ -271,7 +271,7 @@ $mailArray = array_merge( array_values(filterDevArray($mailerDev, 'option')), $m
 
 outputFn("<tr>
 	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Number of addresses:</strong></td>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count(rray_values(filterDevArray($mailArray, 'admin')) . "</td>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count(rray_values(filterDevArray($mailArray, 'admin'))) . "</td>
 </tr>
 ");
 outputFn("</tbody>\n</table>" . BRNL);

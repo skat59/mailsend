@@ -13,19 +13,8 @@ define('MODX_API_MODE',      true);
 define('MODX_BASE_PATH',     $dir);
 define('MODX_SITE_URL',      'https://mailsend.skat59.ru/');
 define('MODX_BASE_URL',      'https://mailsend.skat59.ru/');
-define('PARENT_SITE_URL',    'https://www.skat59.ru/');
-define('TITLE_PARENT',       'ООО «СКАТ» - надёжный поставщик спецтехники на Западном Урале');
-// Настройка отправителя
-define('SEND_USER', "Центр спецтехники ООО «СКАТ»");
-define('SEND_EMAIL', 'ofis@skat59.ru');
-define('SEND_PASSWORD', 'U2w9O7z5');
-define('SMTP_HOST', 'ssl://smtp.yandex.ru');
-define('SMTP_PORT', 465);
 // Расположение локали для PHPMailer
 define('PHPHMAILER_LANG', $lang_path);
-// Оформление заголовка письма
-$messageHeader = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table>';
-define('MESSAGE_HEADER', $messageHeader);
 
 // Заголовок результата
 define('TITLE_RESULT', 'Результат выполнения КРОН');
@@ -70,6 +59,35 @@ function gen_token(string $assets = "") {
 function varDumpFn ($var) {
 	outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . nl2br(htmlspecialchars(print_r($var, true))) . "</pre></code><br />\n");
 }
+
+// Фильтр
+function filterDevArray($array = array(), $option = 'option') {
+	return array_values(array_filter($array, function($obj){
+		return $obj[$option] ? true : false;
+	}));
+}
+
+// Получаем все настройки сайта
+$modx->db->connect();
+if (empty($modx->config)) {
+	$modx->getSettings();
+}
+
+// varDumpFn($modx->config);
+// ПЕРЕМЕННЫЕ ДЛЯ SMTP
+define('PARENT_SITE_URL',    $modx->config['perent_site_url']);
+define('TITLE_PARENT',       $modx->config['title_parent']);
+// Настройка отправителя
+define('SEND_USER',          $modx->config['send_user_evo']);
+define('SEND_EMAIL',         $modx->config['send_email_evo']);
+define('SEND_PASSWORD',      $modx->config['send_password_evo']);
+define('SMTP_HOST',          $modx->config['smtp_host_evo']);
+define('SMTP_PORT',          (int) $modx->config['smtp_port_evo']);
+
+// Оформление заголовка письма
+$messageHeader = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table>';
+
+define('MESSAGE_HEADER', $messageHeader);
 
 // Парсинг контента
 function parseContentMsg($content) {
@@ -129,30 +147,6 @@ function getDocument($object) {
 	endif;
 	return $content_arr;
 }
-
-// Фильтр
-function filterDevArray($array = array(), $option = 'option') {
-	return array_values(array_filter($array, function($obj){
-		return $obj[$option] ? true : false;
-	}));
-}
-
-// Получаем все настройки сайта
-$modx->db->connect();
-if (empty($modx->config)) {
-	$modx->getSettings();
-}
-
-varDumpFn($modx->config);
-// ПЕРЕМЕННЫЕ ДЛЯ SMTP
-define('PARENT_SITE_URL',    $modx->config['perent_site_url']);
-define('TITLE_PARENT',       $modx->config['title_parent']);
-// Настройка отправителя
-define('SEND_USER',          $modx->config['send_user_evo']);
-define('SEND_EMAIL',         $modx->config['send_email_evo']);
-define('SEND_PASSWORD',      $modx->config['send_password_evo']);
-define('SMTP_HOST',          $modx->config['smtp_host_evo']);
-define('SMTP_PORT',          (int) $modx->config['smtp_port_evo']);
 
 function getPHPMailer() {
 	$mailer = new PHPMailer(true);

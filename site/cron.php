@@ -149,6 +149,14 @@ function getPHPMailer() {
 	return $mailer;
 }
 
+// Фильтр
+function filterDevArray($array = array()) {
+	return array_filter($array, function($obj){
+		var_dump($obj);
+		return $obj->option ? true : false;
+	});
+}
+
 // Получаем все настройки сайта
 $modx->db->connect();
 if (empty($modx->config)) {
@@ -263,8 +271,7 @@ outputFn("<tr>
 outputFn("</tbody>\n</table>" . BRNL);
 
 // Присоединяем проверяющих
-$mailArray = array_merge($mailerDev, $mailArray);
-
+$mailArray = array_merge( array_values(filterDevArray($mailerDev)), $mailArray );
 
 //outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . print_r($content_arr, true) . "</pre></code><br />\n");
 
@@ -285,64 +292,62 @@ if($content_arr):
 
 	// Начало цикла
 	foreach($mailArray as $key => $value):
-		if($value->option):
-			try {
-				$user = $value->user;
-				$email = $value->email;
-				$userID = $value->id;
-				$token = $value->token;
-				//$code .= $user . " -> " . $email . "<br>";
-				$re = '/%token%/';
-				$msgMail = preg_replace($re, $token, $messageOut, 1);
+		try {
+			$user = $value->user;
+			$email = $value->email;
+			$userID = $value->id;
+			$token = $value->token;
+			//$code .= $user . " -> " . $email . "<br>";
+			$re = '/%token%/';
+			$msgMail = preg_replace($re, $token, $messageOut, 1);
 
-				outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
+			outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
 
-				$mailer = getPHPMailer();
-				// Адрес получателя
-				$mailer->addAddress($email, $user);
-				// Заголовок письма
-				$mailer->Subject = $messageTitle;
-				// HTML текст письма
-				$mailer->Body    = $msgMail;
-				// Текстовое сообщение
-				$mailer->AltBody = $content_arr["text"];
-				// Устанавливаем заоловок с рассылкой (отпиской)
-				$mailer->AddCustomHeader("List-Unsubscribe: <mailto:" . SEND_EMAIL . "?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
+			$mailer = getPHPMailer();
+			// Адрес получателя
+			$mailer->addAddress($email, $user);
+			// Заголовок письма
+			$mailer->Subject = $messageTitle;
+			// HTML текст письма
+			$mailer->Body    = $msgMail;
+			// Текстовое сообщение
+			$mailer->AltBody = $content_arr["text"];
+			// Устанавливаем заоловок с рассылкой (отпиской)
+			$mailer->AddCustomHeader("List-Unsubscribe: <mailto:" . SEND_EMAIL . "?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
 
-				// Изображения на странице
-				foreach($content_arr["matches"] as $match):
-					$mailer->AddEmbeddedImage(MODX_BASE_PATH . $match[1], $match[2]);
-				endforeach;
-				// Файлы
-				foreach($content_arr["files"] as $file):
-					$mailer->addAttachment(MODX_BASE_PATH . $file["file"], $file["title"]);
-				endforeach;
-				$re = '/%token%/';
-				$lnk = preg_replace($re, $token, $unsub, 1);
-				// Отправляем
-				if($mailer->send()){
-					// Получаем ID отправленного сообщения
-					$message_id = $mailer->getLastMessageID();
-					// Запись в базу об удачной отпрвке
-					outputFn("SUCCESFULL" . BRNL . $email . " -> " . $user . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
-					unset( $mailer );
-					sleep( SLEEP );
-				}else{
-					// Запись в базу об неудачной отпрвке
-					$err = print_r($mailer->ErrorInfo, true);
-					outputFn("ERROR MAILER IF: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) .BRNL );
-					unset( $mailer );
-					sleep( SLEEP );
-				}
-			} catch (Exception $e) {
-				// Ошибка{
+			// Изображения на странице
+			foreach($content_arr["matches"] as $match):
+				$mailer->AddEmbeddedImage(MODX_BASE_PATH . $match[1], $match[2]);
+			endforeach;
+			// Файлы
+			foreach($content_arr["files"] as $file):
+				$mailer->addAttachment(MODX_BASE_PATH . $file["file"], $file["title"]);
+			endforeach;
+			$re = '/%token%/';
+			$lnk = preg_replace($re, $token, $unsub, 1);
+			// Отправляем
+			if($mailer->send()){
+				// Получаем ID отправленного сообщения
+				$message_id = $mailer->getLastMessageID();
+				// Запись в базу об удачной отпрвке
+				outputFn("SUCCESFULL" . BRNL . $email . " -> " . $user . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
+				unset( $mailer );
+				sleep( SLEEP );
+			}else{
 				// Запись в базу об неудачной отпрвке
-				$err = print_r($e->getMessage(), true);
-				outputFn("ERROR MAILER CATCH: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL );
+				$err = print_r($mailer->ErrorInfo, true);
+				outputFn("ERROR MAILER IF: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) .BRNL );
 				unset( $mailer );
 				sleep( SLEEP );
 			}
-		endif;
+		} catch (Exception $e) {
+			// Ошибка{
+			// Запись в базу об неудачной отпрвке
+			$err = print_r($e->getMessage(), true);
+			outputFn("ERROR MAILER CATCH: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL );
+			unset( $mailer );
+			sleep( SLEEP );
+		}
 	endforeach;
 endif;
 

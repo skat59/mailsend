@@ -263,15 +263,15 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$mailArray[] = $usr;
 }
 
+// Присоединяем проверяющих
+$mailArray = array_merge( array_values(filterDevArray($mailerDev)), $mailArray );
+
 outputFn("<tr>
 	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Number of addresses:</strong></td>
 	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count($mailArray) . "</td>
 </tr>
 ");
 outputFn("</tbody>\n</table>" . BRNL);
-
-// Присоединяем проверяющих
-$mailArray = array_merge( array_values(filterDevArray($mailerDev)), $mailArray );
 
 //outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . print_r($content_arr, true) . "</pre></code><br />\n");
 
@@ -357,7 +357,7 @@ outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
 // Отправляем результат проверяющим
 // Результат отправляется всем проверяющим если были получатели рассылки. Т. е. количество получателей рассылки больше количества проверяющих
 // В тесте отключим данный функционал
-// if(count($mailArray) > count($mailerDev)):
+// if(count($mailArray) > count(array_values(filterDevArray($mailerDev)))):
 	// HTML и Текст письма
 	$re = '/%ENDSCRIPT%/';
 	$end = date('d-m-Y H:i:s', time() + (int) $modx->config['server_offset_time']);

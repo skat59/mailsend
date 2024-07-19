@@ -26,6 +26,7 @@ define('PHPHMAILER_LANG', $lang_path);
 // Оформление заголовка письма
 $messageHeader = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table>';
 define('MESSAGE_HEADER', $messageHeader);
+
 // Заголовок результата
 define('TITLE_RESULT', 'Результат выполнения КРОН');
 
@@ -63,6 +64,11 @@ function outputFn($msg = "") {
 function gen_token(string $assets = "") {
 	$token = md5(microtime() . $assets . microtime(true) . MODX_SITE_URL);
 	return $token;
+}
+
+// Функция вывода кода переменной
+function varDumpFn ($var) {
+	outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . nl2br(htmlspecialchars(print_r($var, true))) . "</pre></code><br />\n");
 }
 
 // Парсинг контента
@@ -151,10 +157,9 @@ function getPHPMailer() {
 
 // Фильтр
 function filterDevArray($array = array(), $option = 'option') {
-	return array_filter($array, function($obj){
-		var_dump($obj);
+	return array_values(array_filter($array, function($obj){
 		return $obj[$option] ? true : false;
-	});
+	}));
 }
 
 // Получаем все настройки сайта
@@ -267,16 +272,16 @@ while( $row = $modx->db->getRow( $result ) ) {
 }
 
 // Присоединяем проверяющих
-$mailArray = array_merge( array_values(filterDevArray($mailerDev, 'option')), $mailArray );
+$mailArray = array_merge( filterDevArray($mailerDev, 'option'), $mailArray );
 
 outputFn("<tr>
 	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Number of addresses:</strong></td>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count(rray_values(filterDevArray($mailArray, 'admin'))) . "</td>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count( filterDevArray($mailArray, 'admin') ) . "</td>
 </tr>
 ");
 outputFn("</tbody>\n</table>" . BRNL);
 
-//outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . print_r($content_arr, true) . "</pre></code><br />\n");
+//varDumpFn( $content_arr );
 
 outputFn("START<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
 // ПОНЕСЛАСЬ
@@ -361,7 +366,7 @@ outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
 
 // Отправляем результат проверяющим
 // Результат отправляется всем проверяющим если были получатели рассылки. Т. е. количество получателей рассылки больше количества проверяющих
-//if(count(array_values(filterDevArray($mailArray, 'admin')))):
+//if(count( filterDevArray($mailArray, 'admin')) ):
 	// HTML и Текст письма
 	$re = '/%ENDSCRIPT%/';
 	$end = date('d-m-Y H:i:s', time() + (int) $modx->config['server_offset_time']);

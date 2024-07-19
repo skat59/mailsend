@@ -1,6 +1,6 @@
 <?php
 
-header("Content-type: text/html; charset=utf-8");
+header("Content-type: text/plain; charset=utf-8");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;

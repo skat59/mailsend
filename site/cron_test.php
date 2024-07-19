@@ -7,6 +7,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 $dir = str_replace('\\','/',dirname(__FILE__)) . "/";
+$lang_path = $dir . 'phpmailer/language/';
 
 define('MODX_API_MODE',      true);
 define('MODX_BASE_PATH',     $dir);
@@ -20,8 +21,19 @@ define('SEND_EMAIL', 'ofis@skat59.ru');
 define('SEND_PASSWORD', 'U2w9O7z5');
 define('SMTP_HOST', 'ssl://smtp.yandex.ru');
 define('SMTP_PORT', 465);
+// Расположение локали для PHPMailer
+define('PHPHMAILER_LANG', $lang_path);
+// Оформление заголовка письма
+$messageHeader = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table>';
+define('MESSAGE_HEADER', $messageHeader);
+// Заголовок результата
+define('TITLE_RESULT', 'Результат выполнения КРОН');
+
 // Пауза
 define('SLEEP', 2);
+
+define('BRNL', "<br />\n");
+
 
 $dir = str_replace('\\','/',dirname(__FILE__)) . '/';
 
@@ -112,6 +124,31 @@ function getDocument($object) {
 	return $content_arr;
 }
 
+function getPHPMailer() {
+	$mailer = new PHPMailer(true);
+	$mailer->setLanguage('ru', PHPHMAILER_LANG);
+	// Настройки SMTP Yandex
+	$mailer->isSMTP();
+	$mailer->Encoding = $mailer::ENCODING_8BIT;
+	$mailer->CharSet = $mailer::CHARSET_UTF8;
+	// SMTP settings
+	$mailer->Mailer = 'smtp';
+	$mailer->SMTPAuth = true;
+	$mailer->Port = SMTP_PORT;
+	$mailer->Host = SMTP_HOST;
+	$mailer->Username = SEND_EMAIL;
+	$mailer->Password = SEND_PASSWORD;
+	// Кто шлёт
+	$mailer->setFrom(SEND_EMAIL, SEND_USER);
+	// Кому ответить
+	$mailer->addReplyTo(SEND_EMAIL, SEND_USER);
+	// Разрешить HTML
+	$mailer->isHTML(true);
+	// Логотип
+	$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
+	return $mailer;
+}
+
 // Получаем все настройки сайта
 $modx->db->connect();
 if (empty($modx->config)) {
@@ -184,7 +221,7 @@ outputFn("<tr>
 	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count($mailArray) . "</td>
 </tr>
 ");
-outputFn("</tbody>\n</table><br />\n");
+outputFn("</tbody>\n</table>" . BRNL);
 
 // выбрать нужное сообщение, заголовок, файлы, дату отправки
 // Выбираем только один документ
@@ -208,9 +245,9 @@ $content_arr = getDocument(json_decode($evoPage, true));
 $groupID = $content_arr["group_id"];
 
 /*
-------------------------------------
+---------------------------------------------
 -- Выбрать по определённой группе $groupID --
-------------------------------------
+---------------------------------------------
 */
 
 $table = $modx->getFullTableName( 'mailsend_users' );
@@ -231,20 +268,21 @@ $mailArray = array_merge($mailerDev, $mailArray);
 
 //outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . print_r($content_arr, true) . "</pre></code><br />\n");
 
-outputFn("START<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
+outputFn("START<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
 // ПОНЕСЛАСЬ
 if($content_arr):
-	
+
 	$messageTitle = $content_arr["title"];
 
-	$messageOut = '<div style="padding: 15px;"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr><tr><td colspan="2">
+	$messageOut = '<div style="padding: 15px;">' . MESSAGE_HEADER . '
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody>
+	<tr><td>
 	<!-- // -->
 	' . $content_arr["content"] . '
 	<!-- // -->
-	</td></tr><tr><td colspan="2" style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.<br /><a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table></div>';
+	</td></tr><tr><td style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.' . BRNL . '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table></div>';
 	$unsub = '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
 
-	
 	// Начало цикла
 	foreach($mailArray as $key => $value):
 		if($value->option):
@@ -257,29 +295,11 @@ if($content_arr):
 				$re = '/%token%/';
 				$msgMail = preg_replace($re, $token, $messageOut, 1);
 
-				outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
+				outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
 
-				$mailer = new PHPMailer(true);
-				$mailer->setLanguage('ru');
-				// Настройки SMTP Yandex
-				$mailer->isSMTP();
-				$mailer->Encoding = $mailer::ENCODING_8BIT;
-				$mailer->CharSet = $mailer::CHARSET_UTF8;
-				// SMTP settings
-				$mailer->Mailer = 'smtp';
-				$mailer->SMTPAuth = true;
-				$mailer->Port = SMTP_PORT;
-				$mailer->Host = SMTP_HOST;
-				$mailer->Username = SEND_EMAIL;
-				$mailer->Password = SEND_PASSWORD;
-				// Кто шлёт
-				$mailer->setFrom(SEND_EMAIL, SEND_USER);
-				// Кому ответить
-				$mailer->addReplyTo(SEND_EMAIL, SEND_USER);
+				$mailer = getPHPMailer();
 				// Адрес получателя
 				$mailer->addAddress($email, $user);
-				// Разрешить HTML
-				$mailer->isHTML(true);
 				// Заголовок письма
 				$mailer->Subject = $messageTitle;
 				// HTML текст письма
@@ -288,8 +308,6 @@ if($content_arr):
 				$mailer->AltBody = $content_arr["text"];
 				// Устанавливаем заоловок с рассылкой (отпиской)
 				$mailer->AddCustomHeader("List-Unsubscribe: <mailto:" . SEND_EMAIL . "?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
-				// Логотип
-				$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
 
 				// Изображения на странице
 				foreach($content_arr["matches"] as $match):
@@ -299,20 +317,20 @@ if($content_arr):
 				foreach($content_arr["files"] as $file):
 					$mailer->addAttachment(MODX_BASE_PATH . $file["file"], $file["title"]);
 				endforeach;
+				$re = '/%token%/';
+				$lnk = preg_replace($re, $token, $unsub, 1);
 				// Отправляем
 				if($mailer->send()){
 					// Получаем ID отправленного сообщения
 					$message_id = $mailer->getLastMessageID();
-					$re = '/%token%/';
-					$lnk = preg_replace($re, $token, $unsub, 1);
 					// Запись в базу об удачной отпрвке
-					outputFn("SUCCESFULL<br />\n" . $email . " -> " . $user . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n");
+					outputFn("SUCCESFULL" . BRNL . $email . " -> " . $user . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
 					unset( $mailer );
 					sleep( SLEEP );
 				}else{
 					// Запись в базу об неудачной отпрвке
 					$err = print_r($mailer->ErrorInfo, true);
-					outputFn("ERROR MAILER IF: " . $err . "<br />\n" . $email  . " -> " . $user . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n" );
+					outputFn("ERROR MAILER IF: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) .BRNL );
 					unset( $mailer );
 					sleep( SLEEP );
 				}
@@ -320,7 +338,7 @@ if($content_arr):
 				// Ошибка{
 				// Запись в базу об неудачной отпрвке
 				$err = print_r($e->getMessage(), true);
-				outputFn("ERROR MAILER CATCH: " . $err . "<br />\n" . $email  . " -> " . $user . "<br />\n" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />\n" );
+				outputFn("ERROR MAILER CATCH: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL );
 				unset( $mailer );
 				sleep( SLEEP );
 			}
@@ -328,64 +346,48 @@ if($content_arr):
 	endforeach;
 endif;
 
-outputFn("<br />" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "<br />" . "END");
+outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
 // Конец цикла
 
-// Отправляем результат
-foreach($mailerDev as $key => $value):
-	$user = $value->user;
-	$email = $value->email;
-	$mailer = new PHPMailer(true);
-	$mailer->setLanguage('ru');
-	try {
-		// Настройки SMTP Yandex
-		$mailer->isSMTP();
-		$mailer->Encoding = $mailer::ENCODING_8BIT;
-		$mailer->CharSet = $mailer::CHARSET_UTF8;
-		// SMTP settings
-		$mailer->Mailer = 'smtp';
-		$mailer->SMTPAuth = true;
-		$mailer->Port = 465;
-		$mailer->Host = 'ssl://smtp.yandex.ru';
-		$mailer->Username = 'ofis@skat59.ru';
-		$mailer->Password = 'U2w9O7z5';
-		// Кто шлёт
-		$mailer->setFrom('ofis@skat59.ru', "Результат выполнения КРОН");
-		// Кому ответить
-		$mailer->addReplyTo('ofis@skat59.ru', "Результат выполнения КРОН");
-		// Адрес получателя
-		$mailer->addAddress($email, $user);
-		// Разрешить HTML
-		$mailer->isHTML(true);
-		// Заголовок письма
-		$mailer->Subject = "Выполнение крона";
-
-		$re = '/%ENDSCRIPT%/';
-		$end = date('d-m-Y H:i:s', time() + (int) $modx->config['server_offset_time']);
-
-		$outmsg = preg_replace($re, $end, $output, 1);
-		// HTML текст письма
-		$content = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table><h1>Результат выполнения КРОН</h1><br />' . $outmsg;
-		// Текст письма
-		$text = strip_tags($content);
-		$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
-		// Письмо
-		$mailer->Body = $content;
-		// Текстовое сообщение
-		$mailer->AltBody = $text;
-		// Логотип
-		$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
-		// Отправляем
-		if($mailer->send()):
+// Отправляем результат проверяющим
+// Результат отправляется всем проверяющим если были получатели рассылки. Т. е. количество получателей рассылки больше количества проверяющих
+if(count($mailArray) > count($mailerDev)):
+	// HTML и Текст письма
+	$re = '/%ENDSCRIPT%/';
+	$end = date('d-m-Y H:i:s', time() + (int) $modx->config['server_offset_time']);
+	// Готовим HTML письма
+	$outmsg = preg_replace($re, $end, $output, 1);
+	// HTML Текст письма
+	$html = '<div style="padding: 15px;">' . MESSAGE_HEADER . '<h1>' . TITLE_RESULT . '</h1>' . BRNL . $outmsg . '</div>';
+	// Готовим Текст письма
+	$text = strip_tags($html);
+	$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
+	// Отправка
+	foreach($mailerDev as $key => $value):
+		try {
+			$user = $value->user;
+			$email = $value->email;
+			$mailer = getPHPMailer();
+			// Адрес получателя
+			$mailer->addAddress($email, $user);
+			// Заголовок письма
+			$mailer->Subject = TITLE_RESULT;
+			// Письмо
+			$mailer->Body = $html;
+			// Текстовое сообщение
+			$mailer->AltBody = $text;
+			// Отправляем
+			if($mailer->send()):
+				unset( $mailer );
+				//sleep( SLEEP );
+			else:
+				unset( $mailer );
+				//sleep( SLEEP );
+			endif;
+		} catch (Exception $e) {
+			// Ошибка
 			unset( $mailer );
 			//sleep( SLEEP );
-		else:
-			unset( $mailer );
-			//sleep( SLEEP );
-		endif;
-	} catch (Exception $e) {
-		// Ошибка
-		unset( $mailer );
-		//sleep( SLEEP );
-	}
-endforeach;
+		}
+	endforeach;
+endif;

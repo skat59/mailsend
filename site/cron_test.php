@@ -351,7 +351,8 @@ outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
 
 // Отправляем результат проверяющим
 // Результат отправляется всем проверяющим если были получатели рассылки. Т. е. количество получателей рассылки больше количества проверяющих
-if(count($mailArray) > count($mailerDev)):
+// В тесте отключим данный функционал
+// if(count($mailArray) > count($mailerDev)):
 	// HTML и Текст письма
 	$re = '/%ENDSCRIPT%/';
 	$end = date('d-m-Y H:i:s', time() + (int) $modx->config['server_offset_time']);
@@ -390,4 +391,4 @@ if(count($mailArray) > count($mailerDev)):
 			//sleep( SLEEP );
 		}
 	endforeach;
-endif;
+// endif;

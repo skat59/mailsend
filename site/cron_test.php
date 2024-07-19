@@ -150,10 +150,10 @@ function getPHPMailer() {
 }
 
 // Фильтр
-function filterDevArray($array = array()) {
+function filterDevArray($array = array(), $option = 'option') {
 	return array_filter($array, function($obj){
 		var_dump($obj);
-		return $obj->option ? true : false;
+		return $obj[$option] ? true : false;
 	});
 }
 
@@ -180,6 +180,8 @@ $mailerDev = json_decode($d_ch);
 $index = 0;
 foreach ($mailerDev as $checker):
 	$mailerDev[$index]->user = debugDecode($checker->user);
+	// разработчик
+	$mailerDev[$index]->admin = 1;
 	$mailerDev[$index]->id = $index;
 	$mailerDev[$index]->groups = '0';
 	$mailerDev[$index]->unsubscribe = "0";
@@ -259,16 +261,17 @@ while( $row = $modx->db->getRow( $result ) ) {
 	$usr = json_decode(json_encode($row), false);
 	$usr->user = debugDecode($usr->name);
 	$usr->option = 1;
+	$usr->admin = 0;
 	unset($usr->name);
 	$mailArray[] = $usr;
 }
 
 // Присоединяем проверяющих
-$mailArray = array_merge( array_values(filterDevArray($mailerDev)), $mailArray );
+$mailArray = array_merge( array_values(filterDevArray($mailerDev, 'option')), $mailArray );
 
 outputFn("<tr>
 	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\"><strong>Number of addresses:</strong></td>
-	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count($mailArray) . "</td>
+	<td style=\"border: 1px solid #ccc;padding: 1px 14px;\">" . count(rray_values(filterDevArray($mailArray, 'admin')) . "</td>
 </tr>
 ");
 outputFn("</tbody>\n</table>" . BRNL);
@@ -302,7 +305,9 @@ if($content_arr):
 			$msgMail = preg_replace($re, $token, $messageOut, 1);
 
 			outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
-
+			if($value->admin):
+				outputFn("ПРОВЕРЯЮЩИЙ" . BRNL);
+			endif;
 			$mailer = getPHPMailer();
 			// Адрес получателя
 			$mailer->addAddress($email, $user);
@@ -356,8 +361,7 @@ outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
 
 // Отправляем результат проверяющим
 // Результат отправляется всем проверяющим если были получатели рассылки. Т. е. количество получателей рассылки больше количества проверяющих
-// В тесте отключим данный функционал
-// if(count($mailArray) > count(array_values(filterDevArray($mailerDev)))):
+//if(count(array_values(filterDevArray($mailArray, 'admin')))):
 	// HTML и Текст письма
 	$re = '/%ENDSCRIPT%/';
 	$end = date('d-m-Y H:i:s', time() + (int) $modx->config['server_offset_time']);
@@ -396,4 +400,4 @@ outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
 			//sleep( SLEEP );
 		}
 	endforeach;
-// endif;
+//endif;

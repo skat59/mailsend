@@ -7,7 +7,7 @@ $settings['fields'] = array(
 	),
 	'email' => array(
 		'caption' => 'Email <br><span style="color: red;">(ОБЯЗАТЕЛЬНО)</span>',
-		'type' => 'email'
+		'type' => 'text'
 	),
     'option' => array(
         'caption' => 'Отправлять письмо рассылки?',

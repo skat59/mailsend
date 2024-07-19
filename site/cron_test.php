@@ -13,7 +13,7 @@ define('MODX_API_MODE',      true);
 define('MODX_BASE_PATH',     $dir);
 define('MODX_SITE_URL',      'https://mailsend.skat59.ru/');
 define('MODX_BASE_URL',      'https://mailsend.skat59.ru/');
-define('PARENT_SITR_URL',    'https://www.skat59.ru/');
+define('PARENT_SITE_URL',    'https://www.skat59.ru/');
 define('TITLE_PARENT',       'ООО «СКАТ» - надёжный поставщик спецтехники на Западном Урале');
 // Настройка отправителя
 define('SEND_USER', "Центр спецтехники ООО «СКАТ»");
@@ -91,7 +91,7 @@ function parseContentMsg($content) {
 	$content = $content . "\n" . '<p style="text-align: center;">Телефон для обратной связи: +7(342)270-00-10 доб. 3005
 <br>Или просто напишите нам: <a href="mailto:' . SEND_EMAIL . '">' . SEND_EMAIL . '</a></p>
 <p>&nbsp;</p>
-<p style="text-align: right;"><b>С огромным уважением к Вам<br /> &nbsp;<a href="' . PARENT_SITR_URL . '" target="_blank">' . SEND_USER . '</a></b></p';
+<p style="text-align: right;"><b>С огромным уважением к Вам<br /> &nbsp;<a href="' . PARENT_SITE_URL . '" target="_blank">' . SEND_USER . '</a></b></p';
 	$text = strip_tags($content);
 	$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
 	$arr_return = array(
@@ -130,6 +130,30 @@ function getDocument($object) {
 	return $content_arr;
 }
 
+// Фильтр
+function filterDevArray($array = array(), $option = 'option') {
+	return array_values(array_filter($array, function($obj){
+		return $obj[$option] ? true : false;
+	}));
+}
+
+// Получаем все настройки сайта
+$modx->db->connect();
+if (empty($modx->config)) {
+	$modx->getSettings();
+}
+
+varDumpFn($modx->config);
+// ПЕРЕМЕННЫЕ ДЛЯ SMTP
+define('PARENT_SITE_URL',    $modx->config['perent_site_url']);
+define('TITLE_PARENT',       $modx->config['title_parent']);
+// Настройка отправителя
+define('SEND_USER',          $modx->config['send_user_evo']);
+define('SEND_EMAIL',         $modx->config['send_email_evo']);
+define('SEND_PASSWORD',      $modx->config['send_password_evo']);
+define('SMTP_HOST',          $modx->config['smtp_host_evo']);
+define('SMTP_PORT',          (int) $modx->config['smtp_port_evo']);
+
 function getPHPMailer() {
 	$mailer = new PHPMailer(true);
 	$mailer->setLanguage('ru', PHPHMAILER_LANG);
@@ -151,23 +175,11 @@ function getPHPMailer() {
 	// Разрешить HTML
 	$mailer->isHTML(true);
 	// Логотип
-	$mailer->AddEmbeddedImage(MODX_BASE_PATH . 'assets/templates/projectsoft/images/embed.png', 'logo_2u');
+	if(is_file(MODX_BASE_PATH . $modx->config['title_logotip'])):
+		$mailer->AddEmbeddedImage(MODX_BASE_PATH . $modx->config['title_logotip'], 'logo_2u');
+	endif;
 	return $mailer;
 }
-
-// Фильтр
-function filterDevArray($array = array(), $option = 'option') {
-	return array_values(array_filter($array, function($obj){
-		return $obj[$option] ? true : false;
-	}));
-}
-
-// Получаем все настройки сайта
-$modx->db->connect();
-if (empty($modx->config)) {
-	$modx->getSettings();
-}
-
 // Дальше можно делать, что угодно
 // Письма группе
 $mailArray = array();

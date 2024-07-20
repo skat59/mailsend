@@ -102,9 +102,13 @@ site/assets/plugins/tinymce4/tinymce/plugins/*
 site/assets/plugins/tinymce4/tinymce/skins/*
 !site/assets/plugins/tinymce4/tinymce/skins/school
 
-# Plugin MailSend
+# Plugin DocSave
 !site/assets/plugins/DocSave
 !site/assets/plugins/DocSave/*.*
+
+# Plugin DocSave
+!site/assets/plugins/PageAuth
+!site/assets/plugins/PageAuth/*.*
 
 # Module clientSettings
 !site/assets/modules/MailSend

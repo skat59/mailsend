@@ -391,7 +391,7 @@ $text = strip_tags($html);
 $text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
 
 // Отправляем результат проверяющим если была отправка адресатам
-//if($content_arr):
+if($content_arr):
 	foreach($mailerDev as $key => $value):
 		try {
 			$user = $value->user;
@@ -419,4 +419,4 @@ $text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/',
 			sleep( SLEEP );
 		}
 	endforeach;
-//endif;
+endif;

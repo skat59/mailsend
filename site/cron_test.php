@@ -7,19 +7,23 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 $dir = str_replace('\\','/',dirname(__FILE__)) . "/";
-$lang_path = $dir . 'phpmailer/language/';
 
+// Устанавливаем часовой пояс
+define('TIME_ZONE', 'Asia/Yekaterinburg');
+
+// Переменные для работы API Modx EVO
 define('MODX_API_MODE',      true);
 define('MODX_BASE_PATH',     $dir);
 define('MODX_SITE_URL',      'https://mailsend.skat59.ru/');
 define('MODX_BASE_URL',      'https://mailsend.skat59.ru/');
 // Расположение локали для PHPMailer
-define('PHPHMAILER_LANG', $lang_path);
+define('PHPHMAILER_LANG', MODX_BASE_PATH . 'phpmailer/language/');
 // Заголовок результата
 define('TITLE_RESULT', 'Результат выполнения КРОН');
 // Перенос строки для текста
 define('BRNL', "<br />\n");
 
+date_default_timezone_set(TIME_ZONE);
 
 $dir = str_replace('\\','/',dirname(__FILE__)) . '/';
 
@@ -42,7 +46,6 @@ function outputFn($msg = "") {
 	global $output;
 	$msg = debugDecode($msg);
 	$output .= $msg;
-	echo $msg;
 }
 
 // Получение токена для файлов
@@ -197,22 +200,21 @@ endforeach;
 
 // Имя сайта
 $site_name = debugDecode($modx->config['site_name']);
-
 // Получение записи по дате
 // В cron мы получаем только одну запись за текущий день
-$time = time() + $modx->config['server_offset_time'];
 
-$current = strtotime(date("d-m-Y 0:00:00", $time));
-$next = strtotime(date('d-m-Y 0:00:00', $current + 86400));
+$current = strtotime(date("d-m-Y 00:00:00", time()));
+$next = $current + 86400 - 1;
 
 // Старт скрипта
+outputFn("<p><strong>Часовой пояс времени:</strong> " . TIME_ZONE . "</p>\n");
 outputFn("<table>\n<tbody>\n");
 outputFn('<tr>
 	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Начало работы скрипта:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date('d-m-Y H:i:s', $time) . '</span></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date('d-m-Y H:i:s', time()) . '</span></td>
 </tr>
 ');
-// Кпнец работы скрипта
+// Конец работы скрипта
 outputFn('<tr>
 	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Конец работы скрипта:</strong></td>
 	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;"><!-- ENDTIME --></span></td>
@@ -220,13 +222,13 @@ outputFn('<tr>
 ');
 // Начало выбора
 outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Начальная дата:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Начальная дата выбора рассылки:</strong></td>
 	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $current) . '</span></td>
 </tr>
 ');
 // Конец выбора
 outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Конечная дата:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Конечная дата выбора рассылки:</strong></td>
 	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $next) . '</span></td>
 </tr>
 ');
@@ -312,7 +314,7 @@ if($content_arr):
 				$msgMail = preg_replace($re, $token, $messageOut, 1);
 
 				outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
-				if($value->admin):
+				if((int) $value->admin):
 					outputFn('<span style="color: red;">ПРОВЕРЯЮЩИЙ НЕ ПОДСЧИТЫВАЕТСЯ</span>' . BRNL);
 				endif;
 				/**
@@ -325,15 +327,15 @@ if($content_arr):
 				 */
 				// Адрес получателя
 				$mailer->addAddress($email, $user);
+				// Устанавливаем заоловок с рассылкой (отпиской)
+				$mailer->AddCustomHeader("List-Unsubscribe: <mailto:" . SEND_EMAIL . "?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
+
 				// Заголовок письма
 				$mailer->Subject = $messageTitle;
 				// HTML текст письма
 				$mailer->Body    = $msgMail;
 				// Текстовое сообщение
 				$mailer->AltBody = $content_arr["text"];
-				// Устанавливаем заоловок с рассылкой (отпиской)
-				$mailer->AddCustomHeader("List-Unsubscribe: <mailto:" . SEND_EMAIL . "?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
-
 				// Изображения на странице
 				foreach($content_arr["matches"] as $match):
 					$mailer->AddEmbeddedImage(MODX_BASE_PATH . $match[1], $match[2]);
@@ -346,8 +348,6 @@ if($content_arr):
 				$lnk = preg_replace($re, $token, $unsub, 1);
 				// Отправляем
 				if($mailer->send()){
-					// Получаем ID отправленного сообщения
-					$message_id = $mailer->getLastMessageID();
 					// Запись в базу об удачной отпрвке
 					outputFn("SUCCESFULL" . BRNL . $email . " -> " . $user . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
 					unset( $mailer );
@@ -373,45 +373,50 @@ endif;
 
 // Готовим HTML для писем проверяющим
 $re = '/<!-- ENDTIME -->/';
-$end = date('d-m-Y H:i:s', (time() + $modx->config['server_offset_time']));
+$end = date('d-m-Y H:i:s', time());
 $output = preg_replace($re, $end, $output, 1);
 
 outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
-// Отправляем результат проверяющим
 
 // HTML и Текст письма
 $re = '/<!-- COUNT -->/';
-$outmsg = preg_replace($re, $count, $output, 1);
+$output = preg_replace($re, $count, $output, 1);
+
+echo $output;
+
 // HTML Текст письма
-$html = '<div style="padding: 15px;">' . $messageHeader . '<h1>' . TITLE_RESULT . '</h1>' . BRNL . $outmsg . '</div>';
+$html = '<div style="padding: 15px;">' . $messageHeader . '<h1>' . TITLE_RESULT . '</h1>' . BRNL . $output . '</div>';
 // Готовим Текст письма
 $text = strip_tags($html);
 $text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
-// Отправка проверяющим
-foreach($mailerDev as $key => $value):
-	try {
-		$user = $value->user;
-		$email = $value->email;
-		$mailer = getPHPMailer();
-		// Адрес получателя
-		$mailer->addAddress($email, $user);
-		// Заголовок письма
-		$mailer->Subject = TITLE_RESULT;
-		// Письмо
-		$mailer->Body = $html;
-		// Текстовое сообщение
-		$mailer->AltBody = $text;
-		// Отправляем
-		if($mailer->send()):
+
+// Отправляем результат проверяющим если была отправка адресатам
+//if($content_arr):
+	foreach($mailerDev as $key => $value):
+		try {
+			$user = $value->user;
+			$email = $value->email;
+			$mailer = getPHPMailer();
+			// Адрес получателя
+			$mailer->addAddress($email, $user);
+			// Заголовок письма
+			$mailer->Subject = TITLE_RESULT;
+			// Текстовое сообщение
+			$mailer->AltBody = $text;
+			// Письмо
+			$mailer->Body = $html;
+			// Отправляем
+			if($mailer->send()):
+				unset( $mailer );
+				sleep( SLEEP );
+			else:
+				unset( $mailer );
+				sleep( SLEEP );
+			endif;
+		} catch (Exception $e) {
+			// Ошибка
 			unset( $mailer );
 			sleep( SLEEP );
-		else:
-			unset( $mailer );
-			sleep( SLEEP );
-		endif;
-	} catch (Exception $e) {
-		// Ошибка
-		unset( $mailer );
-		sleep( SLEEP );
-	}
-endforeach;
+		}
+	endforeach;
+//endif;

@@ -149,9 +149,10 @@ function getPHPMailer() {
 	$mailer->setLanguage('ru', PHPHMAILER_LANG);
 	// Настройки SMTP Yandex
 	$mailer->isSMTP();
+	// Настройки кодировки
 	$mailer->Encoding = $mailer::ENCODING_8BIT;
 	$mailer->CharSet = $mailer::CHARSET_UTF8;
-	// SMTP settings
+	// Настройки SMTP подключения
 	$mailer->Mailer = 'smtp';
 	$mailer->SMTPAuth = SMTP_AUTH;
 	$mailer->Port = SMTP_PORT;
@@ -284,13 +285,14 @@ outputFn('<tr>
 ');
 outputFn("</tbody>\n</table>" . BRNL);
 
-outputFn("START" . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
-
 // ПОНЕСЛАСЬ
 if($content_arr):
-
+	// Вывод начала всей отправки
+	outputFn("START" . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
+	// получаем заголовок рассылки
 	$messageTitle = $content_arr["title"];
-
+	// Получаем контент рассылки
+	// Каждый раз контент будет перезаписан для каждого адресата
 	$messageOut = '<div style="padding: 15px;">' . $messageHeader . '
 	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody>
 	<tr><td>
@@ -303,28 +305,26 @@ if($content_arr):
 	foreach($mailArray as $key => $value):
 		if((int) $value->option):
 			if(!((int) $value->admin)):
+				// Это пользователь. Он посчитывается
 				++$count;
 			endif;
+			// Старт вывода отправки пользователь
+			outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
 			try {
+				// Получаем данные пользователя
 				$user = $value->user;
 				$email = $value->email;
-				$userID = $value->id;
+				// Токен пользователя для отписки
 				$token = $value->token;
+				// Перезапишем токен и получаем контент рассылки готовый к отправке
 				$re = '/%token%/';
 				$msgMail = preg_replace($re, $token, $messageOut, 1);
-
-				outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
 				if((int) $value->admin):
+					// Вывод, что это адрес проверяющего
 					outputFn('<span style="color: red;">ПРОВЕРЯЮЩИЙ НЕ ПОДСЧИТЫВАЕТСЯ</span>' . BRNL);
 				endif;
-				/**
-				 * TEST
-				 */
+				// Создаём объект PHPMailer
 				$mailer = getPHPMailer();
-
-				/**
-				 * END TEST
-				 */
 				// Адрес получателя
 				$mailer->addAddress($email, $user);
 				// Устанавливаем заоловок с рассылкой (отпиской)
@@ -344,39 +344,46 @@ if($content_arr):
 				foreach($content_arr["files"] as $file):
 					$mailer->addAttachment(MODX_BASE_PATH . $file["file"], $file["title"]);
 				endforeach;
+				// Линк для вывода ссылки отписки в результат для проверяющего
 				$re = '/%token%/';
 				$lnk = preg_replace($re, $token, $unsub, 1);
 				// Отправляем
 				if($mailer->send()){
-					// Запись в базу об удачной отпрвке
+					// Запись вывода об удачной отпрвке
 					outputFn("SUCCESFULL" . BRNL . $email . " -> " . $user . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
+					// Уничтажаем объект PHPMailer
 					unset( $mailer );
+					// Спим
 					sleep( SLEEP );
 				}else{
-					// Запись в базу об неудачной отпрвке
+					// Запись вывода об неудачной отпрвке
 					$err = print_r($mailer->ErrorInfo, true);
 					outputFn("ERROR MAILER IF: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) .BRNL );
+					// Уничтажаем объект PHPMailer
 					unset( $mailer );
+					// Спим
 					sleep( SLEEP );
 				}
 			} catch (Exception $e) {
-				// Ошибка{
-				// Запись в базу об неудачной отпрвке
+				// Ошибка
+				// Запись вывода об неудачной отпрвке
 				$err = print_r($e->getMessage(), true);
 				outputFn("ERROR MAILER CATCH: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL );
+				// Уничтажаем объект PHPMailer
 				unset( $mailer );
+				// Спим
 				sleep( SLEEP );
 			}
 		endif;
 	endforeach;
+	// Конец вывода всей отправки
+	outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
 endif;
 
 // Готовим HTML для писем проверяющим
 $re = '/<!-- ENDTIME -->/';
 $end = date('d-m-Y H:i:s', time());
 $output = preg_replace($re, $end, $output, 1);
-
-outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
 
 // HTML и Текст письма
 $re = '/<!-- COUNT -->/';

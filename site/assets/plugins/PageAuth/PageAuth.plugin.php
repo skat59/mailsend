@@ -2,7 +2,7 @@
 /**
  * PageAuth
  *
- * При определённом шаблоне отдать 404-ю ошибку. Плагин расчитан на удаление и не попадания страниц, использующие определённые шаблоны, в поиске
+ * При определённом шаблоне отдать 404-ю ошибку.
  *
  * @category     plugin
  * @version      1.0.0
@@ -11,6 +11,7 @@
  * @internal     @modx_category Content
  * @internal     @installset base
  * @internal     @disabled 0
+ * @internal     @properties &templates=Шаблоны (Через запятую);text;0;0;Плагин рассчитан на удаление и не попадания страниц, использующие определённые шаблоны, в поиске
  * @license      https://github.com/skat59/mailsend/LICENSE MIT License (MIT)
  * @reportissues https://github.com/skat59/mailsend/issues
  * @author       Чернышёв Андрей aka ProjectSoft

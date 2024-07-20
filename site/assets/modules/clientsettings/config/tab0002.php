@@ -36,5 +36,10 @@ return [
 			'caption' => 'SMTP HOST',
 			'type' => 'number'
 		],
+		'smtp_auth_evo' => [
+			'caption' => 'SMTP Auth',
+			'type' => 'dropdown',
+			'elements' => 'Да==1||Нет==0'
+		],
 	],
 ];

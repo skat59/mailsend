@@ -75,7 +75,7 @@ define('SEND_EMAIL',         $modx->config['send_email_evo']);
 define('SEND_PASSWORD',      $modx->config['send_password_evo']);
 define('SMTP_HOST',          $modx->config['smtp_host_evo']);
 define('SMTP_PORT',          (int) $modx->config['smtp_port_evo']);
-define('SMTP_AUTH',          true);
+define('SMTP_AUTH',          filter_var($modx->config['smtp_auth_evo'], FILTER_VALIDATE_BOOLEAN));
 // Логотип
 define('TITLE_LOGOTIP', MODX_BASE_PATH . $modx->config['title_logotip']);
 // Пауза

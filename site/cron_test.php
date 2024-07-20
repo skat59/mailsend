@@ -64,7 +64,6 @@ $modx->db->connect();
 if (empty($modx->config)) {
 	$modx->getSettings();
 }
-
 // varDumpFn($modx->config);
 // ПЕРЕМЕННЫЕ ДЛЯ SMTP
 define('PARENT_SITE_URL',    $modx->config['perent_site_url']);
@@ -389,8 +388,6 @@ $output = preg_replace($re, $end, $output, 1);
 $re = '/<!-- COUNT -->/';
 $output = preg_replace($re, $count, $output, 1);
 
-echo $output;
-
 // HTML Текст письма
 $html = '<div style="padding: 15px;">' . $messageHeader . '<h1>' . TITLE_RESULT . '</h1>' . BRNL . $output . '</div>';
 // Готовим Текст письма
@@ -427,3 +424,9 @@ if($content_arr):
 		}
 	endforeach;
 endif;
+
+echo "\n";
+print_r($content_arr);
+echo "\n";
+print_r(__LINE__);
+echo "\n";

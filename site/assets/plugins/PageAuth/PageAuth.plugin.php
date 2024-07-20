@@ -2,7 +2,7 @@
 /**
  * PageAuth
  *
- * При определённом шаблоне отдать 403-ю ошибку
+ * При определённом шаблоне отдать 404-ю ошибку. Плагин расчитан на удаление и не попадания страниц, использующие определённые шаблоны, в поиске
  *
  * @category     plugin
  * @version      1.0.0
@@ -14,7 +14,7 @@
  * @license      https://github.com/skat59/mailsend/LICENSE MIT License (MIT)
  * @reportissues https://github.com/skat59/mailsend/issues
  * @author       Чернышёв Андрей aka ProjectSoft
- * @lastupdate   28-01-2024
+ * @lastupdate   21-07-2024
  */
 if (!defined('MODX_BASE_PATH')) {
 	http_response_code(403);
@@ -33,7 +33,7 @@ switch ($e->name) {
 		// Присутствует ли шаблон в массиве шаблонов
 		if(in_array($tmpl, $ids)):
 			// Да, устанавливаем заголовок.
-			header('HTTP/1.0 403 Forbidden');
+			header('HTTP/1.0 404 Not Found');
 		endif;
 		break;
 }

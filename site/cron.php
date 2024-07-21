@@ -55,8 +55,13 @@ function gen_token(string $assets = "") {
 }
 
 // Функция вывода кода переменной
-function varDumpFn ($var) {
-	outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . nl2br(htmlspecialchars(print_r($var, true))) . "</pre></code><br />\n");
+function varDumpFn ($var, $line) {
+	outputFn("<code><pre style=\"font-family: Consolas; white-space: pre-wrap;\">" . nl2br(htmlspecialchars(print_r($var, true))) . "</pre></code>" . BRNL . $line . BRNL);
+}
+
+// CRON вывод непосредственно в кроне
+function cronFn($var, $line) {
+	echo PHP_EOL . print_r($var, true) . PHP_EOL . $line . PHP_EOL;
 }
 
 // Получаем все настройки сайта
@@ -425,8 +430,8 @@ if($content_arr):
 	endforeach;
 endif;
 
-echo "\n";
-print_r($content_arr);
-echo "\n";
-print_r(__LINE__);
-echo "\n";
+/**
+ * 
+ * cronFn($content_arr, __LINE__);
+ * 
+**/

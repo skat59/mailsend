@@ -150,7 +150,8 @@ function getDocument($object) {
 // Запуск PHPMailer
 function getPHPMailer() {
 	$mailer = new PHPMailer(true);
-	$mailer->setLanguage('ru', PHPHMAILER_LANG);
+	// $mailer->setLanguage('ru', PHPHMAILER_LANG);
+	$mailer->setLanguage('ru');
 	// Настройки SMTP Yandex
 	$mailer->isSMTP();
 	// Настройки кодировки

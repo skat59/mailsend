@@ -18,11 +18,17 @@
     "config": {
         "vendor-dir": "vendor"
     },
+    "repositories": [
+        {
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "type": "vcs"
+        }
+    ],
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
         "phpoffice/phpspreadsheet": "^1.29",
-        "phpmailer/phpmailer": "^6.9.1"
+        "phpmailer/phpmailer": "dev-master"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

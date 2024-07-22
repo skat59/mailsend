@@ -36,15 +36,9 @@ $output = "";
 // Группа
 $groupID = 0;
 
-// С кодировками пока так, но что-то надо делать!!!
-function debugDecode($text = "", $input = "windows-1251", $output = "utf-8") {
-	return $text;//iconv($output, $input, $text);
-}
-
 // Функция сбора данных
 function outputFn($msg = "") {
 	global $output;
-	$msg = debugDecode($msg);
 	$output .= $msg;
 }
 
@@ -113,8 +107,8 @@ function parseContentMsg($content) {
 	$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
 	$arr_return = array(
 		"title"   => "",
-		"content" => debugDecode($content),
-		"text"    => debugDecode($text),
+		"content" => $content,
+		"text"    => $text,
 		"files"   => array(),
 		"matches" => $return
 	);
@@ -133,14 +127,14 @@ function getDocument($object) {
 				$files = json_decode($files, true);
 				if($files["fieldValue"]):
 					foreach($files["fieldValue"] as $file):
-						$file["title"] = debugDecode($file["title"]) . '.' . pathinfo($file["file"], PATHINFO_EXTENSION);
+						$file["title"] = $file["title"] . '.' . pathinfo($file["file"], PATHINFO_EXTENSION);
 						$files_arr[] = $file;
 					endforeach;
 				endif;
 			}
 			$content_arr = parseContentMsg($content);
 			$content_arr["group_id"] = $doc["groups_send"];
-			$content_arr["title"] = debugDecode($doc["pagetitle"]);
+			$content_arr["title"] = $doc["pagetitle"];
 			$content_arr["files"] = $files_arr;
 		endforeach;
 	endif;
@@ -193,7 +187,7 @@ $mailerDev = json_decode($d_ch);
 // Заполним данные разработчиков
 $index = 0;
 foreach ($mailerDev as $checker):
-	$mailerDev[$index]->user = debugDecode($checker->user);
+	$mailerDev[$index]->user = $checker->user;
 	// разработчик
 	$mailerDev[$index]->admin = 1;
 	$mailerDev[$index]->id = $index;
@@ -205,7 +199,7 @@ foreach ($mailerDev as $checker):
 endforeach;
 
 // Имя сайта
-$site_name = debugDecode($modx->config['site_name']);
+$site_name = $modx->config['site_name'];
 // Получение записи по дате
 // В cron мы получаем только одну запись за текущий день
 
@@ -271,7 +265,7 @@ $slt = "SELECT * FROM $table WHERE (`groups` LIKE '$groupID,%' OR `groups` LIKE 
 $result = $modx->db->query($slt);
 while( $row = $modx->db->getRow( $result ) ) {
 	$usr = json_decode(json_encode($row), false);
-	$usr->user = debugDecode($usr->name);
+	$usr->user = $usr->name;
 	$usr->option = 1;
 	$usr->admin = 0;
 	unset($usr->name);

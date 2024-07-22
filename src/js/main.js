@@ -131,6 +131,8 @@
 	}
 })();
 
+/**
+ * jQuery на этои сайте не нужен
 (function($){
 	// Default fancybox options
 	var $style = $("<style></style>")[0];
@@ -163,9 +165,7 @@
 	};
 
 	$(document)
-		/**
-		 * Просмотр PDF, DOCX, XLSX
-		 */
+		// Просмотр PDF, DOCX, XLSX
 		.on("click", "a[href$='.pdf'], a[href$='.docx'], a[href$='.xlsx']", function(e){
 			// Файлы  на сервере
 			var base = window.location.origin + '/',
@@ -259,9 +259,7 @@
 				return !1;
 			}
 	})
-	/**
-	 * Просмотр изображений
-	 */
+	// Просмотр изображений
 	.on("click", "a[href$='.jpg'], a[href$='.jpeg'], a[href$='.png'], a[href$='.gif']", function(e){
 		// Изображения  на сервере
 		var base = window.location.origin,
@@ -281,3 +279,4 @@
 		}
 	});
 }(jQuery));
+**/

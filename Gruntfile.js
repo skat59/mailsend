@@ -13,17 +13,13 @@ module.exports = function(grunt) {
 		chalk = require('chalk'),
 		//PACK = grunt.file.readJSON('package.json'),
 		uniqid = function () {
-			if(DEBUG){
-				var md5 = require('md5');
-				result = md5((new Date()).getTime()).toString();
-				grunt.verbose.writeln("Generate hash: " + chalk.cyan(result) + " >>> OK");
-				return result;
-			}
-			return `v${VERSION}`;
+			let md5 = require('md5');
+			result = md5(`v${VERSION}`).toString();// (new Date()).getTime()
+			grunt.verbose.writeln("Generate hash: " + chalk.cyan(result) + " >>> OK");
+			return result;
 		};
-	
 	String.prototype.hashCode = function() {
-		var hash = 0, i, chr;
+		let hash = 0, i, chr;
 		if (this.length === 0) return hash;
 		for (i = 0; i < this.length; i++) {
 			chr   = this.charCodeAt(i);
@@ -32,6 +28,8 @@ module.exports = function(grunt) {
 		}
 		return hash;
 	};
+
+	const hash = uniqid();
 
 	var gc = {
 			fontvers: `${PACK.font_version}`,
@@ -188,20 +186,21 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			},
 			appjs: {
 				src: [
-					'bower_components/jquery/dist/jquery.js',
-					"bower_components/fancybox/src/js/core.js",
-					"src/js/fancybox/media.js",
-					"bower_components/fancybox/src/js/guestures.js",
-					"bower_components/fancybox/src/js/slideshow.js",
-					"bower_components/fancybox/src/js/fullscreen.js",
-					"bower_components/fancybox/src/js/thumbs.js",
-					"bower_components/fancybox/src/js/hash.js",
-					"bower_components/fancybox/src/js/wheel.js",
+					//'bower_components/jquery/dist/jquery.js',
+					//"bower_components/fancybox/src/js/core.js",
+					//"src/js/fancybox/media.js",
+					//"bower_components/fancybox/src/js/guestures.js",
+					//"bower_components/fancybox/src/js/slideshow.js",
+					//"bower_components/fancybox/src/js/fullscreen.js",
+					//"bower_components/fancybox/src/js/thumbs.js",
+					//"bower_components/fancybox/src/js/hash.js",
+					//"bower_components/fancybox/src/js/wheel.js",
 					//'bower_components/slick-carousel/slick/slick.js',
 					//'bower_components/js-cookie/src/js.cookie.js',
 					//'bower_components/jquery.cookie/jquery.cookie.js',
 					//'bower_components/button-visually-impaired-javascript/dist/js/bvi.js',
 					//"src/js/prism.js",
+					"src/js/app.js",
 				],
 				dest: 'test/js/app.js'
 			},
@@ -289,7 +288,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			},
 			dist: {
 				files: {
-					'src/less/bvi.less': 'src/scss/bvi.scss'
+					'src/less/bvi.css': 'src/scss/bvi.scss'
 				}
 			}
 		},
@@ -302,7 +301,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 						new NpmImportPlugin({prefix: '~'})
 					],
 					modifyVars: {
-						'hashes': '\'' + uniqid() + '\'',
+						'hashes': '\'' + hash + '\'',
 						'fontpath': '/assets/templates/projectsoft/fonts',
 						'imgpath': '/assets/templates/projectsoft/images',
 					}
@@ -531,7 +530,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 							"tem_path" : "/assets/templates/projectsoft",
 							"img_path" : "assets/templates/projectsoft/images/",
 							"site_name": "[(site_name)]",
-							"hash": uniqid()
+							"hash": hash
 						}
 					}
 				},
@@ -556,7 +555,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 							"tem_path" : "/assets/templates/projectsoft",
 							"img_path" : "assets/templates/projectsoft/images/",
 							"site_name": "[(site_name)]",
-							"hash": uniqid(),
+							"hash": hash,
 						}
 					},
 				},

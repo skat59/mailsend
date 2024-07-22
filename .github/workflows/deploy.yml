@@ -1,11 +1,12 @@
 name: 🏴‍☠️ Отправка
 on:
   push:
-    paths-ignore:
-      - 'README.md'
-      - '.github/**'
-      - 'src/**'
-      - '*.*'
+    paths:
+      - '!README.md'
+      - '!.github/**'
+      - '!src/**'
+      - '!*.*'
+      - 'site/**'
     branches: [ "main" ]
   schedule:
     - cron: "0 9 1 * *"

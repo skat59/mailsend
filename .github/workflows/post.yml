@@ -25,3 +25,8 @@ jobs:
           feed_list: "https://www.skat59.ru/rss.xml"
           readme_path: "./README.md"
           max_post_count: 40
+          commit_message: Обновление RSS в README
+          committer_username: ProjectSoft-STUDIONIONS
+          committer_email: projectsoft2009@yandex.ru
+          output_only: true
+          

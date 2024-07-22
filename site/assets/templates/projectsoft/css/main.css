@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?5fe8c719f875603f1baf1746bbe6b9a7") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?5fe8c719f875603f1baf1746bbe6b9a7") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?5fe8c719f875603f1baf1746bbe6b9a7") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?ba6b6caa5fc6b834ab847fd615165bd3") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?ba6b6caa5fc6b834ab847fd615165bd3") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?ba6b6caa5fc6b834ab847fd615165bd3") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -3710,6 +3710,23 @@ body.nobg.sendmail {
   -webkit-user-select: text;
   -ms-user-select: text;
   user-select: text;
+}
+
+body.sendmail {
+  font-family: 'Tahoma', sans-serif;
+  font-size: initial;
+}
+
+body.sendmail {
+  min-height: 100vh;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 @media (min-width: 768px) {

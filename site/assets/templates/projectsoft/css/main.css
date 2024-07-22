@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?72e2ac5a7e3c136b106116c1f7b0f240") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?72e2ac5a7e3c136b106116c1f7b0f240") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?72e2ac5a7e3c136b106116c1f7b0f240") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?988636f2c07f5855cbb69a200f59b016") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?988636f2c07f5855cbb69a200f59b016") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?988636f2c07f5855cbb69a200f59b016") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -305,16 +305,6 @@
 
 .icon-zoom-out:before {
   content: "\e943";
-}
-
-body {
-  font-family: var(--font-emoji);
-  font-size: 22px;
-}
-
-body.nobg.sendmail {
-  font-size: initial;
-  font-family: initial;
 }
 
 .clearfix:before,
@@ -3507,6 +3497,16 @@ samp {
 
 .emoji {
   font-family: var(--font-emoji);
+}
+
+body {
+  font-family: var(--font-emoji);
+  font-size: 22px;
+}
+
+body.nobg.sendmail {
+  font-size: var(--font-size-tinymce);
+  font-family: var(--font-family-tinymce);
 }
 
 .emoji {

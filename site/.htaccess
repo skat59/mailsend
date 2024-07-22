@@ -1,6 +1,6 @@
 # php_flag register_globals Off
 AddDefaultCharset utf-8
-# php_value date.timezone Europe/Samara
+php_value date.timezone Asia/Yekaterinburg
 
 AddType "text/xml" .xsl
 

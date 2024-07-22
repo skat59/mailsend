@@ -5,6 +5,7 @@ on:
       - 'README.md'
       - 'src/**'
       - '*.*'
+      
     branches: [ "main" ]
   schedule:
     - cron: "0 9 1 * *"

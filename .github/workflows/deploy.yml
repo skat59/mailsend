@@ -22,7 +22,6 @@ jobs:
     steps:
     - name: 🚚 Checkout
       uses: actions/checkout@v4
-    
     - name: 📂 Заливка файлов
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:

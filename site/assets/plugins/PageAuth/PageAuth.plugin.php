@@ -7,7 +7,7 @@
  * @category     plugin
  * @version      1.0.0
  * @package      evo
- * @internal     @events OnWebPageInit
+ * @internal     @events OnLoadDocumentObject
  * @internal     @modx_category Content
  * @internal     @installset base
  * @internal     @disabled 0
@@ -15,7 +15,7 @@
  * @license      https://github.com/skat59/mailsend/LICENSE MIT License (MIT)
  * @reportissues https://github.com/skat59/mailsend/issues
  * @author       Чернышёв Андрей aka ProjectSoft
- * @lastupdate   21-07-2024
+ * @lastupdate   22-07-2024
  */
 if (!defined('MODX_BASE_PATH')) {
 	http_response_code(403);

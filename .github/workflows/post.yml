@@ -28,7 +28,7 @@ jobs:
           commit_message: Обновление RSS в README
           committer_username: ProjectSoft-STUDIONIONS
           committer_email: projectsoft2009@yandex.ru
-          output_only: results
+          # output_only: results
       - name: Saves count as an output
         id: count-step
         run: echo "::set-output name=articles_length::$(jq '. | length' /tmp/blog_post_workflow_output.json)"

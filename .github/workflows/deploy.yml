@@ -16,13 +16,13 @@ on:
             description: 🏗️ Отправка на сайт
             required: true
             default: '🏗️ Отправка на сайт'
+concurrency:
+  group: "deploy"
+  cancel-in-progress: true
 jobs:
   build:
     name: 🎉 Развёртывание
     runs-on: ubuntu-latest
-    concurrency:
-      group: "build"
-      cancel-in-progress: true
     steps:
     - name: 🚚 Checkout
       uses: actions/checkout@v4

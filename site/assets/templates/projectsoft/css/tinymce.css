@@ -11,6 +11,8 @@
   --font-sans-serif: 'Calibri', 'Tahoma', sans-serif;
   --font-serif: 'Calibri', 'Tahoma', sans-serif;
   --font-emoji: 'apple color emoji', 'segoe ui emoji', 'noto color emoji', 'android emoji', 'emojisymbols', 'emojione mozilla', 'twemoji mozilla', 'segoe ui symbol', 'Noto Color Emoji Compat', 'emoji', sans-serif;
+  --font-family-tinymce: 'Tahoma', sans-serif;
+  --font-size-tinymce: initial;
 }
 
 body.mce-content-body,

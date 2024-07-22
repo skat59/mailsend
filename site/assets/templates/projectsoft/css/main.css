@@ -11,11 +11,13 @@
   --font-sans-serif: 'Calibri', 'Tahoma', sans-serif;
   --font-serif: 'Calibri', 'Tahoma', sans-serif;
   --font-emoji: 'apple color emoji', 'segoe ui emoji', 'noto color emoji', 'android emoji', 'emojisymbols', 'emojione mozilla', 'twemoji mozilla', 'segoe ui symbol', 'Noto Color Emoji Compat', 'emoji', sans-serif;
+  --font-family-tinymce: 'Tahoma', sans-serif;
+  --font-size-tinymce: initial;
 }
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?02acb0e52d560d1358d2df6a66049888") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?02acb0e52d560d1358d2df6a66049888") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?02acb0e52d560d1358d2df6a66049888") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?5fe8c719f875603f1baf1746bbe6b9a7") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?5fe8c719f875603f1baf1746bbe6b9a7") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?5fe8c719f875603f1baf1746bbe6b9a7") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;

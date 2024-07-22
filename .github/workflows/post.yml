@@ -7,32 +7,24 @@ permissions:
   contents: write
 jobs:
   update-readme-with-blog:
-    name: Update this repo's README with latest blog posts
+    name: 🎯 Обновление README.md
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [20.x]
     steps:
-      - name: Checkout
+      - name: Проверка... ☑️
         uses: actions/checkout@v4
-      - name: Insatall jq
-        run: sudo apt install -y jq
-      - name: Setup Node
+      - name: ✅ Старт Node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Pull README
+      - name: ⏱ Обновление README.md
         uses: gautamkrishnar/blog-post-workflow@v1
         with:
           feed_list: "https://www.skat59.ru/rss.xml"
           readme_path: "./README.md"
           max_post_count: 40
-          commit_message: Обновление RSS в README
+          commit_message: 💯 Обновление ссылок на новости, продукты, видео ... в README
           committer_username: ProjectSoft-STUDIONIONS
           committer_email: projectsoft2009@yandex.ru
-          # output_only: results
-      - name: Saves count as an output
-        id: count-step
-        run: echo "::set-output name=articles_length::$(jq '. | length' /tmp/blog_post_workflow_output.json)"
-      - name: Prints count
-        run: echo ${{ steps.count-step.outputs.articles_length }}

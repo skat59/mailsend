@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?45c76fdd100f83a1af17b35a7c977141") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?45c76fdd100f83a1af17b35a7c977141") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?45c76fdd100f83a1af17b35a7c977141") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?44e7a8fe3fe05add096e6861485c7150") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?44e7a8fe3fe05add096e6861485c7150") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?44e7a8fe3fe05add096e6861485c7150") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -310,6 +310,11 @@
 body {
   font-family: var(--font-emoji);
   font-size: 22px;
+}
+
+body.nobg.sendmail {
+  font-size: initial;
+  font-family: initial;
 }
 
 .clearfix:before,
@@ -6346,7 +6351,7 @@ body {
 body .page {
   position: relative;
   min-height: 100vh;
-  background-image: url("/assets/templates/projectsoft/images/background.jpg?45c76fdd100f83a1af17b35a7c977141");
+  background-image: url("/assets/templates/projectsoft/images/background.jpg?44e7a8fe3fe05add096e6861485c7150");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -6382,7 +6387,7 @@ body .page-main-bg {
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: contain;
-  background-image: url("/assets/templates/projectsoft/images/center_bg.png?45c76fdd100f83a1af17b35a7c977141");
+  background-image: url("/assets/templates/projectsoft/images/center_bg.png?44e7a8fe3fe05add096e6861485c7150");
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
 }
@@ -6391,7 +6396,7 @@ body .page-footer {
   background-position: center top;
   background-repeat: no-repeat;
   background-size: contain;
-  background-image: url("/assets/templates/projectsoft/images/footer_bg.png?45c76fdd100f83a1af17b35a7c977141");
+  background-image: url("/assets/templates/projectsoft/images/footer_bg.png?44e7a8fe3fe05add096e6861485c7150");
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
 }

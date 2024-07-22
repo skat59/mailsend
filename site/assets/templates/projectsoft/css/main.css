@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?988636f2c07f5855cbb69a200f59b016") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?988636f2c07f5855cbb69a200f59b016") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?988636f2c07f5855cbb69a200f59b016") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?7573ef8825c4ea86b0093378b8ebf31b") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?7573ef8825c4ea86b0093378b8ebf31b") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?7573ef8825c4ea86b0093378b8ebf31b") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;

@@ -6,8 +6,7 @@
 			"folder_exclude_patterns": [
 				"dest",
 				"test",
-				"tests",
-				"tmp"
+				"tests"
 			],
 			"file_exclude_patterns": [
 				"*-lock.*"

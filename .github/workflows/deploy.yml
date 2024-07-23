@@ -2,7 +2,7 @@ name: 🏴‍☠️ Отправка
 on:
   push:
     paths:
-      - '!README.md'
+      - '!./README.md'
       - '!.github/**'
       - '!src/**'
       - '!*.*'

@@ -206,33 +206,6 @@ $site_name = $modx->config['site_name'];
 $current = strtotime(date("d-m-Y 00:00:00", time()));
 $next = $current + 86400 - 1;
 
-// Старт скрипта
-outputFn("<p><strong>Часовой пояс времени:</strong> " . TIME_ZONE . "</p>\n");
-outputFn("<table>\n<tbody>\n");
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Начало работы скрипта:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date('d-m-Y H:i:s', time()) . '</span></td>
-</tr>
-');
-// Конец работы скрипта
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Конец работы скрипта:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;"><!-- ENDTIME --></span></td>
-</tr>
-');
-// Начало выбора
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Начальная дата выбора рассылки:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $current) . '</span></td>
-</tr>
-');
-// Конец выбора
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Конечная дата выбора рассылки:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $next) . '</span></td>
-</tr>
-');
-
 // выбрать нужное сообщение, заголовок, файлы, дату отправки
 // Выбираем только один документ
 $evoPage = $modx->runSnippet('DocLister',
@@ -277,17 +250,44 @@ while( $row = $modx->db->getRow( $result ) ) {
 $mailArray = array_merge( $mailerDev, $mailArray );
 $count = 0;
 
+// Старт скрипта
+outputFn("<p><strong>Часовой пояс времени:</strong> " . TIME_ZONE . "</p>\n");
+outputFn("<table>\n<tbody>\n");
+outputFn('<tr>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Начало работы скрипта:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date('d-m-Y H:i:s', time()) . '</span></td>
+</tr>
+');
+// Конец работы скрипта
+outputFn('<tr>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Конец работы скрипта:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;"><!-- ENDTIME --></span></td>
+</tr>
+');
+// Начало выбора
+outputFn('<tr>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Начальная дата выбора рассылки:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $current) . '</span></td>
+</tr>
+');
+// Конец выбора
+outputFn('<tr>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Конечная дата выбора рассылки:</strong></td>
+	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $next) . '</span></td>
+</tr>
+');
+// Кол-во адресов
 outputFn('<tr>
 	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Кол-во адресов:</strong></td>
 	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;"><!-- COUNT --></span></td>
 </tr>
 ');
-outputFn("</tbody>\n</table>" . BRNL);
+outputFn("</tbody>\n</table>\n\n");
 
 // ПОНЕСЛАСЬ
 if($content_arr):
 	// Вывод начала всей отправки
-	outputFn("START" . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
+	outputFn("<p>START" . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "</p>\n");
 	// получаем заголовок рассылки
 	$messageTitle = $content_arr["title"];
 	// Получаем контент рассылки
@@ -308,7 +308,7 @@ if($content_arr):
 				++$count;
 			endif;
 			// Старт вывода отправки пользователь
-			outputFn(str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
+			outputFn("<p>" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
 			try {
 				// Получаем данные пользователя
 				$user = $value->user;
@@ -349,7 +349,7 @@ if($content_arr):
 				// Отправляем
 				if($mailer->send()){
 					// Запись вывода об удачной отпрвке
-					outputFn("SUCCESFULL" . BRNL . $email . " -> " . $user . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
+					outputFn("SUCCESFULL" . BRNL . $email . " -> " . $user . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "</p>\n");
 					// Уничтажаем объект PHPMailer
 					unset( $mailer );
 					// Спим
@@ -357,7 +357,7 @@ if($content_arr):
 				}else{
 					// Запись вывода об неудачной отпрвке
 					$err = print_r($mailer->ErrorInfo, true);
-					outputFn("ERROR MAILER IF: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) .BRNL );
+					outputFn("ERROR MAILER IF: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) ."</p>\n" );
 					// Уничтажаем объект PHPMailer
 					unset( $mailer );
 					// Спим
@@ -367,7 +367,7 @@ if($content_arr):
 				// Ошибка
 				// Запись вывода об неудачной отпрвке
 				$err = print_r($e->getMessage(), true);
-				outputFn("ERROR MAILER CATCH: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL );
+				outputFn("ERROR MAILER CATCH: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "</p>\n" );
 				// Уничтажаем объект PHPMailer
 				unset( $mailer );
 				// Спим
@@ -376,7 +376,7 @@ if($content_arr):
 		endif;
 	endforeach;
 	// Конец вывода всей отправки
-	outputFn(BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END");
+	outputFn("<p>" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END</p>\n");
 endif;
 
 // Готовим HTML для писем проверяющим

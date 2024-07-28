@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?c80482ce5ef910dcaa470bbeb05b3e89") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?c80482ce5ef910dcaa470bbeb05b3e89") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?c80482ce5ef910dcaa470bbeb05b3e89") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?a14ec4382f045906477510a90e773ea6") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?a14ec4382f045906477510a90e773ea6") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?a14ec4382f045906477510a90e773ea6") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -3509,6 +3509,86 @@ body {
 body.nobg.sendmail {
   font-size: var(--font-size-tinymce);
   font-family: var(--font-family-tinymce);
+}
+
+html,
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+.container-fluid {
+  min-width: 100%;
+}
+
+body {
+  background-color: black;
+  color: white;
+}
+
+body .page {
+  position: relative;
+  min-height: 100vh;
+  background-image: url("/assets/templates/projectsoft/images/background.jpg?a14ec4382f045906477510a90e773ea6");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+body .page-top,
+body .page-header,
+body .page-footer {
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+
+body .page-header {
+  border-bottom: unset;
+  margin: unset;
+}
+
+body .page-main {
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+body .page-main-bg {
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("/assets/templates/projectsoft/images/center_bg.png?a14ec4382f045906477510a90e773ea6");
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+
+body .page-footer {
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("/assets/templates/projectsoft/images/footer_bg.png?a14ec4382f045906477510a90e773ea6");
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+
+body.nobg {
+  background-color: white;
+  color: #333;
+}
+
+body.nobg .page,
+body.nobg .page-main-bg,
+body.nobg .page-footer {
+  background-image: unset;
+  aspect-ratio: unset;
 }
 
 .emoji {

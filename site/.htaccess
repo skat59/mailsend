@@ -89,6 +89,7 @@ RewriteBase /
 	Header set Access-Control-Allow-Credentials true
 	Header set Access-Control-Allow-Origin "*"
 </IfModule>
+
 <IfModule mod_deflate.c>
 	AddOutputFilterByType DEFLATE image/svg+xml
 	AddOutputFilterByType DEFLATE text/html

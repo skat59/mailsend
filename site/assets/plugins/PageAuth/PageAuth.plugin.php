@@ -25,22 +25,30 @@ if (!defined('MODX_BASE_PATH')) {
 $e = &$modx->event;
 $params = $e->params;
 
-if(!function_exists('removeHeaderPS')):
-	function removeHeaderPS(){
-		header_remove('Server');
-		header_remove('P3p');
-		header_remove('Expires');
-		header_remove('Pragma');
+if(!function_exists('HeaderPS')):
+	function HeaderPS(){
+		global $modx;
+		header_remove("P3P");
+		// Отдаёт сервер. В данной CMS на ланном домене мне не нужен.
+		header_remove("Cache-Control");
+		// Pragma: no-cache
+		header("Pragma: no-cache");
+		// Версия PHP
+		header("X-Powered-By: PHP/" . phpversion());
+		// Версия CMS
+		header("X-Content-Encoded-By: " . $modx->getVersionData('full_appname'));
+		// Разработчик
+		header("X-Developed-By: ProjectSoft");
+		// Expires на год назад
+		header("Expires: " . gmdate("D, d M Y H:i:s", strtotime('-1 year')) . " GMT");
 	}
+	// заголовки
+	header_register_callback('HeaderPS');
 endif;
+
 
 switch ($e->name) {
 	case 'OnLoadDocumentObject':
-		// Устанавливаем дополнительные заголовки. Ну просто так )))
-		header("X-Content-Encoded-By: " . $modx->getVersionData('full_appname'));
-		header("X-Powered-By: PHP/" . phpversion());
-		// Удаляем заголовки
-		header_register_callback('removeHeaderPS');
 		// Получаем шаблоны для которых нужно установить 403 заголовок
 		$ids = explode(',', $params['templates']);
 		// Получаем шаблон страницы

@@ -17,7 +17,7 @@
 
 @font-face {
   font-family: "LocalHost";
-  src: url("/assets/templates/projectsoft/fonts/localhost.woff?a14ec4382f045906477510a90e773ea6") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?a14ec4382f045906477510a90e773ea6") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?a14ec4382f045906477510a90e773ea6") format("truetype");
+  src: url("/assets/templates/projectsoft/fonts/localhost.woff?701cdffab5a8f186429861932d11f3e5") format("woff"), url("/assets/templates/projectsoft/fonts/localhost.woff2?701cdffab5a8f186429861932d11f3e5") format("woff2"), url("/assets/templates/projectsoft/fonts/localhost.ttf?701cdffab5a8f186429861932d11f3e5") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -3529,7 +3529,7 @@ body {
 body .page {
   position: relative;
   min-height: 100vh;
-  background-image: url("/assets/templates/projectsoft/images/background.jpg?a14ec4382f045906477510a90e773ea6");
+  background-image: url("/assets/templates/projectsoft/images/background.jpg?701cdffab5a8f186429861932d11f3e5");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -3565,7 +3565,7 @@ body .page-main-bg {
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: contain;
-  background-image: url("/assets/templates/projectsoft/images/center_bg.png?a14ec4382f045906477510a90e773ea6");
+  background-image: url("/assets/templates/projectsoft/images/center_bg.png?701cdffab5a8f186429861932d11f3e5");
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
 }
@@ -3574,7 +3574,7 @@ body .page-footer {
   background-position: center top;
   background-repeat: no-repeat;
   background-size: contain;
-  background-image: url("/assets/templates/projectsoft/images/footer_bg.png?a14ec4382f045906477510a90e773ea6");
+  background-image: url("/assets/templates/projectsoft/images/footer_bg.png?701cdffab5a8f186429861932d11f3e5");
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
 }
@@ -3641,6 +3641,7 @@ body.nobg .page-footer {
   position: relative;
   border: 1px solid #d6d6d6;
   margin-bottom: 0;
+  color: var(--color);
 }
 
 .emoji-wrapp .emoji-tabs .tabs-item > label > input {

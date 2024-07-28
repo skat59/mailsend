@@ -3568,6 +3568,7 @@ body .page-main-bg {
   background-image: url("/assets/templates/projectsoft/images/center_bg.png?701cdffab5a8f186429861932d11f3e5");
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
+  min-height: 130px;
 }
 
 body .page-footer {
@@ -3577,6 +3578,8 @@ body .page-footer {
   background-image: url("/assets/templates/projectsoft/images/footer_bg.png?701cdffab5a8f186429861932d11f3e5");
   -ms-flex: 1 0 auto;
   flex: 1 0 auto;
+  min-height: 98px;
+  min-width: 260px;
 }
 
 body.nobg {

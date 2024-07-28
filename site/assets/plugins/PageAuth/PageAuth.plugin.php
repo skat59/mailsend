@@ -30,6 +30,11 @@ switch ($e->name) {
 		// Устанавливаем дополнительные заголовки. Ну просто так )))
 		header("X-Content-Encoded-By: " . $modx->getVersionData('full_appname'));
 		header("X-Powered-By: PHP/" . phpversion());
+		// Удаляем заголовки
+		header_remove('Server');
+		header_remove('P3p');
+		header_remove('Expires');
+		header_remove('Pragma');
 		// Получаем шаблоны для которых нужно установить 403 заголовок
 		$ids = explode(',', $params['templates']);
 		// Получаем шаблон страницы

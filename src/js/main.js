@@ -115,9 +115,7 @@
 	 * location.hash при загрузке
 	 * Функция не идеальна. Нужна дороботка
 	 */
-	let idHash = window.location.hash || '#nohash';
-	let inp;
-	if(Boolean(inp = document.querySelector(idHash))){
+	function inpScroltoView(inp) {
 		if(inp.tagName == 'INPUT'){
 			inp.checked = true;
 			let event = new Event('input', {
@@ -128,5 +126,11 @@
 			inp.dispatchEvent(event);
 			setTimeout(function(){inp.closest('.tabs-item').scrollIntoView({behavior: "smooth"});}, 200);
 		}
+	}
+
+	let idHash = window.location.hash || '#nohash';
+	let inp;
+	if(Boolean(inp = document.querySelector(idHash))){
+		inpScroltoView(inp);
 	}
 })();

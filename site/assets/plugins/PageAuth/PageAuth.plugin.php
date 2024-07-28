@@ -25,16 +25,22 @@ if (!defined('MODX_BASE_PATH')) {
 $e = &$modx->event;
 $params = $e->params;
 
+if(!function_exists('removeHeaderPS')):
+	function removeHeaderPS(){
+		header_remove('Server');
+		header_remove('P3p');
+		header_remove('Expires');
+		header_remove('Pragma');
+	}
+endif;
+
 switch ($e->name) {
 	case 'OnLoadDocumentObject':
 		// Устанавливаем дополнительные заголовки. Ну просто так )))
 		header("X-Content-Encoded-By: " . $modx->getVersionData('full_appname'));
 		header("X-Powered-By: PHP/" . phpversion());
 		// Удаляем заголовки
-		header_remove('Server');
-		header_remove('P3p');
-		header_remove('Expires');
-		header_remove('Pragma');
+		header_register_callback('removeHeaderPS');
 		// Получаем шаблоны для которых нужно установить 403 заголовок
 		$ids = explode(',', $params['templates']);
 		// Получаем шаблон страницы

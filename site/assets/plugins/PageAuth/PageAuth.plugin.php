@@ -27,6 +27,9 @@ $params = $e->params;
 
 switch ($e->name) {
 	case 'OnLoadDocumentObject':
+		// Устанавливаем дополнительные заголовки. Ну просто так )))
+		header("X-Content-Encoded-By: " . $modx->getVersionData('full_appname'));
+		header("X-Powered-By: PHP/" . phpversion());
 		// Получаем шаблоны для которых нужно установить 403 заголовок
 		$ids = explode(',', $params['templates']);
 		// Получаем шаблон страницы

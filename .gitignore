@@ -109,6 +109,11 @@ site/assets/plugins/tinymce4/tinymce/skins/*
 !site/assets/plugins/PageAuth
 !site/assets/plugins/PageAuth/*.*
 
+# Plugin help_widget
+!site/assets/plugins/dashboard_widgets
+!site/assets/plugins/dashboard_widgets/help_widget
+!site/assets/plugins/dashboard_widgets/help_widget/*.*
+
 # Module clientSettings
 !site/assets/modules/MailSend
 !site/assets/modules/MailSend/*

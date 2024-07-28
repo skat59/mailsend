@@ -5,6 +5,17 @@
 		box-sizing: border-box;
 	}
 }
+.clearfix {
+	&::before,
+	&::after {
+		display: table;
+		content: "";
+	}
+	&::before,
+	&::after {
+		clear: both;
+	}
+}
 html,
 body {
 	font-family: var(--font-sans-serif);
@@ -54,4 +65,16 @@ body {
 			font-family: var(--font-family-tinymce);
 		}
 	}
+}
+.text-left {
+	text-align: left;
+}
+.text-center {
+	text-align: center;
+}
+.text-right {
+	text-align: right;
+}
+.text-justify {
+	text-align: justify;
 }

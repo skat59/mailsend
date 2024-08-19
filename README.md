@@ -5,6 +5,7 @@
 ## Новости компании
 
 <!-- BLOG-POST-LIST:START -->
+- [Холдинг  «АМКОДОР» - новые модели техники](https://www.skat59.ru/information/ppodr_1/holding-amkodor-novye-modeli-tehniki.html)
 - [Мульчер FORESTER FLIM-V 150. Обзор и работа.](https://www.skat59.ru/information/video/forester-flim-v-150.html)
 - [Пересадчик деревьев Bystron на трактор МТЗ 1221](https://www.skat59.ru/information/video/peresadchik-derevev-bystron-na-traktor-mtz-1221.html)
 - [Мини-экскаватор Yuchai YC-27-SR характеристики](https://www.skat59.ru/information/video/mini-ekskavator-yuchai-yc-27-sr-harakteristiki.html)
@@ -24,7 +25,6 @@
 - [Вилочный электропогрузчик HELI CPD50 грузоподъёмностью 5 тонн с отапливаемой кабиной](https://www.skat59.ru/information/video/vilochnyj-elektropogruzchik-heli-cpd50-gruzopodyomnostyu-5-tonn-s-otaplivaemoj-kabinoj.html)
 - [Погрузчик универсальный AMKODOR W700C | СПЕЦТЕХНИКА | ОБЗОР](https://www.skat59.ru/information/video/pogruzchik-universalnyj-amkodor-w700c-spectehnika-obzor.html)
 - [АМКОДОР 342С4 - новая страница истории :&rpar;](https://www.skat59.ru/information/video/amkodor-342s4-novaya-stranica-istorii.html)
-- [Телескоп АМКОДОР - разрыв шаблона](https://www.skat59.ru/information/video/teleskop-amkodor-razryv-shablon.html)
 <!-- BLOG-POST-LIST:END -->
 
 

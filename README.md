@@ -5,6 +5,8 @@
 ## Новости компании
 
 <!-- BLOG-POST-LIST:START -->
+- [Всероссийский форум «Леса России»](https://www.skat59.ru/information/video/vserossijskij-forum-lesa-rossii.html)
+- [Поставщик ООО «СКАТ» представил спецтехнику на форуме «Леса России»](https://www.skat59.ru/about_company/news/lesa-rossii-2024.html)
 - [ВИЛОЛЧНЫЕ ПОГРУЗЧИКИ «HELI» - это качество и надежность мирового уровня](https://www.skat59.ru/information/ppodr_1/vilolchnye-pogruzchiki-heli.html)
 - [Холдинг  «АМКОДОР» - новые модели техники](https://www.skat59.ru/information/ppodr_1/holding-amkodor-novye-modeli-tehniki.html)
 - [Мульчер FORESTER FLIM-V 150. Обзор и работа.](https://www.skat59.ru/information/video/forester-flim-v-150.html)
@@ -23,8 +25,6 @@
 - [Экскаватор погрузчик ROAD STAR YC-B30VH](https://www.skat59.ru/catalogue/road-star/yc-b30vh.html)
 - [ЛЕСОВОЗНЫЙ ПОЛУПРИЦЕП ТИГЕР](https://www.skat59.ru/information/video/tiger.html)
 - [ООО «СКАТ» предлагает вам приобрести ЛЕСОВОЗНЫЙ ПОЛУПРИЦЕП ТИГЕР 14 800](https://www.skat59.ru/about_company/news/tiger-14800.html)
-- [Вилочный электропогрузчик HELI CPD50 грузоподъёмностью 5 тонн с отапливаемой кабиной](https://www.skat59.ru/information/video/vilochnyj-elektropogruzchik-heli-cpd50-gruzopodyomnostyu-5-tonn-s-otaplivaemoj-kabinoj.html)
-- [Погрузчик универсальный AMKODOR W700C | СПЕЦТЕХНИКА | ОБЗОР](https://www.skat59.ru/information/video/pogruzchik-universalnyj-amkodor-w700c-spectehnika-obzor.html)
 <!-- BLOG-POST-LIST:END -->
 
 

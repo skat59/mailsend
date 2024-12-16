@@ -5,6 +5,9 @@
 ## Новости компании
 
 <!-- BLOG-POST-LIST:START -->
+- [СВР-39](https://www.skat59.ru/information/video/svr-39.html)
+- [ЗСК-60 АМКОДОР](https://www.skat59.ru/information/video/zsk-60-amkodor.html)
+- [Очиститель зерна сетчатый ОЗС-100](https://www.skat59.ru/information/video/ozs-100.html)
 - [Всероссийский форум «Леса России»](https://www.skat59.ru/information/video/vserossijskij-forum-lesa-rossii.html)
 - [Поставщик ООО «СКАТ» представил спецтехнику на форуме «Леса России»](https://www.skat59.ru/about_company/news/lesa-rossii-2024.html)
 - [ВИЛОЛЧНЫЕ ПОГРУЗЧИКИ «HELI» - это качество и надежность мирового уровня](https://www.skat59.ru/information/ppodr_1/vilolchnye-pogruzchiki-heli.html)
@@ -22,9 +25,6 @@
 - [Мини-погрузчик ROAD STAR YC-S45N](https://www.skat59.ru/information/video/mini-pogruzchik-road-star-yc-s45n.html)
 - [Погрузчики ROAD STAR](https://www.skat59.ru/information/video/pogruzchiki-road-star.html)
 - [ЭКСКАВАТОР-ПОГРУЗЧИК ROAD STAR YC-B30VH](https://www.skat59.ru/about_company/news/ekskavator-pogruzchik-road-star-yc-b30vh.html)
-- [Экскаватор погрузчик ROAD STAR YC-B30VH](https://www.skat59.ru/catalogue/road-star/yc-b30vh.html)
-- [ЛЕСОВОЗНЫЙ ПОЛУПРИЦЕП ТИГЕР](https://www.skat59.ru/information/video/tiger.html)
-- [ООО «СКАТ» предлагает вам приобрести ЛЕСОВОЗНЫЙ ПОЛУПРИЦЕП ТИГЕР 14 800](https://www.skat59.ru/about_company/news/tiger-14800.html)
 <!-- BLOG-POST-LIST:END -->
 
 

@@ -5,6 +5,10 @@
 ## Новости компании
 
 <!-- BLOG-POST-LIST:START -->
+- [Измельчитель веток тракторный Tomcat M4200 AFP](https://www.skat59.ru/information/video/izmelchitel-vetok-traktornyj-tomcat-m4200-afp.html)
+- [Измельчитель веток Tomcat M4250 AFE, с собственным двигателем](https://www.skat59.ru/information/video/izmelchitel-vetok-tomcat-m4250-afe-s-sobstvennym-dvigatelem.html)
+- [Измельчитель TOMCAT Model 4375 AFE 2IC](https://www.skat59.ru/information/video/izmelchitel-tomcat-model-4375-afe-2ic.html)
+- [Измельчитель веток Tomcat M4100 CDT](https://www.skat59.ru/information/video/izmelchitel-vetok-tomcat-m4100-cdt.html)
 - [СВР-39](https://www.skat59.ru/information/video/svr-39.html)
 - [ЗСК-60 АМКОДОР](https://www.skat59.ru/information/video/zsk-60-amkodor.html)
 - [Очиститель зерна сетчатый ОЗС-100](https://www.skat59.ru/information/video/ozs-100.html)
@@ -21,10 +25,6 @@
 - [Работа погрузчиков QUADTRAC WL50 и WL50T расчистка территории](https://www.skat59.ru/information/video/wl50-i-wl50t.html)
 - [Мини экскаватор QUADTRAC E30PRO - копание, планировка, демонтаж.](https://www.skat59.ru/information/video/e30pro.html)
 - [Очередной погрузчик отправляется заказчику](https://www.skat59.ru/information/video/ocherednoj-pogruzchik-otpravlyaetsya-zakazchiku.html)
-- [ЭКСКАВАТОР-ПОГРУЗЧИК ROAD STAR YC-B30VH](https://www.skat59.ru/information/video/road-star-yc-b30vh.html)
-- [Мини-погрузчик ROAD STAR YC-S45N](https://www.skat59.ru/information/video/mini-pogruzchik-road-star-yc-s45n.html)
-- [Погрузчики ROAD STAR](https://www.skat59.ru/information/video/pogruzchiki-road-star.html)
-- [ЭКСКАВАТОР-ПОГРУЗЧИК ROAD STAR YC-B30VH](https://www.skat59.ru/about_company/news/ekskavator-pogruzchik-road-star-yc-b30vh.html)
 <!-- BLOG-POST-LIST:END -->
 
 

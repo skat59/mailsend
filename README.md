@@ -5,6 +5,9 @@
 ## Новости компании
 
 <!-- BLOG-POST-LIST:START -->
+- [Амкодор - сельхозхозяйственная техника](https://www.skat59.ru/information/video/amkodor-selhozhozyajstvennaya-tehnika.html)
+- [РМУ-10 обзор](https://www.skat59.ru/information/video/rmu-10.html)
+- [VERAS СЕЯЛКА](https://www.skat59.ru/information/video/veras-seyalka.html)
 - [Измельчитель веток тракторный Tomcat M4200 AFP](https://www.skat59.ru/information/video/izmelchitel-vetok-traktornyj-tomcat-m4200-afp.html)
 - [Измельчитель веток Tomcat M4250 AFE, с собственным двигателем](https://www.skat59.ru/information/video/izmelchitel-vetok-tomcat-m4250-afe-s-sobstvennym-dvigatelem.html)
 - [Измельчитель TOMCAT Model 4375 AFE 2IC](https://www.skat59.ru/information/video/izmelchitel-tomcat-model-4375-afe-2ic.html)
@@ -22,9 +25,6 @@
 - [Мини-экскаватор Yuchai YC27-SR &lpar;YC U27&rpar;](https://www.skat59.ru/information/video/mini-ekskavator-yuchai-yc27-sr-yc-u27.html)
 - [Колёсный экскаватор-погрузчик YC-B325V](https://www.skat59.ru/catalogue/road-star/yc-b325v.html)
 - [Экскаватор-погрузчик ROAD STAR YC-B30VT](https://www.skat59.ru/catalogue/road-star/yc-b30vt.html)
-- [Работа погрузчиков QUADTRAC WL50 и WL50T расчистка территории](https://www.skat59.ru/information/video/wl50-i-wl50t.html)
-- [Мини экскаватор QUADTRAC E30PRO - копание, планировка, демонтаж.](https://www.skat59.ru/information/video/e30pro.html)
-- [Очередной погрузчик отправляется заказчику](https://www.skat59.ru/information/video/ocherednoj-pogruzchik-otpravlyaetsya-zakazchiku.html)
 <!-- BLOG-POST-LIST:END -->
 
 

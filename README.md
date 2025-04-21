@@ -5,6 +5,7 @@
 ## Новости компании
 
 <!-- BLOG-POST-LIST:START -->
+- [Харвестер AMKODOR FН3061 и Форвардер AMKODOR FF1461](https://www.skat59.ru/information/video/harvester-amkodor-fn3061-i-forvarder-amkodor-ff1461.html)
 - [Амкодор - сельхозхозяйственная техника](https://www.skat59.ru/information/video/amkodor-selhozhozyajstvennaya-tehnika.html)
 - [РМУ-10 обзор](https://www.skat59.ru/information/video/rmu-10.html)
 - [VERAS СЕЯЛКА](https://www.skat59.ru/information/video/veras-seyalka.html)
@@ -24,7 +25,6 @@
 - [Мини-экскаватор Yuchai YC-27-SR характеристики](https://www.skat59.ru/information/video/mini-ekskavator-yuchai-yc-27-sr-harakteristiki.html)
 - [Мини-экскаватор Yuchai YC27-SR &lpar;YC U27&rpar;](https://www.skat59.ru/information/video/mini-ekskavator-yuchai-yc27-sr-yc-u27.html)
 - [Колёсный экскаватор-погрузчик YC-B325V](https://www.skat59.ru/catalogue/road-star/yc-b325v.html)
-- [Экскаватор-погрузчик ROAD STAR YC-B30VT](https://www.skat59.ru/catalogue/road-star/yc-b30vt.html)
 <!-- BLOG-POST-LIST:END -->
 
 

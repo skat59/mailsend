@@ -5,6 +5,8 @@
 ## Новости компании
 
 <!-- BLOG-POST-LIST:START -->
+- [Сеялка зерновая пневматическая &quot;AMKODOR VERAS 12000&quot;](https://www.skat59.ru/information/video/amkodor-veras-12000.html)
+- [Форвардер Амкодор 2661-01 и Харвестер Амкодор 2551. Работа в делянке.](https://www.skat59.ru/information/video/forvarder-amkodor-2661-01-i-harvester-amkodor-2551.-rabota-v-delyanke.html)
 - [Гусеничный ход на минипогрузчик MultiOne](https://www.skat59.ru/information/video/gusenichnyj-hod-na-minipogruzchik-multione.html)
 - [Харвестер AMKODOR FН3061 и Форвардер AMKODOR FF1461](https://www.skat59.ru/information/video/harvester-amkodor-fn3061-i-forvarder-amkodor-ff1461.html)
 - [Амкодор - сельхозхозяйственная техника](https://www.skat59.ru/information/video/amkodor-selhozhozyajstvennaya-tehnika.html)
@@ -23,8 +25,6 @@
 - [Холдинг  «АМКОДОР» - новые модели техники](https://www.skat59.ru/information/ppodr_1/holding-amkodor-novye-modeli-tehniki.html)
 - [Мульчер FORESTER FLIM-V 150. Обзор и работа.](https://www.skat59.ru/information/video/forester-flim-v-150.html)
 - [Пересадчик деревьев Bystron на трактор МТЗ 1221](https://www.skat59.ru/information/video/peresadchik-derevev-bystron-na-traktor-mtz-1221.html)
-- [Мини-экскаватор Yuchai YC-27-SR характеристики](https://www.skat59.ru/information/video/mini-ekskavator-yuchai-yc-27-sr-harakteristiki.html)
-- [Мини-экскаватор Yuchai YC27-SR &lpar;YC U27&rpar;](https://www.skat59.ru/information/video/mini-ekskavator-yuchai-yc27-sr-yc-u27.html)
 <!-- BLOG-POST-LIST:END -->
 
 

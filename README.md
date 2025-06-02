@@ -5,6 +5,8 @@
 ## Новости компании
 
 <!-- BLOG-POST-LIST:START -->
+- [Культиватор глубокорыхлитель полунавесной КГП 6.2](https://www.skat59.ru/information/video/kultivator-glubokoryhlitel-polunavesnoj-kgp-6.2.html)
+- [Филиал ЗАО «Амкодор-Спецсервис» – «Амкодор-Гомель»](https://www.skat59.ru/information/video/filial-zao-amkodor-specservis-amkodor-gomel.html)
 - [Сеялка зерновая пневматическая &quot;AMKODOR VERAS 12000&quot;](https://www.skat59.ru/information/video/amkodor-veras-12000.html)
 - [Форвардер Амкодор 2661-01 и Харвестер Амкодор 2551. Работа в делянке.](https://www.skat59.ru/information/video/forvarder-amkodor-2661-01-i-harvester-amkodor-2551.-rabota-v-delyanke.html)
 - [Гусеничный ход на минипогрузчик MultiOne](https://www.skat59.ru/information/video/gusenichnyj-hod-na-minipogruzchik-multione.html)
@@ -23,8 +25,6 @@
 - [Поставщик ООО «СКАТ» представил спецтехнику на форуме «Леса России»](https://www.skat59.ru/about_company/news/lesa-rossii-2024.html)
 - [ВИЛОЛЧНЫЕ ПОГРУЗЧИКИ «HELI» - это качество и надежность мирового уровня](https://www.skat59.ru/information/ppodr_1/vilolchnye-pogruzchiki-heli.html)
 - [Холдинг  «АМКОДОР» - новые модели техники](https://www.skat59.ru/information/ppodr_1/holding-amkodor-novye-modeli-tehniki.html)
-- [Мульчер FORESTER FLIM-V 150. Обзор и работа.](https://www.skat59.ru/information/video/forester-flim-v-150.html)
-- [Пересадчик деревьев Bystron на трактор МТЗ 1221](https://www.skat59.ru/information/video/peresadchik-derevev-bystron-na-traktor-mtz-1221.html)
 <!-- BLOG-POST-LIST:END -->
 
 

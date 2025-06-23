@@ -5,6 +5,8 @@
 ## Новости компании
 
 <!-- BLOG-POST-LIST:START -->
+- [Сферы применения универсальных шарнирно-сочлененных минипогрузчиков TAIAN](https://www.skat59.ru/information/video/sfery-primeneniya-universalnyh-sharnirno-sochlenennyh-minipogruzchikov-taian.html)
+- [Колесный экскаватор Jinggong JG230S](https://www.skat59.ru/information/video/kolesnyj-ekskavator-jinggong-jg230s.html)
 - [Культиватор глубокорыхлитель полунавесной КГП 6.2](https://www.skat59.ru/information/video/kultivator-glubokoryhlitel-polunavesnoj-kgp-6.2.html)
 - [Филиал ЗАО «Амкодор-Спецсервис» – «Амкодор-Гомель»](https://www.skat59.ru/information/video/filial-zao-amkodor-specservis-amkodor-gomel.html)
 - [Сеялка зерновая пневматическая &quot;AMKODOR VERAS 12000&quot;](https://www.skat59.ru/information/video/amkodor-veras-12000.html)
@@ -23,8 +25,6 @@
 - [Очиститель зерна сетчатый ОЗС-100](https://www.skat59.ru/information/video/ozs-100.html)
 - [Всероссийский форум «Леса России»](https://www.skat59.ru/information/video/vserossijskij-forum-lesa-rossii.html)
 - [Поставщик ООО «СКАТ» представил спецтехнику на форуме «Леса России»](https://www.skat59.ru/about_company/news/lesa-rossii-2024.html)
-- [ВИЛОЛЧНЫЕ ПОГРУЗЧИКИ «HELI» - это качество и надежность мирового уровня](https://www.skat59.ru/information/ppodr_1/vilolchnye-pogruzchiki-heli.html)
-- [Холдинг  «АМКОДОР» - новые модели техники](https://www.skat59.ru/information/ppodr_1/holding-amkodor-novye-modeli-tehniki.html)
 <!-- BLOG-POST-LIST:END -->
 
 

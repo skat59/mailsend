@@ -1,5 +1,4 @@
 <?php
-
 header("Content-type: text/plain; charset=utf-8");
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -80,7 +79,20 @@ define('TITLE_LOGOTIP', MODX_BASE_PATH . $modx->config['title_logotip']);
 define('SLEEP', 2);
 
 // Оформление заголовка письма
-$messageHeader = '<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody><tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;"><img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" /></td><td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;"><p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p></td></tr></tbody></table>';
+$messageHeader = '
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%">
+	<tbody>
+		<tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;">
+			<td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;">
+				<img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" />
+			</td>
+			<td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;">
+				<p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+';
 
 // Парсинг контента
 function parseContentMsg($content) {
@@ -251,43 +263,59 @@ $mailArray = array_merge( $mailerDev, $mailArray );
 $count = 0;
 
 // Старт скрипта
-outputFn("<p><strong>Часовой пояс времени:</strong> " . TIME_ZONE . "</p>\n");
-outputFn("<table>\n<tbody>\n");
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Начало работы скрипта:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date('d-m-Y H:i:s', time()) . '</span></td>
-</tr>
-');
+outputFn("
+<p><strong>Часовой пояс времени:</strong> " . TIME_ZONE . "</p>
+");
+outputFn("
+<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse: collapse; vertical-align: text-top; margin-bottom:20px;max-width:100%;min-width:100%;width:100%\">
+	<tbody>");
+outputFn('
+		<tr>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Начало работы скрипта:</strong></td>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;">' . date('d-m-Y H:i:s', time()) . '</span></td>
+		</tr>');
 // Конец работы скрипта
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Конец работы скрипта:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;"><!-- ENDTIME --></span></td>
-</tr>
-');
+outputFn('
+		<tr>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Конец работы скрипта:</strong></td>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;"><!-- ENDTIME --></span></td>
+		</tr>');
 // Начало выбора
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Начальная дата выбора рассылки:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $current) . '</span></td>
-</tr>
-');
+outputFn('
+		<tr>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Начальная дата выбора рассылки:</strong></td>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $current) . '</span></td>
+		</tr>');
 // Конец выбора
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Конечная дата выбора рассылки:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $next) . '</span></td>
-</tr>
-');
+outputFn('
+		<tr>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Конечная дата выбора рассылки:</strong></td>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $next) . '</span></td>
+		</tr>');
 // Кол-во адресов
-outputFn('<tr>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><strong>Кол-во адресов:</strong></td>
-	<td style="border: 1px solid #ccc;padding: 1px 14px;"><span style="font-family: Consolas;"><!-- COUNT --></span></td>
-</tr>
-');
-outputFn("</tbody>\n</table>\n\n");
+outputFn('
+		<tr>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Кол-во адресов:</strong></td>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;"><!-- COUNT --></span></td>
+		</tr>');
+outputFn("
+	</tbody>
+</table>
+
+");
 
 // ПОНЕСЛАСЬ
 if($content_arr):
 	// Вывод начала всей отправки
-	outputFn("<p>START" . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "</p>\n");
+	outputFn("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse: collapse; vertical-align: text-top; margin-bottom:20px;max-width:100%;min-width:100%;width:100%\">
+	<thead>
+		<tr>
+			<th style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">ПОЛУЧАТЕЛЬ</th>
+			<th style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">EMAIL</th>
+			<th style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">РЕЗУЛЬТАТ</th>
+		</tr>
+	</thead>
+	<tbody>\n\t\t");
 	// получаем заголовок рассылки
 	$messageTitle = $content_arr["title"];
 	// Получаем контент рассылки
@@ -308,7 +336,8 @@ if($content_arr):
 				++$count;
 			endif;
 			// Старт вывода отправки пользователь
-			outputFn("<p>" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL);
+			outputFn("<tr>
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">");
 			try {
 				// Получаем данные пользователя
 				$user = $value->user;
@@ -320,7 +349,8 @@ if($content_arr):
 				$msgMail = preg_replace($re, $token, $messageOut, 1);
 				if((int) $value->admin):
 					// Вывод, что это адрес проверяющего
-					outputFn('<span style="color: red;">ПРОВЕРЯЮЩИЙ НЕ ПОДСЧИТЫВАЕТСЯ</span>' . BRNL);
+					outputFn('
+				<span style="color: red;">ПРОВЕРЯЮЩИЙ НЕ ПОДСЧИТЫВАЕТСЯ</span><br>');
 				endif;
 				// Создаём объект PHPMailer
 				$mailer = getPHPMailer();
@@ -349,7 +379,15 @@ if($content_arr):
 				// Отправляем
 				if($mailer->send()){
 					// Запись вывода об удачной отпрвке
-					outputFn("SUCCESFULL" . BRNL . $email . " -> " . $user . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "</p>\n");
+					outputFn("
+				" . $user . "
+			</td>
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				" . $email . "
+			</td>
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				<span style=\"color: green;\">УДАЧНО</span>
+			</td>");
 					// Уничтажаем объект PHPMailer
 					unset( $mailer );
 					// Спим
@@ -357,7 +395,15 @@ if($content_arr):
 				}else{
 					// Запись вывода об неудачной отпрвке
 					$err = print_r($mailer->ErrorInfo, true);
-					outputFn("ERROR MAILER IF: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) ."</p>\n" );
+					outputFn("
+				" . $user . "
+			</td>
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				" . $email . "
+			</td>
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				<span style=\"color: red;\">ОШИБКА:</span><br>" . $err . "<br>" . $lnk . "
+			</td>");
 					// Уничтажаем объект PHPMailer
 					unset( $mailer );
 					// Спим
@@ -367,16 +413,29 @@ if($content_arr):
 				// Ошибка
 				// Запись вывода об неудачной отпрвке
 				$err = print_r($e->getMessage(), true);
-				outputFn("ERROR MAILER CATCH: " . $err . BRNL . $email  . " -> " . $user . BRNL . $lnk . BRNL . str_pad("-", $pad, "-", STR_PAD_RIGHT) . "</p>\n" );
+				outputFn("
+				" . $user . "
+			</td>
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				" . $email . "
+			</td>
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				<span style=\"color: red;\">ОШИБКА:</span>" . $err . "<br>" . $lnk . "
+			</td>");
 				// Уничтажаем объект PHPMailer
 				unset( $mailer );
 				// Спим
 				sleep( SLEEP );
 			}
+			outputFn("
+		</tr>");
 		endif;
 	endforeach;
 	// Конец вывода всей отправки
-	outputFn("<p>" . str_pad("-", $pad, "-", STR_PAD_RIGHT) . BRNL . "END</p>\n");
+	outputFn("
+	</tbody>
+</table>
+");
 endif;
 
 // Готовим HTML для писем проверяющим

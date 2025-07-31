@@ -33,7 +33,7 @@ return [
 			'type' => 'text'
 		],
 		'smtp_port_evo' => [
-			'caption' => 'SMTP HOST',
+			'caption' => 'SMTP PORT',
 			'type' => 'number'
 		],
 		'smtp_auth_evo' => [

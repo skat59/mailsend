@@ -8,5 +8,9 @@ return [
 			'caption' => 'Проверяющие отправку',
 			'type' => 'custom_tv:multitv',
 		],
+		'secret_phrase' => [
+			'caption' => 'Секретная фраза',
+			'type' => 'text'
+		]
 	],
 ];

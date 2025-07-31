@@ -388,10 +388,6 @@ if($content_arr):
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				<span style=\"color: green;\">УДАЧНО</span>
 			</td>");
-					// Уничтажаем объект PHPMailer
-					unset( $mailer );
-					// Спим
-					sleep( SLEEP );
 				}else{
 					// Запись вывода об неудачной отпрвке
 					$err = print_r($mailer->ErrorInfo, true);
@@ -404,10 +400,6 @@ if($content_arr):
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				<span style=\"color: red;\">ОШИБКА:</span><br>" . $err . "<br>" . $lnk . "
 			</td>");
-					// Уничтажаем объект PHPMailer
-					unset( $mailer );
-					// Спим
-					sleep( SLEEP );
 				}
 			} catch (Exception $e) {
 				// Ошибка
@@ -422,13 +414,13 @@ if($content_arr):
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				<span style=\"color: red;\">ОШИБКА:</span>" . $err . "<br>" . $lnk . "
 			</td>");
-				// Уничтажаем объект PHPMailer
-				unset( $mailer );
-				// Спим
-				sleep( SLEEP );
 			}
 			outputFn("
 		</tr>");
+			// Уничтажаем объект PHPMailer
+			unset( $mailer );
+			// Спим
+			sleep( SLEEP );
 		endif;
 	endforeach;
 	// Конец вывода всей отправки
@@ -456,10 +448,10 @@ $text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/',
 // Отправляем результат проверяющим если была отправка адресатам
 if($content_arr):
 	foreach($mailerDev as $key => $value):
+		$mailer = getPHPMailer();
 		try {
 			$user = $value->user;
 			$email = $value->email;
-			$mailer = getPHPMailer();
 			// Адрес получателя
 			$mailer->addAddress($email, $user);
 			// Заголовок письма
@@ -478,9 +470,9 @@ if($content_arr):
 			endif;
 		} catch (Exception $e) {
 			// Ошибка
-			unset( $mailer );
-			sleep( SLEEP );
 		}
+		unset( $mailer );
+		sleep( SLEEP );
 	endforeach;
 endif;
 

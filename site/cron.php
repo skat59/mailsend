@@ -457,7 +457,6 @@ if($content_arr):
 				" . $email . "
 			</td>");
 				try {
-					/*
 					// Перезапишем токен и получаем контент рассылки готовый к отправке
 					$re = '/%token%/';
 					$msgMail = preg_replace($re, $token, $messageOut, 1);
@@ -488,13 +487,11 @@ if($content_arr):
 					$lnk = preg_replace($re, $token, $unsub, 1);
 					// Отправляем
 					if($mailer->send()){
-					*/
 					// Запись вывода об удачной отпрвке
 						outputFn("
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				<span style=\"color: green;\">УДАЧНО</span>
 			</td>");
-					/*
 					}else{
 					// Запись вывода об неудачной отпрвке
 						$err = print_r($mailer->ErrorInfo, true);
@@ -503,7 +500,6 @@ if($content_arr):
 				<span style=\"color: red;\">ОШИБКА:</span><br>" . $err . "<br>" . $lnk . "
 			</td>");
 					}
-					*/
 				} catch (Exception $e) {
 					// Ошибка
 					// Запись вывода об неудачной отпрвке

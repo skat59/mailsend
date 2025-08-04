@@ -135,16 +135,10 @@ if(is_file($inputFileName)):
 		$mails = preg_replace('/([;,\s]+)/m', "\n", $item[1]);
 		$mails = mb_convert_case(trim($mails, "\r\n\t;,."), MB_CASE_LOWER, "UTF-8");
 		/**
-		 * Группы
-		 */
-		$groups = trim($item[2], "\t\n\r\s\,;");
-		$groups = $groups ? $groups : 2;
-		/**
 		 * Заносим в ячейки
 		 */
 		$sheet->setCellValue('A' . $rw, $item[0]);
 		$sheet->setCellValue('B' . $rw, $mails);
-		$sheet->setCellValue('C' . $rw, $groups);
 	endforeach;
 	/**
 	 * Создаём объект записаи

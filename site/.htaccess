@@ -1,4 +1,5 @@
-# php_flag register_globals Off
+php_flag register_globals Off
+
 AddDefaultCharset utf-8
 php_value date.timezone Asia/Yekaterinburg
 

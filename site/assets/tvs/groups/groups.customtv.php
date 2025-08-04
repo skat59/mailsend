@@ -4,9 +4,9 @@ if (IN_MANAGER_MODE != 'true') {
 }
 $value = empty($row['value']) ? $row['default_text'] : $row['value'];
 $id = $row['id'];
-$out = '<select id="tv' . $id . '" name="tv' . $id . '" onchange="documentDirty=true;" size="8">';
+$out = '<select id="tv' . $id . '" name="tv' . $id . '" onchange="documentDirty=true;" size="20">';
 $value_arr = explode('||', $value);
-
+echo $value;
 if(in_array(false, $value_arr)) {
 	$row['value'] = "0";
 	$out .= '<option value="0" selected="selected">Нет группы (Отправлено не будет)</option>';
@@ -23,9 +23,9 @@ while($row_groups = $modx->db->getRow($result)){
 	$group_id   = $row_groups['id'];
 	$group_name = $row_groups['name'];
 	if (in_array($group_id, $value_arr) && !in_array(false, $value_arr)) {
-		$out .= '<option value="' . $group_id . '" selected="selected">' . $group_name . '</option>';
+		$out .= '<option value="' . $group_id . '" selected="selected">' . $group_id . ". " . $group_name . '</option>';
 	}else{
-		$out .= '<option value="' . $group_id . '">' . $group_name . '</option>';
+		$out .= '<option value="' . $group_id . '">' . $group_id . '. ' . $group_name . '</option>';
 	}
 }
 $out .= '</select>';

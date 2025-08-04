@@ -15,7 +15,7 @@ $_lang = array();
 $modx = evolutionCMS();
 
 function getLang() {
-	global $modx;
+	global $modx, $managerLanguage;
 	$_lang = array();
 	$lang_path = MODX_MAILSEND_BASE_PATH . "lang/";
 	$userId = $modx->getLoginUserID();

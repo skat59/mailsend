@@ -14,7 +14,7 @@
 		}
 	],
 	"settings":  {
-		"font_size": 12,
+		"font_size": 14,
 		"tab_size": 4
 	},
 	"build_systems": [

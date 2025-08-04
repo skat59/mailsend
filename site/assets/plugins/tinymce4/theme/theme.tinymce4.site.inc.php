@@ -23,16 +23,7 @@ $this->appendSet('plugins', 'template', ' ');
 
 $this->set('menubar', false, 'bool' );
 
-// Take over global values for each of the 4 rows
-/*
-if(!empty($this->modxParams['custom_buttons_useglobal'])) {
-    $i=1;
-    while($i<=4) {
-        $this->modxParams['custom_buttons'.$i] = $modx->configGlobal[$this->editorKey.'_custom_buttons'.$i]; 
-        $i++;
-    }
-}
-*/
+
 
 $this->set('toolbar1', $this->modxParams['custom_buttons1'], 'string', false );
 $this->set('toolbar2', $this->modxParams['custom_buttons2'], 'string', true );

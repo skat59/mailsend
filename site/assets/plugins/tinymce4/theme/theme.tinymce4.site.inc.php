@@ -19,13 +19,49 @@
 if( !empty( $this->modxParams['custom_plugins'])) {
     $this->set('plugins', $this->modxParams['custom_plugins'], 'string' );
 };
-$this->appendSet('plugins', 'template', ' ');
+// Используемые шрифты
+$this->set('font_formats', 'Arial=Arial;Helvetica=Helvetica;Tahoma=Tahoma;Times New Roman=Times New Roman', 'string');
+// Используемые плагины
+$this->set('plugins', 'textcolor autolink lists layer table modxlink image emoticons media contextmenu paste visualchars nonbreaking visualblocks charmap wordcount code autoresize', 'string');
 
-$this->set('menubar', false, 'bool' );
+// Первая строка тулбара
+$this->set('toolbar1', 'formatselect | fontselect | forecolor | undo redo | cut copy paste pastetext | visualchars | visualblocks | code', 'string');
+
+// Вторая строка тулбара
+$this->set('toolbar2', 'bold italic underline strikethrough subscript superscript removeformat | alignleft aligncenter alignright alignjustify | bullist numlist | blockquote', 'string');
+
+// Третья строка тулбара
+$this->set('toolbar3', 'image media | link unlink | table | charmap emoticons', 'string');
+
+// Четвёртая строка тулбара (отключаем)
+$this->set('toolbar4', false, 'bool');
 
 
+$this->set('object_resizing', false, 'bool');
+$this->set('table_resize_bars', false, 'bool');
 
-$this->set('toolbar1', $this->modxParams['custom_buttons1'], 'string', false );
-$this->set('toolbar2', $this->modxParams['custom_buttons2'], 'string', true );
-$this->set('toolbar3', $this->modxParams['custom_buttons3'], 'string', true );
-$this->set('toolbar4', $this->modxParams['custom_buttons4'], 'string', true );
+// Основное меню (отключаем)
+$this->set('menubar', false, 'bool');
+// ???
+$this->set('table_header_type', 'thead', 'string');
+$this->set('visualblocks_default_state', true, 'bool');
+// rel="noopener" disabled
+$this->set('allow_unsafe_link_target', true, 'bool');
+
+$this->set('image_dimensions', false, 'bool');
+$this->set('image_description', false, 'bool');
+
+// Старт и сохранение
+$this->set('setup', 'function(ed) { ed.on("change", function(e) { documentDirty=true; }); }',  'object');
+$this->set('save_onsavecallback', 'function () { documentDirty=false; document.getElementById("stay").value = 2; document.mutate.save.click(); }',  'object');
+
+try {
+    $hash = "1.0.0";
+    $css = $this->themeConfig["content_css"]["value"][0];
+    if(is_file(MODX_BASE_PATH . $css)){
+        $hash = filemtime(MODX_BASE_PATH . $css);
+        $css .= '?hash=hash' . $hash;
+        $this->themeConfig["content_css"]["value"][0] = $css;
+    }
+} catch (Exception $e) {}
+

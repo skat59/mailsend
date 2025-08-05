@@ -105,6 +105,7 @@ site/assets/plugins/tinymce4/tinymce/skins/*
 # Plugin DocSave
 !site/assets/plugins/DocSave
 !site/assets/plugins/DocSave/*.*
+site/assets/plugins/DocSave/*.txt
 
 # Plugin DocSave
 !site/assets/plugins/PageAuth
@@ -115,7 +116,12 @@ site/assets/plugins/tinymce4/tinymce/skins/*
 !site/assets/plugins/dashboard_widgets/help_widget
 !site/assets/plugins/dashboard_widgets/help_widget/*.*
 
-# Module clientSettings
+# Plugin MceCSS
+!site/assets/plugins/mcecss
+!site/assets/plugins/mcecss/*
+!site/assets/plugins/mcecss/**/*
+
+# Module MailSend
 !site/assets/modules/MailSend
 !site/assets/modules/MailSend/*
 !site/assets/modules/MailSend/*.*
@@ -127,6 +133,9 @@ site/assets/modules/clientsettings/*
 !site/assets/modules/clientsettings/config
 site/assets/modules/clientsettings/config/*
 !site/assets/modules/clientsettings/config/*.php
+
+# MailSend
+site/assets/modules/MailSend/cron.json
 
 # TV multiTV configs
 !site/assets/tvs/multitv

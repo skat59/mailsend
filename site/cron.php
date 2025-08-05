@@ -271,7 +271,7 @@ if(count($groups)):
 	//echo $slt . PHP_EOL;
 	$result = $modx->db->query($slt);
 	while( $row = $modx->db->getRow( $result ) ) {
-		$usr = json_decode(json_encode($row), false);
+		$usr = json_decode(json_encode($row, JSON_PRETTY_PRINT), false);
 		$usr->user = $usr->name;
 		$usr->option = 1;
 		$usr->admin = 0;
@@ -279,19 +279,17 @@ if(count($groups)):
 		$mailArray[] = $usr;
 	}
 endif;
-// Присоединяем проверяющих
-$mailArray = array_merge( $mailArray, $mailerDev );
-$count = 0;
 
 // Проверка записи в крон файле.
 $cronObject = new stdClass;
+
 // День отправки
 $cronObject->time = 0;
 // ID ресурса
 $cronObject->id = 0;
 // Статус отправки
 /**
- * 0 - Не отправлено
+ * 0 - Не отправлено (по умолчанию)
  * 1 - Отправляется (процесс не завершён)
  * 2 - Отправлено (не перечитывать данные)
  */
@@ -313,6 +311,7 @@ if(is_file($cronFile)):
 			$cronObject->id = isset($txt[$current]->id) ? $txt[$current]->id : (isset($content_arr["id"]) ? $content_arr["id"] : 0);
 			$cronObject->length = isset($txt[$current]->length) ? (int)$txt[$current]->length : count($mailArray);
 			$cronObject->count = isset($txt[$current]->count) ? (int)$txt[$current]->count : 0;
+			$cronObject->status = isset($txt[$current]->status) ? (int)$txt[$current]->status : 0;
 		else:
 			// Нет сегодняшней даты
 			// Описываем объект
@@ -378,15 +377,27 @@ outputFn("
 </table>
 ");
 
+// Пропускается только статус 0
 switch ($cronObject->status) {
 	case 1:
 		// Происходит отправка (процесс не завершён)
-		echo "Происходит отправка";
+		echo date("d-m-Y H:i:s", time()) . PHP_EOL;
+		echo "Происходит отправка" . PHP_EOL;
+		echo "----------------------------------------------" . PHP_EOL;
 		exit();
 		break;
 	case 2:
 		// Отправлено (процесс завершён)
-		echo "На сегодня всё отправлено";
+		echo date("d-m-Y H:i:s", time()) . PHP_EOL;
+		echo "На сегодня всё отправлено" . PHP_EOL;
+		echo "----------------------------------------------" . PHP_EOL;
+		exit();
+		break;
+	default:
+		// Отправлено (процесс завершён)
+		echo date("d-m-Y H:i:s", time()) . PHP_EOL;
+		echo "Стартуем отправку" . PHP_EOL;
+		echo "----------------------------------------------" . PHP_EOL;
 		break;
 }
 
@@ -398,6 +409,7 @@ if($content_arr):
 		$cronObject->id = $content_arr["id"];
 		// Статус - 1
 		$cronObject->status = 1;
+
 		// Вывод начала всей отправки
 		outputFn("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse: collapse; vertical-align: text-top; margin-bottom:20px;max-width:100%;min-width:100%;width:100%\">
 	<thead>
@@ -422,17 +434,22 @@ if($content_arr):
 		$unsub = '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
 		// Выбрать из массива 
 		$mailArray = array_slice($mailArray, $cronObject->count, MAIL_COUNT, false);
-		print_r($mailArray);
+		// print_r($mailArray);
 		$cronObject->count = $cronObject->count + count($mailArray);
 		// Пишем данные в файл
-		$carr = array($current => $cronObject);
-		file_put_contents($cronFile, json_encode($carr));
+		file_put_contents(
+			$cronFile,
+			json_encode(
+				array($current => $cronObject),
+				JSON_PRETTY_PRINT
+			)
+		);
 		// Начало цикла
 		foreach($mailArray as $key => $value):
 			if((int) $value->option):
 				if(!((int) $value->admin)):
 					// Это пользователь. Он посчитывается
-					++$count;
+					//++$count;
 				endif;
 				// Старт вывода отправки пользователь
 				outputFn("
@@ -485,15 +502,21 @@ if($content_arr):
 					// Линк для вывода ссылки отписки в результат для проверяющего
 					$re = '/%token%/';
 					$lnk = preg_replace($re, $token, $unsub, 1);
+					/*
+						outputFn("
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				<span style=\"color: green;\">УДАЧНО</span>
+			</td>");
+					*/
 					// Отправляем
 					if($mailer->send()){
-					// Запись вывода об удачной отпрвке
+						// Запись вывода об удачной отпрвке
 						outputFn("
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				<span style=\"color: green;\">УДАЧНО</span>
 			</td>");
 					}else{
-					// Запись вывода об неудачной отпрвке
+						// Запись вывода об неудачной отпрвке
 						$err = print_r($mailer->ErrorInfo, true);
 						outputFn("
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
@@ -522,6 +545,7 @@ if($content_arr):
 	</tbody>
 </table>
 ");
+
 	else:
 
 	endif;
@@ -575,9 +599,92 @@ if($content_arr && $cronObject->count <= $cronObject->length):
 	endforeach;
 endif;
 
-$cronObject->status = $cronObject->count == $cronObject->length ? 3 : 0;
-$carr = array($current => $cronObject);
-file_put_contents($cronFile, json_encode($carr, JSON_PRETTY_PRINT));
+// Здесь определяем статус
+// Либо Всё отправлено - 2
+// Либо Процесс завершён (готов для следующего запука крон) - 0
+// Прцесс завершён только тогда, когда кол-во получателей больше или равен общему количеству
+$cronObject->status = $cronObject->count >= $cronObject->length ? 2 : 0;
+// Пишем данные в файл
+file_put_contents(
+	$cronFile,
+	json_encode(
+		array($current => $cronObject),
+		JSON_PRETTY_PRINT
+	)
+);
+
+// При статусе 2 сделать бы отправку для разработчиков.
+// ПОНЕСЛАСЬ для разработчиков
+if($content_arr && $mailerDev && $cronObject->status == 2):
+	if($content_arr["date"] >= $current && $content_arr["date"] < $next):
+		// получаем заголовок рассылки
+		$messageTitle = $content_arr["title"];
+		// Получаем контент рассылки
+		// Каждый раз контент будет перезаписан для каждого адресата
+		$messageOut = '<div style="padding: 15px;">' . $messageHeader . '
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody>
+	<tr><td>
+	<!-- // -->
+	' . $content_arr["content"] . '
+	<!-- // -->
+	</td></tr><tr><td style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.' . BRNL . '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table></div>';
+		$unsub = '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
+		// Начало цикла
+		foreach($mailerDev as $key => $value):
+			// Получаем данные пользователя
+			$user = $value->user;
+			$email = $value->email;
+			// Токен пользователя для отписки
+			$token = $value->token;
+			try {
+				// Перезапишем токен и получаем контент рассылки готовый к отправке
+				$re = '/%token%/';
+				$msgMail = preg_replace($re, $token, $messageOut, 1);
+				// Создаём объект PHPMailer
+				$mailer = getPHPMailer();
+				// Адрес получателя
+				$mailer->addAddress($email, $user);
+				// Устанавливаем заоловок с рассылкой (отпиской)
+				$mailer->AddCustomHeader("List-Unsubscribe: <mailto:" . SEND_EMAIL . "?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
+				// Заголовок письма
+				$mailer->Subject = $messageTitle;
+				// HTML текст письма
+				$mailer->Body    = $msgMail;
+				// Текстовое сообщение
+				$mailer->AltBody = $content_arr["text"];
+				// Изображения на странице
+				foreach($content_arr["matches"] as $match):
+					$mailer->AddEmbeddedImage(MODX_BASE_PATH . $match[1], $match[2]);
+				endforeach;
+				// Файлы
+				foreach($content_arr["files"] as $file):
+					$mailer->addAttachment(MODX_BASE_PATH . $file["file"], $file["title"]);
+				endforeach;
+				// Линк для вывода ссылки отписки в результат для проверяющего
+				$re = '/%token%/';
+				$lnk = preg_replace($re, $token, $unsub, 1);
+				// Отправляем
+				if($mailer->send()){
+					// Запись вывода об удачной отпрвке
+				}else{
+					// Запись вывода об неудачной отпрвке
+					// $err = print_r($mailer->ErrorInfo, true);
+				}
+			} catch (Exception $e) {
+				// Ошибка
+				// Запись вывода об неудачной отпрвке
+				// $err = print_r($e->getMessage(), true);
+			}
+			// Уничтажаем объект PHPMailer
+			unset( $mailer );
+			// Спим
+			sleep( SLEEP );
+		endforeach;
+	endif;
+endif;
+
+echo date("d-m-Y H:i:s", time()) . PHP_EOL . $cronObject->status . " | ". $cronObject->count . " | " . $cronObject->length . PHP_EOL . "DONE!" . PHP_EOL 
+	. "-----------------------------------------" . PHP_EOL;
 
 //echo $output;
 /**

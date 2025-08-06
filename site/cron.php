@@ -53,6 +53,8 @@ define('TITLE_LOGOTIP', MODX_BASE_PATH . $modx->config['title_logotip']);
 define('MAIL_COUNT', $modx->config['send_count_messages']);
 // Пауза
 define('SLEEP', $modx->config['send_sleep_messages']);
+// При тестировании включаем дебаг
+define('SEND_MAIL_DEBUG', true);
 
 // Крон файл
 $cronFile = MODX_MAILSEND_PATH . 'cron.json';
@@ -245,7 +247,7 @@ $evoPage = $modx->runSnippet('DocLister',
 		'tvPrefix'          => '',
 		'orderBy'           => 'date_send DESC',
 		'sortBy'            => 'date_send',
-		'sortDir'      		=> 'DESC',
+		'sortDir'           => 'DESC',
 		'showParent'        => '0',
 		'api'               => '1',
 		'JSONformat'        => 'new',
@@ -440,7 +442,7 @@ if($content_arr):
 	<!-- // -->
 	</td></tr><tr><td style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.' . BRNL . '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table></div>';
 		$unsub = '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
-		// Выбрать из массива 
+		// Выбрать из массива
 		$mailArray = array_slice($mailArray, $cronObject->count, MAIL_COUNT, false);
 		// print_r($mailArray);
 		$cronObject->count = $cronObject->count + count($mailArray);
@@ -485,7 +487,7 @@ if($content_arr):
 					// Перезапишем токен и получаем контент рассылки готовый к отправке
 					$re = '/%token%/';
 					$msgMail = preg_replace($re, $token, $messageOut, 1);
-					
+
 					// Создаём объект PHPMailer
 					$mailer = getPHPMailer();
 					// Адрес получателя
@@ -510,27 +512,30 @@ if($content_arr):
 					// Линк для вывода ссылки отписки в результат для проверяющего
 					$re = '/%token%/';
 					$lnk = preg_replace($re, $token, $unsub, 1);
+					if(SEND_MAIL_DEBUG):
 						outputFn("
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				<span style=\"color: green;\">УДАЧНО</span>
 			</td>");
+					endif;
 					// Отправляем
-					/*
-					if($mailer->send()){
-						// Запись вывода об удачной отпрвке
-						outputFn("
-			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
-				<span style=\"color: green;\">УДАЧНО</span>
-			</td>");
-					}else{
-						// Запись вывода об неудачной отпрвке
-						$err = print_r($mailer->ErrorInfo, true);
-						outputFn("
-			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
-				<span style=\"color: red;\">ОШИБКА:</span><br>" . $err . "<br>" . $lnk . "
-			</td>");
-					}
-					*/
+					if(!SEND_MAIL_DEBUG):
+						// Если не включён дебаг
+						if($mailer->send()){
+							// Запись вывода об удачной отпрвке
+							outputFn("
+				<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+					<span style=\"color: green;\">УДАЧНО</span>
+				</td>");
+						}else{
+							// Запись вывода об неудачной отпрвке
+							$err = print_r($mailer->ErrorInfo, true);
+							outputFn("
+				<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+					<span style=\"color: red;\">ОШИБКА:</span><br>" . $err . "<br>" . $lnk . "
+				</td>");
+						}
+					endif;
 				} catch (Exception $e) {
 					// Ошибка
 					// Запись вывода об неудачной отпрвке
@@ -544,8 +549,11 @@ if($content_arr):
 		</tr>");
 				// Уничтажаем объект PHPMailer
 				unset( $mailer );
-				// Спим
-				sleep( SLEEP );
+				if(!SEND_MAIL_DEBUG):
+					// Если не включён дебаг
+					// Спим
+					sleep( SLEEP );
+				endif;
 			endif;
 		endforeach;
 		// Конец вывода всей отправки
@@ -553,11 +561,8 @@ if($content_arr):
 	</tbody>
 </table>
 ");
-
-	else:
-
 	endif;
-	
+
 endif;
 
 // Готовим HTML для писем проверяющим
@@ -594,16 +599,19 @@ if($content_arr && $cronObject->count <= $cronObject->length):
 			// Отправляем
 			if($mailer->send()):
 				unset( $mailer );
-				sleep( SLEEP );
+				if(!SEND_MAIL_DEBUG):
+					sleep( SLEEP );
+				endif;
 			else:
 				unset( $mailer );
-				sleep( SLEEP );
+				if(!SEND_MAIL_DEBUG):
+					sleep( SLEEP );
+				endif;
 			endif;
 		} catch (Exception $e) {
 			// Ошибка
+			// Ничего не делаем
 		}
-		unset( $mailer );
-		sleep( SLEEP );
 	endforeach;
 endif;
 

@@ -1,11 +1,11 @@
 root = true
 
 [*]
-end_of_line = lf
-insert_final_newline = true
-trim_trailing_whitespace = true
 indent_style = tab
-tab_width = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
 
 [**.js]
 tab_width = 4
@@ -22,6 +22,6 @@ tab_width = 4
 [**rc]
 tab_width = 4
 
-[**php]
+[**.php]
+indent_style = tab
 tab_width = 4
-

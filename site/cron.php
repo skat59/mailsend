@@ -53,30 +53,9 @@ define('TITLE_LOGOTIP', MODX_BASE_PATH . $modx->config['title_logotip']);
 define('MAIL_COUNT', $modx->config['send_count_messages']);
 // Пауза
 define('SLEEP', $modx->config['send_sleep_messages']);
+
 // При тестировании включаем дебаг
 define('SEND_MAIL_DEBUG', true);
-
-// Крон файл
-$cronFile = MODX_MAILSEND_PATH . 'cron.json';
-
-// заполнитель
-$pad = 30;
-// Текст крона
-$output = "";
-// Группа
-$groupID = 0;
-
-// Дальше можно делать, что угодно
-// Письма группе
-$mailArray = array();
-
-// Письма разработчикам.
-$mailerDev = array();
-
-// Настройки отправки
-// По этим же адресам письма с результатом крона
-$d_ch = $modx->config['dispatch_checkers'];
-$mailerDev = json_decode($d_ch);
 
 // Функция сбора данных
 function outputFn($msg = "") {
@@ -193,22 +172,86 @@ function getPHPMailer() {
 	return $mailer;
 }
 
-// Заполним данные разработчиков
-$index = 0;
-foreach ($mailerDev as $checker):
-	$mailerDev[$index]->user = $checker->user;
-	// разработчик
-	$mailerDev[$index]->admin = 1;
-	$mailerDev[$index]->id = $index;
-	$mailerDev[$index]->groups = '0';
-	$mailerDev[$index]->unsubscribe = "0";
-	$mailerDev[$index]->token = 'developer';
-	$mailerDev[$index]->option = (int) $checker->option;
-	++$index;
-endforeach;
+function getMaillerDev() {
+	global $modx;
+	$d_ch = $modx->config['dispatch_checkers'];
+	$mailerDev = json_decode($d_ch);
+	$return = array();
+	// Заполним данные разработчиков
+	foreach ($mailerDev as $index=>$checker):
+		$return[] = array(
+			'user' => $checker->user,
+			'email' => $checker->email,
+			'admin' => 1,
+			'id' => $index + 1,
+			'groups' => '0',
+			'unsubscribe' => "0",
+			'token' => 'developer',
+			'option' => (int) $checker->option
+		);
+	endforeach;
+	return $return;
+}
 
+function getMailSendResource(int $current = 0, int $next = 0){
+	global $modx;
+	$table_resources = $modx->getFullTableName('mailsend_resources');
+	$row = array();
+	$result = $modx->db->select("*", $table_resources, '`time` >= ' . $current . ' and `time` <= ' . $next . ' and `status` = 0',  "", "1");
+	if($modx->db->getRecordCount($result) >= 1):
+		$row = $modx->db->getRow( $result );
+		return $row;
+	endif;
+	return $row;
+}
+
+// Крон файл
+$cronFile = MODX_MAILSEND_PATH . 'cron.json';
+
+// Таблицы mailsend
+$table = $modx->getFullTableName( 'mailsend_users' );
+$table_members = $modx->getFullTableName( 'mailsend_group_member' );
+$table_resources = $modx->getFullTableName( 'mailsend_resources' );
+
+// Длина заполнитель
+$pad = 30;
+// Текст крона
+$output = "";
+// Группа
+$groupID = 0;
+
+// Дальше можно делать, что угодно
+// Письма группе
+$mailArray = array();
+
+// Получение записи по дате
+// В cron мы получаем только одну запись за текущий день
+$current = strtotime(date("d-m-Y 00:00:00", time()));
+$next = $current + 86400 - 1;
 // Имя сайта
 $site_name = $modx->config['site_name'];
+
+// Письма разработчикам.
+// Настройки отправки
+// По этим же адресам письма с результатом крона
+$mailerDev = getMaillerDev();
+
+// Выбрать из таблицы mailsend_resource запись, где
+/**
+ * status = 0
+ * time >= $current
+ */
+$resource = getMailSendResource($current, $next);
+
+if(!$resource):
+	exit();
+endif;
+
+
+/**
+ * Далее опираемся на данные из $resource
+ */
+
 
 // Оформление заголовка письма
 $messageHeader = '
@@ -226,53 +269,52 @@ $messageHeader = '
 </table>
 ';
 
-// Получение записи по дате
-// В cron мы получаем только одну запись за текущий день
-$current = strtotime(date("d-m-Y 00:00:00", time()));
-$next = $current + 86400 - 1;
-
-// Выбрать из таблицы mailsend_resource запись, где
-/**
- * status = 0
- * time >= $current
- */
+// Получить документ
 
 // выбрать нужное сообщение, заголовок, файлы, дату отправки
 // Выбираем только один документ
+// Документ должен быть опубликованным
+
+print_r($resource);
+
 $evoPage = $modx->runSnippet('DocLister',
 	array(
-		'parents'           => '9',
-		'display'           => '1',
+		'documents'         => $resource['resource'],
+		'idType'            => 'documents',
 		'tvList'            => 'date_send,groups_send,files',
 		'tvPrefix'          => '',
 		'orderBy'           => 'date_send DESC',
 		'sortBy'            => 'date_send',
 		'sortDir'           => 'DESC',
-		'showParent'        => '0',
+		'queryLimit'        => '1',
 		'api'               => '1',
 		'JSONformat'        => 'new',
 		'filters'           => 'AND(tv:date_send:egt:' . $current . ';tv:date_send:elt:' . $next . ')'
 	)
 );
 
+print_r( getDocument(json_decode($evoPage, true)) );
+exit();
+
 
 $content_arr = getDocument(json_decode($evoPage, true));
-$groupID = $content_arr["group_id"];
 
-// Обдумать!!!!
-$groups = explode("||", $groupID);
+// Выбор групп
+
+// Выбрать задание записи
+$sql = "select * from " . $table_resources . " WHERE `time` >= " . $current . " and `time` < " . $next . " and `status`=0 limit 1";
+
+$groupIDs = $content_arr["group_id"];
+$groups = explode("||", $groupIDs);
 if(isset($groups[0])):
 	$groups[0] = !$groups[0] ? "0" : $groups[0];
 endif;
+
 /*
 ---------------------------------------------
--- Выбрать по определённой группе $groupID --
+-- Выбрать по определённой группе $groupIDs --
 ---------------------------------------------
 */
-
-$table = $modx->getFullTableName( 'mailsend_users' );
-$table_members = $modx->getFullTableName( 'mailsend_group_member' );
-$table_resources = $modx->getFullTableName( 'mailsend_resources' );
 
 // Выбор групп
 if(count($groups)):
@@ -288,6 +330,8 @@ if(count($groups)):
 		$mailArray[] = $usr;
 	}
 endif;
+
+
 
 // Проверка записи в крон файле.
 $cronObject = new stdClass;

@@ -102,41 +102,45 @@ switch ($e->name) {
 						$reinit = $rows["value"];
 						$modx->db->delete($tableVal, "id='" . $rows["id"] . "'");
 					endif;
+					$groups = explode("||", $groups);
+					$rs = $modx->db->select("*", $tableResource, "resource=" . $modx->db->escape($resource));
+					$rows = $modx->db->getRow($rs);
+					// Выбор групп
+					$slt = "SELECT users.*, COUNT(users_groups.id_group) as group_count FROM " . $table . " AS users JOIN " . $table_members . " AS users_groups ON users.id = users_groups.id_user WHERE users_groups.id_group IN ('" . implode("','", $groups) . "') AND users.unsubscribe = 0 GROUP BY users.id ORDER BY `users`.`id` ASC;";
+					$result = $modx->db->query($slt);
+					$length = $modx->db->getRecordCount( $result );
+					// Если изменили дату на большее значение
+					$reinit = $time > $current ? 1 : $reinit;
+					$count = $reinit ? 0 : ($rows ? ($rows["count"] >= $length ? $length : $rows["count"]) : 0);
+					$length = $length != ($rows ? $rows["length"] : 0) ? $length : ($rows ? $rows["length"] : $length);
+					$fields = array(
+						'resource' => $params['id'],
+						'groups' => (string) implode(',', $groups),
+						'status' => $reinit ? 0 : ($rows ? $rows["status"] : 0),
+						'count' => $reinit ? 0 : $count,
+						'length' => $length,
+						'time' => $time
+					);
+					if(!$rows):
+						$fields['id'] = null;
+						// Новая запись
+						$modx->db->insert( $fields, $tableResource);
+					else:
+						$id = $rows["id"];
+						// Обновление
+						$modx->db->update( $fields, $tableResource, 'id = "' . $id . '"' );
+					endif;
 					break;
 				default:
 					// code...
 					break;
 			}
 		endwhile;
-		$groups = explode("||", $groups);
-		$rs = $modx->db->select("*", $tableResource, "resource=" . $modx->db->escape($resource));
-		$rows = $modx->db->getRow($rs);
-		// Выбор групп
-		$slt = "SELECT users.*, COUNT(users_groups.id_group) as group_count FROM " . $table . " AS users JOIN " . $table_members . " AS users_groups ON users.id = users_groups.id_user WHERE users_groups.id_group IN ('" . implode("','", $groups) . "') AND users.unsubscribe = 0 GROUP BY users.id ORDER BY `users`.`id` ASC;";
-		$result = $modx->db->query($slt);
-		$length = $modx->db->getRecordCount( $result );
-		// Если изменили дату на большее значение
-		$reinit = $time > $current ? 1 : $reinit;
-		$count = $reinit ? 0 : ($rows ? ($rows["count"] >= $length ? $length : $rows["count"]) : 0);
-		$length = $length != ($rows ? $rows["length"] : 0) ? $length : ($rows ? $rows["length"] : $length);
-		$fields = array(
-			'resource' => $params['id'],
-			'groups' => (string) implode(',', $groups),
-			'status' => $reinit ? 0 : ($rows ? $rows["status"] : 0),
-			'count' => $reinit ? 0 : $count,
-			'length' => $length,
-			'time' => $time
-		);
-		//file_put_contents($log_sendmail, print_r($fields, true) . PHP_EOL, FILE_APPEND);
-		
-		if(!$rows):
-			$fields['id'] = null;
-			// Новая запись
-			$modx->db->insert( $fields, $tableResource);  
-		else:
-			$id = $rows["id"];
-			// Обновление
-			$modx->db->update( $fields, $tableResource, 'id = "' . $id . '"' );  
-		endif;
+		break;
+	case 'OnBeforeDocFormDelete':
+	case 'OnDocFormDelete':
+	case 'OnDocFormUnDelete':
+		file_put_contents($log_sendmail, print_r($e, true), FILE_APPEND);
+		break;
 		
 }

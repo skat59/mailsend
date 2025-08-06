@@ -26,7 +26,8 @@
 		"issues": "https://github.com/skat59/mailsend/issues",
 		"source": "https://github.com/skat59/mailsend"
 	},
-	"devDependencies": {
+	"devDependencies": {},
+	"dependencies": {
 		"dotenv": "latest",
 		"grunt": "latest",
 		"grunt-autoprefixer": "latest",
@@ -40,12 +41,9 @@
 		"grunt-contrib-requirejs": "latest",
 		"grunt-contrib-uglify-es": "latest",
 		"grunt-contrib-watch": "latest",
-		"grunt-datauri": "latest",
 		"grunt-group-css-media-queries": "latest",
 		"grunt-lineending": "latest",
-		"grunt-real-favicon": "latest",
 		"grunt-replace": "latest",
-		"grunt-sass": "latest",
 		"grunt-tinyimg": "latest",
 		"grunt-ttf2eot": "latest",
 		"grunt-ttf2woff": "latest",
@@ -55,12 +53,9 @@
 		"less-plugin-npm-import": "latest",
 		"load-grunt-tasks": "latest",
 		"md5": "latest",
-		"node-sass": "latest",
 		"optipng-bin": "^9.0.0",
 		"phplint": "~1.0.0",
-		"time-grunt": "git+https://github.com/ProjectSoft-STUDIONIONS/time-grunt.git"
-	},
-	"dependencies": {
+		"time-grunt": "git+https://github.com/ProjectSoft-STUDIONIONS/time-grunt.git",
 		"gifsicle": "^7.0.1",
 		"imagemin-gifsicle": "^7.0.0",
 		"less": "latest"

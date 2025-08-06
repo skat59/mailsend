@@ -1,8 +1,7 @@
 module.exports = function(grunt) {
 	let PACK = grunt.file.readJSON('package.json');
 	require('dotenv').config();
-	const sass = require('node-sass'),
-		DEBUG = parseInt(process.env.DEBUG) || false,
+	const DEBUG = parseInt(process.env.DEBUG) || false,
 		VERSION = process.env.VERSION == undefined ? PACK.font_version : process.env.VERSION,
 		font = `localhost`,
 		fontName = `LocalHost`,
@@ -92,14 +91,6 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				'site/html_code.html',
 				gc.gosave
 			],
-			favicon: [
-				'site/*.ico',
-				'site/*.png',
-				'site/*svg',
-				'site/*.xml',
-				'site/*.webmanifest',
-				'site/html_code.html'
-			],
 			build: [
 				'test/',
 				'tests/',
@@ -111,95 +102,12 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				gc.gosave + "/*.html"
 			]
 		},
-		realFavicon: {
-			favicons: {
-				src: 'src/favicon/favicon.png',
-				dest: 'site/',
-				options: {
-					iconsPath: domain_url,
-					//html: [ 'favicons.txt' ],
-					design: {
-						ios: {
-							pictureAspect: 'backgroundAndMargin',
-							backgroundColor: '#ffffff',
-							margin: '14%',
-							assets: {
-								ios6AndPriorIcons: true,
-								ios7AndLaterIcons: true,
-								precomposedIcons: true,
-								declareOnlyDefaultIcon: false
-							}
-						},
-						desktopBrowser: {
-							design: 'raw'
-						},
-						windows: {
-							pictureAspect: 'noChange',
-							backgroundColor: '#ffffff',
-							onConflict: 'override',
-							assets: {
-								windows80Ie10Tile: true,
-								windows10Ie11EdgeTiles: {
-									small: true,
-									medium: true,
-									big: true,
-									rectangle: true
-								}
-							}
-						},
-						androidChrome: {
-							pictureAspect: 'backgroundAndMargin',
-							margin: '17%',
-							backgroundColor: '#ffffff',
-							themeColor: '#ffffff',
-							manifest: {
-								display: 'standalone',
-								orientation: 'notSet',
-								onConflict: 'override',
-								declared: true
-							},
-							assets: {
-								legacyIcon: true,
-								lowResolutionIcons: true
-							}
-						},
-						safariPinnedTab: {
-							pictureAspect: 'blackAndWhite',
-							threshold: 65,
-							themeColor: '#5bbad5'
-						}
-					},
-					settings: {
-						scalingAlgorithm: 'Mitchell',
-						errorOnImageTooSmall: false,
-						readmeFile: false,
-						htmlCodeFile: true,
-						// htmlCodeFile: false,
-						usePathAsIs: false
-					}
-				}
-			}
-		},
 		concat: {
 			options: {
 				separator: "\n",
 			},
 			appjs: {
 				src: [
-					//'bower_components/jquery/dist/jquery.js',
-					//"bower_components/fancybox/src/js/core.js",
-					//"src/js/fancybox/media.js",
-					//"bower_components/fancybox/src/js/guestures.js",
-					//"bower_components/fancybox/src/js/slideshow.js",
-					//"bower_components/fancybox/src/js/fullscreen.js",
-					//"bower_components/fancybox/src/js/thumbs.js",
-					//"bower_components/fancybox/src/js/hash.js",
-					//"bower_components/fancybox/src/js/wheel.js",
-					//'bower_components/slick-carousel/slick/slick.js',
-					//'bower_components/js-cookie/src/js.cookie.js',
-					//'bower_components/jquery.cookie/jquery.cookie.js',
-					//'bower_components/button-visually-impaired-javascript/dist/js/bvi.js',
-					//"src/js/prism.js",
 					"src/js/app.js",
 				],
 				dest: 'test/js/app.js'
@@ -268,29 +176,6 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					template: 'src/font-build.template'
 				}
 			},
-		},
-		datauri: {
-			default: {
-				options: {
-					classPrefix: '',
-					variables: true,
-				},
-				src: 'bower_components/button-visually-impaired-javascript/dist/img/*.svg',
-				dest: [
-					"src/scss/base64.scss"
-				]
-			}
-		},
-		sass: {
-			options: {
-				implementation: sass,
-				sourceMap: false
-			},
-			dist: {
-				files: {
-					'src/less/bvi.css': 'src/scss/bvi.scss'
-				}
-			}
 		},
 		less: {
 			css: {
@@ -573,7 +458,6 @@ Sitemap: ${port}://${domain}/sitemap.xml
 	});
 	grunt.registerTask('default',   [
 		"clean:all",
-		"realFavicon",
 		"robots",
 		"concat",
 		"uglify",
@@ -582,8 +466,6 @@ Sitemap: ${port}://${domain}/sitemap.xml
 		"ttf2woff2",
 		"imagemin",
 		"tinyimg",
-		"datauri",
-		"sass",
 		"less",
 		"autoprefixer",
 		"group_css_media_queries",
@@ -592,10 +474,6 @@ Sitemap: ${port}://${domain}/sitemap.xml
 		"copy",
 		"pug"
 	]);
-	grunt.registerTask('favicon',   [
-		"clean:favicon",
-		"realFavicon"
-	]);
 	grunt.registerTask('build',	    [
 		"clean:build",
 		"robots",
@@ -603,8 +481,6 @@ Sitemap: ${port}://${domain}/sitemap.xml
 		"uglify",
 		"imagemin",
 		"tinyimg",
-		"datauri",
-		"sass",
 		"less",
 		"autoprefixer",
 		"group_css_media_queries",

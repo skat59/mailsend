@@ -1,35 +1,35 @@
 {
-    "name": "evolutioncms/evolution",
-    "description": "Evolution CMS is a Content Management System, ex MODX Evolution",
-    "type": "project",
-    "keywords": [
-        "content",
-        "CMS",
-        "routing",
-        "templating"
-    ],
-    "homepage": "https://evo-cms.com/",
-    "license": "GPL-3.0+",
-    "support": {
-        "telegram": "https://t.me/evo_cms",
-        "issues": "https://github.com/evocms-community/evolution/issues/",
-        "source": "https://github.com/evocms-community/evolution/"
-    },
-    "config": {
-        "vendor-dir": "vendor"
-    },
-    "repositories": [
-        {
-            "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "type": "vcs"
-        }
-    ],
-    "require": {
-        "php": ">=7.4",
-        "ext-json": "*",
-        "phpoffice/phpspreadsheet": "^1.29",
-        "phpmailer/phpmailer": "dev-master"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+	"name": "evolutioncms/evolution",
+	"description": "Evolution CMS is a Content Management System, ex MODX Evolution",
+	"type": "project",
+	"keywords": [
+		"content",
+		"CMS",
+		"routing",
+		"templating"
+	],
+	"homepage": "https://evo-cms.com/",
+	"license": "GPL-3.0+",
+	"support": {
+		"telegram": "https://t.me/evo_cms",
+		"issues": "https://github.com/evocms-community/evolution/issues/",
+		"source": "https://github.com/evocms-community/evolution/"
+	},
+	"config": {
+		"vendor-dir": "vendor"
+	},
+	"repositories": [
+		{
+			"url": "https://github.com/PHPMailer/PHPMailer.git",
+			"type": "vcs"
+		}
+	],
+	"require": {
+		"php": ">=7.4",
+		"ext-json": "*",
+		"phpoffice/phpspreadsheet": "^1.29",
+		"phpmailer/phpmailer": "dev-master"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
 }

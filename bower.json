@@ -18,11 +18,7 @@
 		"bootstrap": "3.4.1",
 		"fancybox": "^3.5.7",
 		"jquery": "^3.6.0",
-		"normalize.css": "^8.0.1",
-		"slick-carousel": "^1.8.1",
-		"js-cookie": "^2.2.1",
-		"button-visually-impaired-javascript": "https://github.com/ProjectSoft-STUDIONIONS/button-visually-impaired-javascript.git#2.0.0",
-		"inputmask": "https://github.com/RobinHerbots/Inputmask.git#^5.0.8"
+		"normalize.css": "^8.0.1"
 	},
 	"devDependencies": {}
 }

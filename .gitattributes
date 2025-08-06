@@ -1,7 +1,9 @@
 * text=auto
 
 **/*.json text eol=lf
+/*.json text eol=lf
 **/*.js text eol=lf
+/*.js text eol=lf
 **/*.md text eol=lf
 **/*.php text eol=lf
 **/*.php text eol=lf

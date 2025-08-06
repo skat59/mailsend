@@ -4,15 +4,6 @@ if (IN_MANAGER_MODE != 'true') {
 }
 
 global $_style;
-$BINDINGS = array (
-    'FILE',
-    'CHUNK',
-    'DOCUMENT',
-    'SELECT',
-    'EVAL',
-    'INHERIT',
-    'DIRECTORY'
-);
 
 $id = $row["id"];
 if(!$row["value"]){

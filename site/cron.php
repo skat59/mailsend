@@ -229,6 +229,12 @@ $messageHeader = '
 $current = strtotime(date("d-m-Y 00:00:00", time()));
 $next = $current + 86400 - 1;
 
+// Выбрать из таблицы mailsend_resource запись, где
+/**
+ * status = 0
+ * time >= $current
+ */
+
 // выбрать нужное сообщение, заголовок, файлы, дату отправки
 // Выбираем только один документ
 $evoPage = $modx->runSnippet('DocLister',
@@ -264,6 +270,7 @@ endif;
 
 $table = $modx->getFullTableName( 'mailsend_users' );
 $table_members = $modx->getFullTableName( 'mailsend_group_member' );
+$table_resources = $modx->getFullTableName( 'mailsend_resources' );
 
 // Выбор групп
 if(count($groups)):
@@ -299,6 +306,7 @@ $cronObject->length = 0;
 // Обрабатываемое в данный момент
 $cronObject->count = 0;
 
+// Заменить на выбор из таблицы
 if(is_file($cronFile)):
 	try {
 		$txt = file_get_contents($cronFile);
@@ -502,13 +510,12 @@ if($content_arr):
 					// Линк для вывода ссылки отписки в результат для проверяющего
 					$re = '/%token%/';
 					$lnk = preg_replace($re, $token, $unsub, 1);
-					/*
 						outputFn("
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				<span style=\"color: green;\">УДАЧНО</span>
 			</td>");
-					*/
 					// Отправляем
+					/*
 					if($mailer->send()){
 						// Запись вывода об удачной отпрвке
 						outputFn("
@@ -523,6 +530,7 @@ if($content_arr):
 				<span style=\"color: red;\">ОШИБКА:</span><br>" . $err . "<br>" . $lnk . "
 			</td>");
 					}
+					*/
 				} catch (Exception $e) {
 					// Ошибка
 					// Запись вывода об неудачной отпрвке

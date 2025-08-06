@@ -8,6 +8,7 @@ indent_style = tab
 tab_width = 4
 
 [**.js]
+end_of_line = lf
 tab_width = 4
 
 [**.coffee]
@@ -17,10 +18,12 @@ tab_width = 4
 tab_width = 4
 
 [**.json]
+end_of_line = lf
 tab_width = 4
 
 [**rc]
 tab_width = 4
 
 [**php]
+end_of_line = lf
 tab_width = 4

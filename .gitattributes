@@ -8,6 +8,7 @@
 **/*.php text eol=lf
 **/*.php text eol=lf
 /.gitattributes text eol=lf
+/.editorconfig text eol=lf
 
 /.github export-ignore
 /.gitattributes export-ignore

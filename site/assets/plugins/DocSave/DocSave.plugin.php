@@ -7,7 +7,7 @@
  * @category     plugin
  * @version      1.0.0
  * @package      evo
- * @internal     @events OnDocFormSave
+ * @internal     @events OnDocFormSave, OnDocPublished, OnDocUnPublished
  * @internal     @modx_category НАСТРОЙКИ ОТПРАВКИ
  * @internal     @installset base
  * @internal     @disabled 0
@@ -44,14 +44,14 @@ $params = $e->params;
 
 $cron_sendmail = join_paths(MODX_BASE_PATH, "assets", "modules", "MailSend", "cron.json");
 $log_sendmail  = join_paths(MODX_BASE_PATH, "assets", "plugins", "DocSave", "cron.log.txt");
+$table = $modx->getFullTableName( 'mailsend_users' );
+$table_members = $modx->getFullTableName( 'mailsend_group_member' );
+$tableVar = $modx->getFullTableName('site_tmplvars');
+$tableVal = $modx->getFullTableName('site_tmplvar_contentvalues');
+$tableResource = $modx->getFullTableName('mailsend_resources');
 
 switch ($e->name) {
 	case 'OnDocFormSave':
-		$table = $modx->getFullTableName( 'mailsend_users' );
-		$table_members = $modx->getFullTableName( 'mailsend_group_member' );
-		$tableVar = $modx->getFullTableName('site_tmplvars');
-		$tableVal = $modx->getFullTableName('site_tmplvar_contentvalues');
-		$tableResource = $modx->getFullTableName('mailsend_resources');
 		/**
 		 * Выбор осуществляется строго по порядку
 		 * date_send - преобразовать дату
@@ -62,6 +62,7 @@ switch ($e->name) {
 		$rs = $modx->db->select('id,name', $tableVar, "name IN ('date_send','news_date','groups_send','reinit_send')");
 		$current = strtotime(date("d-m-Y 00:00:00", time()));
 		$next = $current + 86400 - 1;
+		$rowDoc = $modx->db->getRow($modx->db->select('id,published', $modx->getFullTableName( 'site_content' ), "id=" . $params["id"]));
 		// Вторая часть
 		$resource = $params["id"];
 		$groups = "0";
@@ -102,6 +103,11 @@ switch ($e->name) {
 						$reinit = $rows["value"];
 						$modx->db->delete($tableVal, "id='" . $rows["id"] . "'");
 					endif;
+					if($rowDoc["published"] == 0):
+						// Удаляем и выходим
+						$modx->db->delete($tableResource, "resource = $resource");
+						break;
+					endif;
 					$groups = explode("||", $groups);
 					$rs = $modx->db->select("*", $tableResource, "resource=" . $modx->db->escape($resource));
 					$rows = $modx->db->getRow($rs);
@@ -137,9 +143,37 @@ switch ($e->name) {
 			}
 		endwhile;
 		break;
-	case 'OnBeforeDocFormDelete':
-	case 'OnDocFormDelete':
+	case 'OnDocPublished':
+		$resource = $params['docid'];
+		$rs = $modx->db->select('id,name', $tableVar, "name IN ('date_send','groups_send')");
+		while( $row = $modx->db->getRow( $rs ) ):
+			// Время, Группы
+			$rws = $modx->db->select('*', $tableVal, "contentid='" . $params['id'] . "' and tmplvarid='" . $row['id'] . "'");
+			$rows = $modx->db->getRow($rws);
+		file_put_contents($log_sendmail, print_r($rows, true), FILE_APPEND);
+			switch ($row['name']) {
+				case 'date_send':
+					break;
+				case 'groups_send':
+					break;
+			}
+		endwhile;
+		// Добавляем
+		break;
+	case 'OnDocUnPublished':
+		$resource = $params['docid'];
+		// Удаляем
+		$modx->db->delete($tableResource, "resource = $resource");
+		break;
 	case 'OnDocFormUnDelete':
+		file_put_contents($log_sendmail, print_r($e, true), FILE_APPEND);
+		break;
+	case 'OnEmptyTrash':
+		file_put_contents($log_sendmail, print_r($e, true), FILE_APPEND);
+		break;
+	case 'OnDocFormDelete':
+		// Удаляем
+		//$modx->db->delete($table_prefix.".modx_web_users", "resource = $resource");
 		file_put_contents($log_sendmail, print_r($e, true), FILE_APPEND);
 		break;
 		

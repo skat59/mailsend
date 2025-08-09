@@ -27,9 +27,7 @@ define('BRNL', "<br />\n");
 // Путь до директории модуля
 define('MODX_MAILSEND_PATH', MODX_BASE_PATH . 'assets/modules/MailSend/');
 
-$dir = str_replace('\\','/',dirname(__FILE__)) . '/';
-
-include_once($dir . "index.php");
+include_once(MODX_BASE_PATH . "index.php");
 
 // Получаем все настройки сайта
 $modx->db->connect();
@@ -89,7 +87,7 @@ $messageHeader = '
 		<tbody>
 			<tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;">
 				<td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;">
-					<img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_2u" />
+					<img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_skat59ru" />
 				</td>
 				<td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;">
 					<p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p>
@@ -109,11 +107,6 @@ function outputFn($msg = "") {
 function gen_token(string $assets = "") {
 	$token = md5(microtime() . $assets . microtime(true) . MODX_SITE_URL);
 	return $token;
-}
-
-// CRON вывод непосредственно в кроне
-function cronFn($var, $line) {
-	echo PHP_EOL . print_r($var, true) . PHP_EOL . $line . PHP_EOL;
 }
 
 // Получаем документ
@@ -140,6 +133,7 @@ function getDocument($object) {
 			//$content_arr["group_id"] = $doc["groups_send"];
 			$content_arr["title"] = $doc["pagetitle"];
 			$content_arr["files"] = $files_arr;
+			break;
 		endforeach;
 	endif;
 	return $content_arr;
@@ -182,7 +176,6 @@ function parseContentMsg($content) {
 // Запуск PHPMailer
 function getPHPMailer() {
 	$mailer = new PHPMailer(true);
-	// $mailer->setLanguage('ru', PHPHMAILER_LANG);
 	$mailer->setLanguage('ru');
 	// Настройки SMTP Yandex
 	$mailer->isSMTP();
@@ -204,7 +197,7 @@ function getPHPMailer() {
 	$mailer->isHTML(true);
 	// Логотип
 	if(is_file(TITLE_LOGOTIP)):
-		$mailer->AddEmbeddedImage(TITLE_LOGOTIP, 'logo_2u');
+		$mailer->AddEmbeddedImage(TITLE_LOGOTIP, 'logo_skat59ru');
 	endif;
 	return $mailer;
 }
@@ -223,14 +216,14 @@ function getMaillerDev() {
 			'admin' => 1,
 			'id' => $index + 1,
 			'groups' => '0',
-			'unsubscribe' => "0",
+			'unsubscribe' => '0',
 			'token' => 'developer',
-			'option' => (int) $checker->option
+			'option' => filter_var($checker->option, FILTER_VALIDATE_BOOLEAN)
 		);
 	endforeach;
-	// Фильтруем
+	// Фильтруем на разрешение отправки
 	$return = array_filter($arr, function($value) {
-		return boolval($value["option"]);
+		return $value["option"];
 	});
 	// Индексируем и возвращаем (приводим в порядок)
 	return array_values($return);
@@ -260,15 +253,15 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 	global $messageHeader;
 	// Таблица ресурсом модуля
 	$table_resources = $modx->getFullTableName('mailsend_resources');
+	// Пишем в базу, что идёт отправка
+	$fields = array(
+		'status' => '1', /* пока ноль а не 1 */
+		'count'  => $count,
+		'length' => $length,
+	);
+	$modx->db->update( $fields, $table_resources, 'id = "' . $resource["id"] . '"' );
 	// ПОНЕСЛАСЬ
 	if($content_arr):
-		// Пишем в базу
-		$fields = array(
-			'status' => '1',
-			'count'  => $count,
-			'length' => $length,
-		);
-		$modx->db->update( $fields, $table_resources, 'id = "' . $resource["id"] . '"' );
 		// Вывод начала всей отправки
 		outputFn("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse: collapse; vertical-align: text-top; margin-bottom:20px;max-width:100%;min-width:100%;width:100%\">
 	<thead>
@@ -291,7 +284,6 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 	<!-- // -->
 	</td></tr><tr><td style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.' . BRNL . '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table></div>';
 		$unsub = '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
-		print_r($mailArray);
 		// Начало цикла
 		foreach($mailArray as $key => $value):
 			// Старт вывода отправки пользователь
@@ -326,9 +318,9 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 				$mailer->Subject = $messageTitle;
 				// HTML текст письма
 				$mailer->Body    = $msgMail;
-				echo "------------------------------------" . PHP_EOL . "ТЕСТ mailArray" . PHP_EOL . $msgMail . PHP_EOL . "------------------------------------" . PHP_EOL;
 				// Текстовое сообщение
 				$mailer->AltBody = $content_arr["text"];
+				print_r($content_arr["text"]);
 				// Изображения на странице
 				foreach($content_arr["matches"] as $match):
 					$mailer->AddEmbeddedImage(MODX_BASE_PATH . $match[1], $match[2]);
@@ -340,17 +332,11 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 				// Линк для вывода ссылки отписки в результат для проверяющего
 				$re = '/%token%/';
 				$lnk = preg_replace($re, $token, $unsub, 1);
-				if(SEND_MAIL_DEBUG):
-					outputFn("
-			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
-				<span style=\"color: green;\">УДАЧНО</span>
-			</td>");
-				endif;
 				// Отправляем
 				if(!SEND_MAIL_DEBUG):
 					// Если не включён дебаг
 					if($mailer->send()):
-					// Запись вывода об удачной отпрвке
+						// Запись вывода об удачной отпрвке
 						outputFn("
 				<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 					<span style=\"color: green;\">УДАЧНО</span>
@@ -363,6 +349,12 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 					<span style=\"color: red;\">ОШИБКА:</span><br>" . $err . "<br>" . $lnk . "
 				</td>");
 					endif;
+				else:
+					// Если включён дебаг
+					outputFn("
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				<span style=\"color: green;\">УДАЧНО</span>
+			</td>");
 				endif;
 			} catch (Exception $e) {
 				// Ошибка
@@ -391,10 +383,6 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 	endif;
 }
 
-// Письма разработчикам.
-// Настройки отправки
-// По этим же адресам письма с результатом крона
-$mailerDev = getMaillerDev();
 // Выбрать из таблицы mailsend_resource запись, где
 /**
  * status = 0
@@ -410,11 +398,55 @@ elseif($resource["status"]):
 	exit();
 endif;
 
-/**
- * Далее опираемся на данные из $resource
- */
-// Получить документ
+// Получаем список получателей
+// Выбор групп
 
+$groups = explode(",", $resource["groups"]);
+if(isset($groups[0])):
+	$groups[0] = !$groups[0] ? "0" : $groups[0];
+endif;
+
+// Если длина массива групп равен 1
+if(count($groups) == 1):
+	// Если элемент равен 0
+	if($groups[0] == "0"):
+		// Выходим
+		exit();
+	endif;
+endif;
+
+// Письма разработчикам.
+$mailerDev = getMaillerDev();
+
+// Выбор пользователей по группам
+if(count($groups)):
+	$slt = "SELECT users.*, COUNT(users_groups.id_group) as group_count FROM " . $table . " AS users JOIN " . $table_members . " AS users_groups ON users.id = users_groups.id_user WHERE users_groups.id_group IN (" . implode(',', $groups) . ") AND users.unsubscribe = 0 GROUP BY users.id ORDER BY `users`.`id` ASC;";
+	$result = $modx->db->query($slt);
+	while( $row = $modx->db->getRow( $result ) ):
+		$usr = json_decode(json_encode($row, JSON_PRETTY_PRINT), false);
+		$mailArray[] = array(
+			"id"          => $usr->id,
+			"user"        => $usr->name,
+			"email"       => $usr->email,
+			"unsubscribe" => $usr->unsubscribe,
+			"token"       => $usr->token,
+			"admin"       => 0,
+			"option"      => 1
+		);
+	endwhile;
+	// Общее
+	$length = count($mailArray);
+	// Срез
+	$mailArray = array_slice($mailArray, $resource["count"], MAIL_COUNT);
+	// На отправку
+	$count = count($mailArray) + $resource["count"];
+endif;
+
+
+// Получить документ
+/**
+ * Опираемся на данные из $resource
+ */
 // выбрать нужное сообщение, заголовок, файлы, дату отправки
 // Выбираем только один документ
 // Документ должен быть опубликованным
@@ -430,54 +462,11 @@ $evoPage = $modx->runSnippet('DocLister',
 		'sortDir'           => 'DESC',
 		'queryLimit'        => '1',
 		'api'               => '1',
-		'JSONformat'        => 'new',
-		//'filters'           => 'AND(tv:date_send:egt:' . $current . ';tv:date_send:elt:' . $next . ')'
+		'JSONformat'        => 'new'
 	)
 );
 
 $content_arr = getDocument(json_decode($evoPage, true));
-
-// Получаем список получателей
-// Выбор групп
-
-$groups = explode(",", $resource["groups"]);
-if(isset($groups[0])):
-	$groups[0] = !$groups[0] ? "0" : $groups[0];
-endif;
-
-// Если длина массива групп равен 1
-if(count($groups) == 1):
-	// Если элемент равен 0
-	if($groups[0] == "0"):
-		// Выходим
-		//exit();
-	endif;
-endif;
-
-// Выбор групп
-if(count($groups)):
-	$slt = "SELECT users.*, COUNT(users_groups.id_group) as group_count FROM " . $table . " AS users JOIN " . $table_members . " AS users_groups ON users.id = users_groups.id_user WHERE users_groups.id_group IN (" . implode(',', $groups) . ") AND users.unsubscribe = 0 GROUP BY users.id ORDER BY `users`.`id` ASC;";
-	//echo $slt . PHP_EOL;
-	$result = $modx->db->query($slt);
-	while( $row = $modx->db->getRow( $result ) ):
-		$usr = json_decode(json_encode($row, JSON_PRETTY_PRINT), false);
-		$mailArray[] = array(
-			"id"          => $usr->id,
-			"user"        => $usr->name,
-			"email"       => $usr->email,
-			"unsubscribe" => 0,
-			"token"       => $usr->token,
-			"admin"       => 0,
-			"option"      => 1
-		);
-	endwhile;
-	// Общее
-	$length = count($mailArray);
-	// Срез
-	$mailArray = array_slice($mailArray, $resource["count"], MAIL_COUNT);
-	// На отправку
-	$count = count($mailArray) + $resource["count"];
-endif;
 
 // Старт скрипта
 outputFn("
@@ -536,7 +525,7 @@ $text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/',
 
 // Отправляем результат проверяющим если была отправка адресатам
 
-if($content_arr && $count <= $length):
+if($content_arr && $count && $count <= $length):
 	foreach($mailerDev as $key => $value):
 		$mailer = getPHPMailer();
 		try {
@@ -605,7 +594,6 @@ if($content_arr && $mailerDev && $status == 2):
 			$mailer->Subject = $messageTitle;
 			// HTML текст письма
 			$mailer->Body    = $msgMail;
-			echo "------------------------------------" . PHP_EOL . "ТЕСТ mailerDev" . PHP_EOL . $msgMail . PHP_EOL . "------------------------------------" . PHP_EOL;
 			// Текстовое сообщение
 			$mailer->AltBody = $content_arr["text"];
 			// Изображения на странице

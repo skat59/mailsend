@@ -1,9 +1,20 @@
 <?php
 header("Content-type: text/plain; charset=utf-8");
 
+/**
+ * PHPMailer
+ */
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
+/**
+ * Email валидатор
+ */
+use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\DNSCheckValidation;
+use Egulias\EmailValidator\Validation\MultipleValidationWithAnd;
+use Egulias\EmailValidator\Validation\RFCValidation;
 
 $dir = str_replace('\\','/',dirname(__FILE__)) . "/";
 
@@ -18,8 +29,6 @@ define('MODX_API_MODE',      true);
 define('MODX_BASE_PATH',     $dir);
 define('MODX_SITE_URL',      'https://mailsend.skat59.ru/');
 define('MODX_BASE_URL',      'https://mailsend.skat59.ru/');
-// Расположение локали для PHPMailer
-define('PHPHMAILER_LANG', MODX_BASE_PATH . 'phpmailer/language/');
 // Заголовок результата
 define('TITLE_RESULT', 'Результат выполнения КРОН');
 // Перенос строки для текста
@@ -36,7 +45,6 @@ if (empty($modx->config)) {
 }
 
 define('PARENT_SITE_URL',    $modx->config['perent_site_url']);
-define('TITLE_PARENT',       $modx->config['title_parent']);
 define('TITLE_PHONE',        $modx->config['title_phone']);
 // ПЕРЕМЕННЫЕ ДЛЯ SMTP
 // Настройка отправителя
@@ -46,8 +54,6 @@ define('SEND_PASSWORD',      $modx->config['send_password_evo']);
 define('SMTP_HOST',          $modx->config['smtp_host_evo']);
 define('SMTP_PORT',          (int) $modx->config['smtp_port_evo']);
 define('SMTP_AUTH',          filter_var($modx->config['smtp_auth_evo'], FILTER_VALIDATE_BOOLEAN));
-// Логотип
-define('TITLE_LOGOTIP', MODX_BASE_PATH . $modx->config['title_logotip']);
 // Количество сообщений за одну отправку.
 define('MAIL_COUNT', $modx->config['send_count_messages']);
 // Пауза
@@ -81,21 +87,6 @@ $current = strtotime(date("d-m-Y 00:00:00", time()));
 $next = $current + 86400 - 1;
 // Имя сайта
 $site_name = $modx->config['site_name'];
-// Оформление заголовка письма
-$messageHeader = '
-	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%">
-		<tbody>
-			<tr style="background:#002952;color:#ffffff;font-size:16px;padding:15px;">
-				<td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;">
-					<img style="display:inline-block;vertical-align:middle;width:100px" src="cid:logo_skat59ru" />
-				</td>
-				<td style="background:#002952;color:#ffffff;font-size:16px;padding:15px;width:100%!important;">
-					<p style="display:inline-block;vertical-align:middle;width:100%;">' . TITLE_PARENT . '</p>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	';
 
 // Функция сбора данных
 function outputFn($msg = "") {
@@ -115,7 +106,7 @@ function getDocument($object) {
 	$content_arr = array();
 	if($object["rows"]):
 		foreach($object["rows"] as $doc):
-			$content = $doc["content"] . $modx->config['additional_signature'];
+			$content = $modx->config['title_header'] . $doc["content"] . $modx->config['additional_signature'];
 			$files = $doc["files"];
 			$files_arr = array();
 			if($files) {
@@ -128,16 +119,25 @@ function getDocument($object) {
 				endif;
 			}
 			$content_arr = parseContentMsg($content);
+			$content_arr["content"] = $content_arr["content"] . '<p style="text-align: center;">Телефон для обратной связи: ' . TITLE_PHONE . '
+<br> Или просто напишите нам: <a href="mailto:' . SEND_EMAIL . '">' . SEND_EMAIL . '</a></p>
+<p>&nbsp;</p>
+<p style="text-align: right;"><b>С огромным уважением к Вам<br /> &nbsp;<a href="' . PARENT_SITE_URL . '" target="_blank">' . SEND_USER . '</a></b></p>';
+			$text = strip_tags($content_arr["content"]);
+			$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
+			$content_arr["text"] = $text;
 			$content_arr["id"] = $doc["id"];
 			$content_arr["date"] = $doc["date_send"];
-			//$content_arr["group_id"] = $doc["groups_send"];
 			$content_arr["title"] = $doc["pagetitle"];
 			$content_arr["files"] = $files_arr;
+			// Только один первый документ
+			// Выходим
 			break;
 		endforeach;
 	endif;
 	return $content_arr;
 }
+
 // Парсинг контента
 function parseContentMsg($content) {
 	$return = array();
@@ -155,18 +155,12 @@ function parseContentMsg($content) {
 		$content = preg_replace($re, $subst, $content);
 		$return[] = $arr;
 	endforeach;
-	$content = $content . "\n" . '<p style="text-align: center;">Телефон для обратной связи: ' . TITLE_PHONE . '
-<br>Или просто напишите нам: <a href="mailto:' . SEND_EMAIL . '">' . SEND_EMAIL . '</a></p>
-<p>&nbsp;</p>
-<p style="text-align: right;"><b>С огромным уважением к Вам<br /> &nbsp;<a href="' . PARENT_SITE_URL . '" target="_blank">' . SEND_USER . '</a></b></p';
-	$text = strip_tags($content);
-	$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
 	$arr_return = array(
 		"id"      => "",
 		"date"    => "",
 		"title"   => "",
 		"content" => $content,
-		"text"    => $text,
+		"text"    => "",
 		"files"   => array(),
 		"matches" => $return
 	);
@@ -195,10 +189,6 @@ function getPHPMailer() {
 	$mailer->addReplyTo(SEND_EMAIL, SEND_USER);
 	// Разрешить HTML
 	$mailer->isHTML(true);
-	// Логотип
-	if(is_file(TITLE_LOGOTIP)):
-		$mailer->AddEmbeddedImage(TITLE_LOGOTIP, 'logo_skat59ru');
-	endif;
 	return $mailer;
 }
 
@@ -249,8 +239,6 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 	global $resource;
 	global $count;
 	global $length;
-	// Шапка письма
-	global $messageHeader;
 	// Таблица ресурсом модуля
 	$table_resources = $modx->getFullTableName('mailsend_resources');
 	// Пишем в базу, что идёт отправка
@@ -262,8 +250,9 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 	$modx->db->update( $fields, $table_resources, 'id = "' . $resource["id"] . '"' );
 	// ПОНЕСЛАСЬ
 	if($content_arr):
-		// Вывод начала всей отправки
-		outputFn("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse: collapse; vertical-align: text-top; margin-bottom:20px;max-width:100%;min-width:100%;width:100%\">
+		// Вывод начала отправки результата
+		outputFn("
+<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse: collapse; vertical-align: text-top; margin-bottom:20px;max-width:100%;min-width:100%;width:100%\">
 	<thead>
 		<tr>
 			<th style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">ПОЛУЧАТЕЛЬ</th>
@@ -276,7 +265,7 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 		$messageTitle = $content_arr["title"];
 		// Получаем контент рассылки
 		// Каждый раз контент будет перезаписан для каждого адресата
-		$messageOut = '<div style="padding: 15px;">' . $messageHeader . '
+		$messageOut = '<div style="padding: 15px;">
 	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody>
 	<tr><td>
 	<!-- // -->
@@ -302,73 +291,83 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				" . $email . "
 			</td>");
-			try {
-				// Перезапишем токен и получаем контент рассылки готовый к отправке
-				$re = '/%token%/';
-				$msgMail = preg_replace($re, $token, $messageOut, 1);
+			$validator = new EmailValidator();
+			if($validator->isValid($email, new MultipleValidationWithAnd([new RFCValidation(), new DNSCheckValidation()]))):
+				try {
+					// Перезапишем токен и получаем контент рассылки готовый к отправке
+					$re = '/%token%/';
+					$msgMail = preg_replace($re, $token, $messageOut, 1);
 
-				// Создаём объект PHPMailer
-				$mailer = getPHPMailer();
-				// Адрес получателя
-				$mailer->addAddress($email, $user);
-				// Устанавливаем заоловок с рассылкой (отпиской)
-				$mailer->AddCustomHeader("List-Unsubscribe: <mailto:" . SEND_EMAIL . "?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
+					// Создаём объект PHPMailer
+					$mailer = getPHPMailer();
+					// Адрес получателя
+					$mailer->addAddress($email, $user);
+					// Устанавливаем заоловок с рассылкой (отпиской)
+					$mailer->AddCustomHeader("List-Unsubscribe: <mailto:" . SEND_EMAIL . "?subject=Unsubscribe>, <" . MODX_SITE_URL . "unsubscribe/?token=" . $token . ">");
 
-				// Заголовок письма
-				$mailer->Subject = $messageTitle;
-				// HTML текст письма
-				$mailer->Body    = $msgMail;
-				// Текстовое сообщение
-				$mailer->AltBody = $content_arr["text"];
-				print_r($content_arr["text"]);
-				// Изображения на странице
-				foreach($content_arr["matches"] as $match):
-					$mailer->AddEmbeddedImage(MODX_BASE_PATH . $match[1], $match[2]);
-				endforeach;
-				// Файлы
-				foreach($content_arr["files"] as $file):
-					$mailer->addAttachment(MODX_BASE_PATH . $file["file"], $file["title"]);
-				endforeach;
-				// Линк для вывода ссылки отписки в результат для проверяющего
-				$re = '/%token%/';
-				$lnk = preg_replace($re, $token, $unsub, 1);
-				// Отправляем
-				if(!SEND_MAIL_DEBUG):
-					// Если не включён дебаг
-					if($mailer->send()):
-						// Запись вывода об удачной отпрвке
-						outputFn("
-				<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
-					<span style=\"color: green;\">УДАЧНО</span>
-				</td>");
-					else:
-						// Запись вывода об неудачной отпрвке
-						$err = print_r($mailer->ErrorInfo, true);
-						outputFn("
-				<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
-					<span style=\"color: red;\">ОШИБКА:</span><br>" . $err . "<br>" . $lnk . "
-				</td>");
-					endif;
-				else:
-					// Если включён дебаг
-					outputFn("
+					// Заголовок письма
+					$mailer->Subject = $messageTitle;
+					// HTML текст письма
+					$mailer->Body    = $msgMail;
+					// Текстовое сообщение
+					$mailer->AltBody = $content_arr["text"];
+					// Изображения на странице
+					foreach($content_arr["matches"] as $match):
+						$mailer->AddEmbeddedImage(MODX_BASE_PATH . $match[1], $match[2]);
+					endforeach;
+					// Файлы
+					foreach($content_arr["files"] as $file):
+						$mailer->addAttachment(MODX_BASE_PATH . $file["file"], $file["title"]);
+					endforeach;
+					// Линк для вывода ссылки отписки в результат для проверяющего
+					$re = '/%token%/';
+					$lnk = preg_replace($re, $token, $unsub, 1);
+					// Отправляем
+					if(!SEND_MAIL_DEBUG):
+						// Если не включён дебаг
+						if($mailer->send()):
+							// Запись вывода об удачной отпрвке
+							outputFn("
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				<span style=\"color: green;\">УДАЧНО</span>
 			</td>");
-				endif;
-			} catch (Exception $e) {
-				// Ошибка
-				// Запись вывода об неудачной отпрвке
-				$err = print_r($e->getMessage(), true);
-				outputFn("
+						else:
+							// Запись вывода об неудачной отпрвке
+							$err = print_r($mailer->ErrorInfo, true);
+							outputFn("
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				<span style=\"color: red;\">ОШИБКА:</span><br>" . $err . "<br>" . $lnk . "
+			</td>");
+						endif;
+					else:
+						// Если включён дебаг
+						outputFn("
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				<span style=\"color: green;\">В РЕЖИМЕ ДЕБАГ</span>
+			</td>");
+					endif;
+				} catch (Exception $e) {
+					// Ошибка
+					// Запись вывода об неудачной отпрвке
+					$err = print_r($e->getMessage(), true);
+					outputFn("
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				<span style=\"color: red;\">ОШИБКА:</span>" . $err . "<br>" . $lnk . "
 			</td>");
-			}
+				}
+				// Уничтажаем объект PHPMailer
+				unset( $mailer );
+			else:
+				outputFn("
+			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
+				<span style=\"color: red;\">НЕ ВАЛИДНЫЙ АДРЕС</span>
+			</td>");
+			endif;
 			outputFn("
 		</tr>");
-			// Уничтажаем объект PHPMailer
-			unset( $mailer );
+			// Уничтожаем валидатор
+			unset( $validator );
+			unset( $multipleValidations );
 			if(!SEND_MAIL_DEBUG):
 				// Если не включён дебаг
 				// Спим
@@ -470,8 +469,7 @@ $content_arr = getDocument(json_decode($evoPage, true));
 
 // Старт скрипта
 outputFn("
-<p><strong>Часовой пояс времени:</strong> " . TIME_ZONE . "</p>
-");
+<p><strong>Часовой пояс времени:</strong> " . TIME_ZONE . "</p>");
 outputFn("
 <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"border-collapse: collapse; vertical-align: text-top; margin-bottom:20px;max-width:100%;min-width:100%;width:100%\">
 	<tbody>");
@@ -498,16 +496,27 @@ outputFn('
 			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Конечная дата выбора рассылки:</strong></td>
 			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;">' . date("d-m-Y H:i:s", $next) . '</span></td>
 		</tr>');
-// Кол-во адресов
+// Кол-во адресов в рассылке
 outputFn('
 		<tr>
-			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Кол-во адресов:</strong></td>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Кол-во адресов в рассылке:</strong></td>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;">' . MAIL_COUNT . '</span></td>
+		</tr>');
+// Обработанное Кол-во адресов
+outputFn('
+		<tr>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Обработанное кол-во адресов:</strong></td>
 			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;">' . $count . '</span></td>
+		</tr>');
+// Общее Кол-во адресов
+outputFn('
+		<tr>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Общее кол-во адресов:</strong></td>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;">' . $length . '</span></td>
 		</tr>');
 outputFn("
 	</tbody>
-</table>
-");
+</table>");
 
 // Отправляем сообщения
 sendMailSend($mailArray, $content_arr);
@@ -518,7 +527,8 @@ $end = date('d-m-Y H:i:s', time());
 $output = preg_replace($re, $end, $output, 1);
 
 // HTML Текст письма
-$html = '<div style="padding: 15px;">' . $messageHeader . '<h1>' . TITLE_RESULT . '</h1>' . BRNL . $output . '</div>';
+$html = '<div style="padding: 15px;">
+<h1>' . TITLE_RESULT . '</h1>' . $output . '</div>';
 // Готовим Текст письма
 $text = strip_tags($html);
 $text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
@@ -565,13 +575,23 @@ if($content_arr && $mailerDev && $status == 2):
 	$messageTitle = $content_arr["title"];
 	// Получаем контент рассылки
 	// Каждый раз контент будет перезаписан для каждого адресата
-	$messageOut = '<div style="padding: 15px;">' . $messageHeader . '
-	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%"><tbody>
-	<tr><td>
-	<!-- // -->
-	' . $content_arr["content"] . '
-	<!-- // -->
-	</td></tr><tr><td style="text-align: center; font-size: 10px !important;"><p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.' . BRNL . '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">Отписаться</a></p></td></tr></tbody></table></div>';
+	$messageOut = '
+<div style="padding: 15px;">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin-bottom:20px;max-width:100%;min-width:100%;width:100%">
+		<tbody>
+			<tr>
+				<td>
+' . $content_arr["content"] . '
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: center; font-size: 10px !important;">
+					<p style="text-align: center; font-size: 10px !important;">Вы можете отписаться от нашей рассылки.' . BRNL . '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">Отписаться</a></p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>';
 	$unsub = '<a href="' . MODX_SITE_URL . 'unsubscribe/?token=%token%" target="_blank">UNSUBSCRIBE</a>';
 	// Начало цикла
 	foreach($mailerDev as $key => $value):

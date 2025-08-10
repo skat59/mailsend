@@ -17,10 +17,36 @@
  * */
 
 if( !empty( $this->modxParams['custom_plugins'])) {
-    $this->set('plugins', $this->modxParams['custom_plugins'], 'string' );
+	$this->set('plugins', $this->modxParams['custom_plugins'], 'string' );
 };
 // Используемые шрифты
 $this->set('font_formats', 'Arial=Arial;Helvetica=Helvetica;Tahoma=Tahoma;Times New Roman=Times New Roman', 'string');
+$this->set('formats', '{
+	alignleft: {
+		selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video",
+		styles: {
+			textAlign: "left"
+		}
+	},
+	aligncenter: {
+		selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video",
+		styles: {
+			textAlign: "center"
+		}
+	},
+	alignright: {
+		selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video",
+		styles: {
+			textAlign: "right"
+		}
+	},
+	alignfull: {
+		selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video",
+		styles: {
+			textAlign: "alignjustify"
+		}
+	}
+}', 'object');
 // Используемые плагины
 $this->set('plugins', 'textcolor autolink lists layer table modxlink image emoticons media contextmenu paste visualchars nonbreaking visualblocks charmap wordcount code autoresize', 'string');
 
@@ -56,12 +82,12 @@ $this->set('setup', 'function(ed) { ed.on("change", function(e) { documentDirty=
 $this->set('save_onsavecallback', 'function () { documentDirty=false; document.getElementById("stay").value = 2; document.mutate.save.click(); }',  'object');
 
 try {
-    $hash = "1.0.0";
-    $css = $this->themeConfig["content_css"]["value"][0];
-    if(is_file(MODX_BASE_PATH . $css)){
-        $hash = filemtime(MODX_BASE_PATH . $css);
-        $css .= '?hash=hash' . $hash;
-        $this->themeConfig["content_css"]["value"][0] = $css;
-    }
+	$hash = "1.0.0";
+	$css = $this->themeConfig["content_css"]["value"][0];
+	if(is_file(MODX_BASE_PATH . $css)){
+		$hash = filemtime(MODX_BASE_PATH . $css);
+		$css .= '?hash=hash' . $hash;
+		$this->themeConfig["content_css"]["value"][0] = $css;
+	}
 } catch (Exception $e) {}
 

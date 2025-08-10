@@ -11,6 +11,11 @@ return [
 	}
 </style>',
 	'settings' => [
+		'send_debug_message' => [
+			'caption' => '<strong style="color: red;">Режим разработки</strong>',
+			'type' => 'dropdown',
+			'elements' => 'Нет==0||Да==1',
+		],
 		'dispatch_checkers' => [
 			'caption' => 'Проверяющие отправку',
 			'type' => 'custom_tv:multitv',
@@ -29,10 +34,5 @@ return [
 			'type' => 'number',
 			'default_text' => '10',
 		],
-		'send_debug_message' => [
-			'caption' => 'Режим разработки<br><strong style="color: red;">(только для разработчика)</strong>',
-			'type' => 'dropdown',
-			'elements' => 'Нет==0||Да==1',
-		]
 	],
 ];

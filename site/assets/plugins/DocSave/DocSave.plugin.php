@@ -92,6 +92,14 @@ switch ($e->name) {
 						break;
 					case 'groups_send':
 						$groups = isset($rows["value"]) ? $rows["value"] : "0";
+						$groups = explode("||", $groups);
+						sort($groups);
+						$groups = implode("||", $groups);
+						$data = array(
+							"value" => $groups,
+							"tmplvarid" => $row['id']
+						);
+						$modx->db->update($data, $modx->getFullTableName('site_tmplvar_contentvalues'), "id='" . $rows["id"] . "'");
 						break;
 					case 'reinit_send':
 						if(isset($rows["value"])):

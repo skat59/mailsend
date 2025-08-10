@@ -28,7 +28,8 @@
 		"php": ">=7.4",
 		"ext-json": "*",
 		"phpoffice/phpspreadsheet": "^1.29",
-		"phpmailer/phpmailer": "dev-master"
+		"phpmailer/phpmailer": "dev-master",
+		"egulias/email-validator": "^3.2"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true

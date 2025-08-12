@@ -1,72 +1,78 @@
 // Glyphs Icons
-@icon-begin: "\e900";
-@icon-bell: "\e901";
-@icon-best-banner: "\e902";
-@icon-best-video: "\e903";
-@icon-blockquote: "\e904";
-@icon-calendar: "\e905";
-@icon-callme: "\e906";
-@icon-check: "\e907";
-@icon-checkbox: "\e908";
-@icon-chrome: "\e909";
-@icon-circle-close: "\e90a";
-@icon-close: "\e90b";
-@icon-copy: "\e90c";
-@icon-down: "\e90d";
-@icon-download-pdf: "\e90e";
-@icon-download: "\e90f";
-@icon-email: "\e910";
-@icon-end: "\e911";
-@icon-error: "\e912";
-@icon-event-calendar: "\e913";
-@icon-eye-new: "\e914";
-@icon-eye: "\e915";
-@icon-facebook: "\e916";
-@icon-fbs: "\e917";
-@icon-firefox: "\e918";
-@icon-github: "\e919";
-@icon-google: "\e91a";
-@icon-home: "\e91b";
-@icon-icofb: "\e91c";
-@icon-icoinsta: "\e91d";
-@icon-icook: "\e91e";
-@icon-icosk: "\e91f";
-@icon-icotg: "\e920";
-@icon-icotw: "\e921";
-@icon-icovb: "\e922";
-@icon-icovk: "\e923";
-@icon-icoyt: "\e924";
-@icon-image: "\e925";
-@icon-menu-close: "\e926";
-@icon-menu-open: "\e927";
-@icon-modx: "\e928";
-@icon-next: "\e929";
-@icon-ok: "\e92a";
-@icon-oks: "\e92b";
-@icon-opera: "\e92c";
-@icon-phone: "\e92d";
-@icon-photo: "\e92e";
-@icon-prev: "\e92f";
-@icon-print-ic: "\e930";
-@icon-print: "\e931";
-@icon-required: "\e932";
-@icon-reset: "\e933";
-@icon-rss-logo: "\e934";
-@icon-rss: "\e935";
-@icon-rutube: "\e936";
-@icon-search: "\e937";
-@icon-share: "\e938";
-@icon-success: "\e939";
-@icon-telegram: "\e93a";
-@icon-twitter: "\e93b";
-@icon-tws: "\e93c";
-@icon-up: "\e93d";
-@icon-vk: "\e93e";
-@icon-vks: "\e93f";
-@icon-website: "\e940";
-@icon-whatsapp: "\e941";
-@icon-zoom-in: "\e942";
-@icon-zoom-out: "\e943";
+@icon-angle-left: "\e900";
+@icon-angle-right: "\e901";
+@icon-angles-left: "\e902";
+@icon-angles-right: "\e903";
+@icon-begin: "\e904";
+@icon-bell: "\e905";
+@icon-best-banner: "\e906";
+@icon-best-video: "\e907";
+@icon-blockquote: "\e908";
+@icon-calendar: "\e909";
+@icon-callme: "\e90a";
+@icon-check: "\e90b";
+@icon-checkbox: "\e90c";
+@icon-chrome: "\e90d";
+@icon-circle-close: "\e90e";
+@icon-close: "\e90f";
+@icon-copy: "\e910";
+@icon-down: "\e911";
+@icon-download-pdf: "\e912";
+@icon-download: "\e913";
+@icon-email: "\e914";
+@icon-end: "\e915";
+@icon-error: "\e916";
+@icon-event-calendar: "\e917";
+@icon-eye-new: "\e918";
+@icon-eye: "\e919";
+@icon-facebook: "\e91a";
+@icon-fbs: "\e91b";
+@icon-file-excel: "\e91c";
+@icon-file-pdf: "\e91d";
+@icon-firefox: "\e91e";
+@icon-github: "\e91f";
+@icon-google: "\e920";
+@icon-home: "\e921";
+@icon-icofb: "\e922";
+@icon-icoinsta: "\e923";
+@icon-icook: "\e924";
+@icon-icosk: "\e925";
+@icon-icotg: "\e926";
+@icon-icotw: "\e927";
+@icon-icovb: "\e928";
+@icon-icovk: "\e929";
+@icon-icoyt: "\e92a";
+@icon-image: "\e92b";
+@icon-menu-close: "\e92c";
+@icon-menu-open: "\e92d";
+@icon-modx: "\e92e";
+@icon-next: "\e92f";
+@icon-ok: "\e930";
+@icon-oks: "\e931";
+@icon-opera: "\e932";
+@icon-phone: "\e933";
+@icon-photo: "\e934";
+@icon-prev: "\e935";
+@icon-print-ic: "\e936";
+@icon-print: "\e937";
+@icon-required: "\e938";
+@icon-reset: "\e939";
+@icon-rss-logo: "\e93a";
+@icon-rss: "\e93b";
+@icon-rutube: "\e93c";
+@icon-search: "\e93d";
+@icon-share: "\e93e";
+@icon-success: "\e93f";
+@icon-telegram: "\e940";
+@icon-twitter: "\e941";
+@icon-tws: "\e942";
+@icon-up: "\e943";
+@icon-vk: "\e944";
+@icon-vks: "\e945";
+@icon-website: "\e946";
+@icon-whatsapp: "\e947";
+@icon-zoom-in: "\e948";
+@icon-zoom-out: "\e949";
 
 // Font family "LocalHost"
 @font-face {
@@ -95,6 +101,26 @@
 }
 // Classes icons
 .icon {
+	&-angle-left {
+		&:before {
+			content: @icon-angle-left;
+		}
+	}
+	&-angle-right {
+		&:before {
+			content: @icon-angle-right;
+		}
+	}
+	&-angles-left {
+		&:before {
+			content: @icon-angles-left;
+		}
+	}
+	&-angles-right {
+		&:before {
+			content: @icon-angles-right;
+		}
+	}
 	&-begin {
 		&:before {
 			content: @icon-begin;
@@ -213,6 +239,16 @@
 	&-fbs {
 		&:before {
 			content: @icon-fbs;
+		}
+	}
+	&-file-excel {
+		&:before {
+			content: @icon-file-excel;
+		}
+	}
+	&-file-pdf {
+		&:before {
+			content: @icon-file-pdf;
 		}
 	}
 	&-firefox {

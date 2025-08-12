@@ -1,0 +1,195 @@
+@import "../../../../../src/less/localhost.less";
+::-webkit-search-cancel-button {
+	opacity: 1;
+	cursor: pointer;
+}
+
+.clearfix {
+	&::before,
+	&::after {
+		display: table;
+		clear: both;
+		content: "";
+	}
+}
+
+.btn {
+	font-size: .6772rem;
+	height: 2.4em;
+	line-height: 1.4;
+	&-group {
+		user-select: none;
+		.btn {
+			user-select: none;
+			.fa,
+			.fas,
+			.far {
+				pointer-events: none;
+			}
+		}
+	}
+}
+
+a {
+	&.btn {
+		&-success,
+		&-danger {
+			&,
+			&:not([href]),
+			&:not([tabindex]),
+			&:not([href]):not([tabindex]) {
+				color: white;
+			}
+		}
+		&:not([href]),
+		&:not([tabindex]),
+		&:not([href]):not([tabindex]) {
+			cursor: pointer;
+		}
+	}
+}
+
+.tab {
+	&-row {
+		.tab {
+			border: 1px solid rgba(0, 0, 0, 0.05);
+			border-bottom: none;
+			.fa,
+			.fas,
+			.far {
+				margin-right: 0.5em;
+				font-size: 0.875rem;
+			}
+		}
+	}
+	&-pane {
+		> .tab-page {
+			> .tab {
+				border: 1px solid rgba(0, 0, 0, 0.05);
+				border-bottom: none;
+			}
+		}
+	}
+	&-header {
+		&-mailsend {
+			padding: 1rem 0 0.5rem 0;
+			letter-spacing: 0;
+		}
+	}
+	&-body {
+		&-mailsend {
+			padding-bottom: 1rem;
+		}
+	}
+}
+
+.grid {
+	table-layout: auto;
+	thead {
+		position: sticky;
+		top: 0;
+		z-index: 20;
+		th {
+			font-weight: 700;
+			user-select: none;
+		}
+	}
+	thead,
+	tbody {
+		th,td {
+			&:nth-child(2) {
+				//word-break: unset;
+				//width: 100%;
+			}
+			&:first-child,
+			&:last-child {
+				width: 1%;
+			}
+		}
+	}
+	&-users {
+		thead,
+		tbody {
+			th,
+			td {
+				&:nth-child(5) {
+					//white-space: nowrap;
+				}
+			}
+		}
+	}
+}
+
+.dt {
+	&-length,
+	&-search {
+		display: flex;
+		gap: 1em;
+	}
+	&-container {
+		&.form-inline {
+			> .row {
+				width: calc(100% + 2.5rem);
+				&:first-child {
+					display: flex;
+					flex: 1;
+				}
+			}
+		}
+	}
+	&-layout {
+		&-cell {
+			gap: 0.5em;
+			display: flex;
+			flex-direction: column;
+			padding-bottom: .5em;
+			label {
+				min-width: 6em;
+				justify-content: flex-end;
+			}
+		}
+	}
+	&-button {
+		&s {
+			display: flex;
+			gap: 0.5em;
+		}
+		&.buttons {
+			&-excel,
+			&-pdf {
+				&::before {
+					font-family: "LocalHost" !important;
+					speak: none;
+					font-style: normal;
+					font-weight: normal;
+					font-variant: normal;
+					text-transform: none;
+					line-height: 1;
+					text-rendering: auto;
+					-webkit-font-smoothing: antialiased;
+					-moz-osx-font-smoothing: grayscale;
+					margin-right: 0.3em;
+				}
+			}
+			&-excel {
+				&::before {
+					content: @icon-file-excel;
+				}
+			}
+			&-pdf {
+				&::before {
+					content: @icon-file-pdf;
+				}
+			}
+		}
+	}
+	&-orderable {
+		&-asc,
+		&-desc {
+			cursor: pointer;
+			* {
+				user-select: none;
+			}
+		}
+	}
+}

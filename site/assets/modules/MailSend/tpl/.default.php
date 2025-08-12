@@ -13,51 +13,10 @@ if(is_string($content['icon'])){
 }
 $page = (int)$page > 0 ? "&page=" . $page : "";
 $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $content['id'] . $page;
+$css = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/css/main.min.css");
+$js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.min.js");
 ?>
-<style>
-	.clearfix::before {
-		display: table;
-		clear: both;
-		content: "";
-	}
-	.btn {
-		font-size: .6772rem;
-		height: 2.4em;
-		line-height: 1.4;
-	}
-	a.btn-success,
-	a.btn-danger,
-	a.btn-success:not([href]),
-	a.btn-danger:not([href]),
-	a.btn-success:not([tabindex]),
-	a.btn-danger:not([tabindex]),
-	a.btn-success:not([href]):not([tabindex]),
-	a.btn-danger:not([href]):not([tabindex]) {
-		color: white;
-	}
-	a.btn:not([href]),
-	a.btn:not([tabindex]),
-	a.btn:not([href]):not([tabindex]) {
-		cursor: pointer;
-	}
-	.tab-row .tab .fa,
-	.tab-row .tab .far {
-		margin-right: 0.5em;
-		font-size: 0.875rem;
-	}
-	.tab-row .tab,
-	.tab-pane > .tab-page > .tab {
-		border: 1px solid rgba(0, 0, 0, 0.05);
-		border-bottom: none;
-	}
-	.tab-header-mailsend {
-		padding: 1rem 0 0.5rem 0;
-		letter-spacing: 0;
-	}
-	.tab-body-mailsend {
-		padding-bottom: 1rem;
-	}
-</style>
+<link rel="stylesheet" href="/assets/modules/MailSend/css/main.min.css?<?= $css; ?>" />
 <h1 class="d-none"><i class="<?= $content["icon"];?>"></i><?= $content["name"]; ?></h1>
 <div id="actions">
     <div class="btn-group">
@@ -65,7 +24,7 @@ $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $conte
     </div>
 </div>
 <div class="container-fluid">
-	<h3 style="font-size: 1.5em; line-height: 1.5rem; padding: 0.8rem 0; margin-bottom: 1.6rem; margin-left: 10px;"><i class="fa fa-users"></i>&nbsp;&nbsp;<?= $_lang["mailsend.title"]; ?></h3>
+	<h1><i class="fa fa-users"></i>&nbsp;&nbsp;<?= $_lang["mailsend.title"]; ?></h1>
 	<div class="tab-pane" id="MailSendManager_pane">
 		<script type="text/javascript">
 			tpResources = new WebFXTabPane(document.getElementById('MailSendManager_pane'));
@@ -82,25 +41,44 @@ $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $conte
 					</div>
 				</div>
 				<div class="tab-body-mailsend">
-					<form name="mail-users" action>
-						<table class="grid">
+					<div>
+						<table class="grid grid-users">
 							<thead>
 								<tr>
-									<th width="55%"><?= $_lang["mailsend.users_table_col1"]; ?></th>
-									<th width="20%"><?= $_lang["mailsend.users_table_col2"]; ?></th>
-									<th width="20%"><?= $_lang["mailsend.users_table_col3"]; ?></th>
-									<th width="5%"><?= $_lang["mailsend.users_table_col4"]; ?></th>
+									<th><?= $_lang["mailsend.users_table_col1"]; ?></th>
+									<th><?= $_lang["mailsend.users_table_col2"]; ?></th>
+									<th><?= $_lang["mailsend.users_table_col3"]; ?></th>
+									<th><?= $_lang["mailsend.users_table_col4"]; ?></th>
+									<th><?= $_lang["mailsend.users_table_col5"]; ?></th>
+									<th><?= $_lang["mailsend.users_table_col6"]; ?></th>
+									<th><?= $_lang["mailsend.users_table_col7"]; ?></th>
 								</tr>
 							</thead>
 							<tbody>
 <?php
-								//$table_user = $modx->getFullTableName('');
-								//$sql = "SELEC * ";
-								//$result = $modx->db->query($sql);
+	$sql = "SELECT users_table.id, users_table.name, users_table.email, GROUP_CONCAT(groups_table.id ORDER BY groups_table.id SEPARATOR \", \r\n\") AS groups_id, GROUP_CONCAT(groups_table.name ORDER BY groups_table.id SEPARATOR \", \r\n\") AS groups_name, users_table.unsubscribe FROM `evo_mailsend_users` users_table inner JOIN `evo_mailsend_group_member` group_memmer_table on group_memmer_table.id_user = users_table.id inner JOIN `evo_mailsend_groups` groups_table on groups_table.id = group_memmer_table.id_group group by users_table.id";
+	$result = $modx->db->query($sql);
+	while( $row = $modx->db->getRow( $result ) ):
+?>
+								<tr>
+									<td><?= $row["id"]; ?></td>
+									<td><?= $row["name"]; ?></td>
+									<td><?= $row["email"]; ?></td>
+									<td><?= $row["groups_id"]; ?></td>
+									<td><?= $row["groups_name"]; ?></td>
+									<td><?= $row["unsubscribe"]; ?></td>
+									<td>
+										<div class="btn-group">
+											<a class="btn btn-success user_edit" title="<?= $_lang["mailsend.groups_table_edit_user"]; ?>" data-group="<?= $row["id"]; ?>"><i class="fas fa-user-edit"></i></a>&nbsp;<a class="btn btn-danger user_delete" title="<?= $_lang["mailsend.groups_table_delete_user"]; ?>" data-group="<?= $row["id"]; ?>"><i class="fas fa-user-times"></i></a>
+										</div>
+									</td>
+								</tr>
+<?php
+	endwhile;
 ?>
 							</tbody>
 						</table>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -116,30 +94,40 @@ $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $conte
 					</div>
 				</div>
 				<div class="tab-body-mailsend">
-					<form name="mail-users" action>
-						<table class="grid">
+					<div>
+						<table class="grid grid-groups">
 							<thead>
 								<tr>
-									<th width="5%"><?= $_lang["mailsend.groups_table_col1"]; ?></th>
-									<th width="90%"><?= $_lang["mailsend.groups_table_col2"]; ?></th>
-									<th width="5%"><?= $_lang["mailsend.groups_table_col3"]; ?></th>
+									<th><?= $_lang["mailsend.groups_table_col1"]; ?></th>
+									<th><?= $_lang["mailsend.groups_table_col2"]; ?></th>
+									<th><?= $_lang["mailsend.groups_table_col3"]; ?></th>
 								</tr>
 							</thead>
 							<tbody>
+						<?php
+						// SELECT name, id FROM mailsend_groups
+						$table_groups = $modx->getFullTableName('mailsend_groups');
+						$result = $modx->db->select("*", $modx->getFullTableName('mailsend_groups'));
+						if( $modx->db->getRecordCount( $result ) >= 1 ):
+							while ($row = $modx->db->getRow($result)):?>
 								<tr>
-									<td><?= $_lang["mailsend.groups_table_col1"]; ?></td>
-									<td><?= $_lang["mailsend.groups_table_col2"]; ?></td>
+									<td><?= $row["id"]; ?></td>
+									<td><?= $row["name"]; ?></td>
 									<td>
 										<div class="btn-group">
-											<a class="btn btn-success" title="Редактировать группу"><i class="fas fa-user-edit"></i></a>&nbsp;<a class="btn btn-danger" title="Удалить группу"><i class="fas fa-user-times"></i></a>
+											<a class="btn btn-success group_edit" title="<?= $_lang["mailsend.groups_table_edit_group"]; ?>" data-group="<?= $row["id"]; ?>"><i class="fas fa-user-edit"></i></a>&nbsp;<a class="btn btn-danger group_delete" title="<?= $_lang["mailsend.groups_table_delete_group"]; ?>" data-group="<?= $row["id"]; ?>"><i class="fas fa-user-times"></i></a>
 										</div>
 									</td>
 								</tr>
+							<?php endwhile;
+						endif; ?>
 							</tbody>
 						</table>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<script src="/assets/modules/MailSend/js/datatables.min.js?<?= $js;?>"></script>
+<script src="/assets/modules/MailSend/js/main.min.js?<?= $js;?>"></script>

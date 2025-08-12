@@ -18,7 +18,12 @@
 		"bootstrap": "3.4.1",
 		"fancybox": "^3.5.7",
 		"jquery": "^3.6.0",
-		"normalize.css": "^8.0.1"
+		"normalize.css": "^8.0.1",
+		"datatables.net-bs": "^2.2.2",
+		"datatables.net-buttons-bs": "3.2.2",
+		"pdfmake": "^0.2.18",
+		"jszip": "^3.10.1",
+		"datatables.net-select-bs": "^3.0.0"
 	},
 	"devDependencies": {}
 }

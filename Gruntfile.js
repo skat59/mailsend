@@ -117,6 +117,18 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					'src/js/main.js'
 				],
 				dest: 'test/js/main.js'
+			},
+			datatables: {
+				src: [
+					'bower_components/pdfmake/build/pdfmake.js',
+					'bower_components/jszip/dist/jszip.js',
+					'bower_components/pdfmake/build/vfs_fonts.js',
+					'bower_components/datatables.net/js/dataTables.js',
+					'bower_components/datatables.net-buttons/js/dataTables.buttons.js',
+					'bower_components/datatables.net-buttons/js/buttons.html5.js',
+					'bower_components/datatables.net-bs/js/dataTables.bootstrap.js'
+				],
+				dest: 'site/assets/modules/MailSend/js/datatables.js'
 			}
 		},
 		uglify: {
@@ -139,6 +151,34 @@ Sitemap: ${port}://${domain}/sitemap.xml
 							'test/js/main.js'
 						],
 						dest: '<%= globalConfig.gosave %>/js',
+						filter: 'isFile',
+						rename: function (dst, src) {
+							return dst + '/' + src.replace('.js', '.min.js');
+						}
+					},
+					{
+						expand: true,
+						flatten : true,
+						src: [
+							'site/assets/modules/MailSend/js/datatables.js'
+						],
+						dest: 'site/assets/modules/MailSend/js',
+						filter: 'isFile',
+						rename: function (dst, src) {
+							return dst + '/' + src.replace('.js', '.min.js');
+						}
+					}
+				]
+			},
+			mod: {
+				files: [
+					{
+						expand: true,
+						flatten : true,
+						src: [
+							'site/assets/modules/MailSend/js/main.js'
+						],
+						dest: 'site/assets/modules/MailSend/js',
 						filter: 'isFile',
 						rename: function (dst, src) {
 							return dst + '/' + src.replace('.js', '.min.js');
@@ -199,6 +239,12 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					'test/css/tinymce.css' : [
 						'src/less/tinymce.less'
 					],
+					'site/assets/modules/MailSend/css/main.css' : [
+						'bower_components/datatables.net-bs/css/dataTables.bootstrap.css',
+						'bower_components/datatables.net-buttons-bs/css/buttons.bootstrap.css',
+						'bower_components/datatables.net-select-bs/css/select.bootstrap.css',
+						'site/assets/modules/MailSend/css/main.less'
+					]
 				}
 			}
 		},
@@ -216,6 +262,9 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					],
 					'test/css/prefix.tinymce.css' : [
 						'test/css/tinymce.css'
+					],
+					'site/assets/modules/MailSend/css/main.css' : [
+						'site/assets/modules/MailSend/css/main.css'
 					]
 				}
 			}
@@ -224,7 +273,8 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			group: {
 				files: {
 					'test/css/media/main.css': ['test/css/prefix.main.css'],
-					'test/css/media/tinymce.css': ['test/css/prefix.tinymce.css']
+					'test/css/media/tinymce.css': ['test/css/prefix.tinymce.css'],
+					'site/assets/modules/MailSend/css/main.css': ['site/assets/modules/MailSend/css/main.css']
 				}
 			}
 		},
@@ -290,7 +340,8 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			minify: {
 				files: {
 					'site/assets/templates/projectsoft/css/main.min.css' : ['test/css/replace/main.css'],
-					'site/assets/templates/projectsoft/css/tinymce.min.css' : ['test/css/replace/tinymce.css']
+					'site/assets/templates/projectsoft/css/tinymce.min.css' : ['test/css/replace/tinymce.css'],
+					'site/assets/modules/MailSend/css/main.min.css': ['site/assets/modules/MailSend/css/main.css']
 				}
 			}
 		},

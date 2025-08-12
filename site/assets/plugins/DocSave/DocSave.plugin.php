@@ -7,14 +7,34 @@
  * @category     plugin
  * @version      1.0.0
  * @package      evo
- * @internal     @events OnDocFormSave, OnDocPublished, OnDocUnPublished
+ * @internal     @events OnDocFormSave,OnDocPublished,OnDocUnPublished,OnDocFormDelete,OnDocFormUnDelete,OnEmptyTrash
  * @internal     @modx_category НАСТРОЙКИ ОТПРАВКИ
  * @internal     @installset base
  * @internal     @disabled 0
  * @license      https://github.com/skat59/mailsend/LICENSE MIT License (MIT)
  * @reportissues https://github.com/skat59/mailsend/issues
  * @author       Чернышёв Андрей aka ProjectSoft
- * @lastupdate   28-01-2024
+ * @lastupdate   12-08-2025
+ */
+
+/**
+ * event OnDocFormSave
+ * Сохранение ресурса
+ * Изменение записи о ресурсе отправки рассылки после сохранения ресурса отправки
+ *
+ * event OnDocPublished
+ * event OnDocFormUnDelete
+ * Публикация и отмена удаления
+ * Добавляется запись о ресурсе отправки рассылки
+ *
+ * event OnDocUnPublished
+ * event OnDocFormDelete
+ * Отмена публикации, пометка на удаление
+ * Удаляется запись о ресурсе отправки рассылки
+ *
+ * event OnEmptyTrash
+ * Очистка корзины от удалённых ресурсов
+ * Удаляются записи о ресурсах отправки рассылки
  */
 if (!defined('MODX_BASE_PATH')) {
 	http_response_code(403);

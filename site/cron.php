@@ -291,6 +291,9 @@ function sendMailSend($mailArray = array(), $content_arr = array()) {
 			<td style=\"border: 1px solid #ccc;padding: 4px 14px;vertical-align: top;\">
 				" . $email . "
 			</td>");
+			/**
+			 * Валидность адреса
+			 */
 			$validator = new EmailValidator();
 			if($validator->isValid($email, new MultipleValidationWithAnd([new RFCValidation(), new DNSCheckValidation()]))):
 				try {

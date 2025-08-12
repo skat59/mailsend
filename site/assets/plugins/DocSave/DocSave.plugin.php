@@ -11,7 +11,7 @@
  * @internal     @modx_category НАСТРОЙКИ ОТПРАВКИ
  * @internal     @installset base
  * @internal     @disabled 0
- * @license      https://github.com/skat59/mailsend/LICENSE MIT License (MIT)
+ * @license      https://github.com/skat59/mailsend?tab=MIT-1-ov-file# MIT License (MIT)
  * @reportissues https://github.com/skat59/mailsend/issues
  * @author       Чернышёв Андрей aka ProjectSoft
  * @lastupdate   12-08-2025

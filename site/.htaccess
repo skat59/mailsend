@@ -20,11 +20,6 @@ RewriteBase /
 	Deny from all
 </Files>
 
-<Files cron_test.php>
-	Order Allow,Deny
-	Deny from all
-</Files>
-
 <Files index.html>
 	Order Deny,Allow
 	Deny from all

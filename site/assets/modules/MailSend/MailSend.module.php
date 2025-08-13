@@ -15,27 +15,13 @@ $_lang = array();
 $modx = evolutionCMS();
 
 function getLang() {
-	global $modx, $managerLanguage;
-	$_lang = array();
+	global $modx, $_lang, $manager_language;
+	file_put_contents(MODX_MAILSEND_BASE_PATH . "log.txt", print_r($_lang, true) . PHP_EOL, FILE_APPEND);
+	$_MailSendLang = [];
 	$lang_path = MODX_MAILSEND_BASE_PATH . "lang/";
-	$userId = $modx->getLoginUserID();
-	if (!empty($userId)) {
-		$lang = $modx->db->select('setting_value', $modx->getFullTableName('user_settings'), "setting_name='manager_language' AND user='{$userId}'");
-		if ($lng = $modx->db->getValue($lang)) {
-			$managerLanguage = $lng;
-		}
-	}
-	include MODX_MANAGER_PATH.'includes/lang/english.inc.php';
-	if($managerLanguage != 'english') {
-		if (file_exists(MODX_MANAGER_PATH.'includes/lang/'.$managerLanguage.'.inc.php')) {
-			include MODX_MANAGER_PATH.'includes/lang/'.$managerLanguage.'.inc.php';
-		}
-	}
 	include $lang_path . 'english.php';
-	if($managerLanguage != 'english') {
-		if (file_exists($lang_path . $managerLanguage.'.php')) {
-			include $lang_path . $managerLanguage.'.php';
-		}
+	if (is_file($lang_path . $manager_language.'.php')) {
+		include $lang_path . $manager_language.'.php';
 	}
 	$_lang = array_merge($_lang, $_MailSendLang);
 	return $_lang;

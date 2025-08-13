@@ -24,7 +24,7 @@ $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.min.js");
     </div>
 </div>
 <div class="container-fluid">
-	<h1><i class="fa fa-users"></i>&nbsp;&nbsp;<?= $_lang["mailsend.title"]; ?></h1>
+	<h1><i class="<?= $content["icon"];?>"></i>&nbsp;&nbsp;<?= $_lang["mailsend.title"]; ?></h1>
 	<div class="tab-pane" id="MailSendManager_pane">
 		<script type="text/javascript">
 			tpResources = new WebFXTabPane(document.getElementById('MailSendManager_pane'));
@@ -35,11 +35,6 @@ $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.min.js");
 				tpResources.addTabPage(document.getElementById('MailSendManager_users'));
 			</script>
 			<div class="container-fluid clearfix">
-				<div class="tab-header-mailsend clearfix text-right">
-					<div class="btn-group">
-						<a class="btn btn-success" title="Добавить пользователя"><i class="far fa-address-card"></i>&nbsp;<span>Добавить пользователя</span></a>&nbsp;<a class="btn btn-secondary" title="Импорт из Excel (*.xlsx)"><i class="far fa-file-excel"></i>&nbsp;<span>Импорт из Excel (*.xlsx)</span></a>
-					</div>
-				</div>
 				<div class="tab-body-mailsend">
 					<div>
 						<table class="grid grid-users">
@@ -88,11 +83,6 @@ $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.min.js");
 				tpResources.addTabPage(document.getElementById('MailSendManager_groups'));
 			</script>
 			<div class="container-fluid clearfix">
-				<div class="tab-header-mailsend clearfix text-right">
-					<div class="btn-group">
-						<a class="btn btn-success" title="Добавить Группу"><span>Добавить Группу</span></a>
-					</div>
-				</div>
 				<div class="tab-body-mailsend">
 					<div>
 						<table class="grid grid-groups">

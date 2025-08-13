@@ -119,10 +119,6 @@ function getDocument($object) {
 				endif;
 			}
 			$content_arr = parseContentMsg($content);
-			$content_arr["content"] = $content_arr["content"] . '<p style="text-align: center;">Телефон для обратной связи: ' . TITLE_PHONE . '
-<br> Или просто напишите нам: <a href="mailto:' . SEND_EMAIL . '">' . SEND_EMAIL . '</a></p>
-<p>&nbsp;</p>
-<p style="text-align: right;"><b>С огромным уважением к Вам<br /> &nbsp;<a href="' . PARENT_SITE_URL . '" target="_blank">' . SEND_USER . '</a></b></p>';
 			$text = strip_tags($content_arr["content"]);
 			$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
 			$content_arr["text"] = $text;
@@ -502,7 +498,7 @@ outputFn('
 // Кол-во адресов в рассылке
 outputFn('
 		<tr>
-			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Кол-во адресов в рассылке:</strong></td>
+			<td style="border: 1px solid #ccc;padding: 4px 14px;"><strong>Максимальное Кол-во адресов в рассылке:</strong></td>
 			<td style="border: 1px solid #ccc;padding: 4px 14px;"><span style="font-family: Consolas;">' . MAIL_COUNT . '</span></td>
 		</tr>');
 // Обработанное Кол-во адресов

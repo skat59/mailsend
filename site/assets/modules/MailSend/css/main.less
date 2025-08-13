@@ -13,6 +13,13 @@
 	}
 }
 
+#MailSendManager_users,
+#MailSendManager_groups {
+	padding-top: 1rem;
+	aspect-ratio: ~"16/6";
+	margin-bottom: 1.3em;
+}
+
 .btn {
 	font-size: .6772rem;
 	height: 2.4em;
@@ -118,43 +125,152 @@ a {
 			}
 		}
 	}
+	&.grid-groups,
+	&.grid-users {
+		display: none;
+		&.dataTable {
+			display: table;
+		}
+	}
 }
-
+@gap-inline-form: 0.5em;
 .dt {
 	&-length,
 	&-search {
 		display: flex;
-		gap: 1em;
+		gap: @gap-inline-form * 2;
+		flex: 1;
+		width: 100%;
 	}
 	&-container {
 		&.form-inline {
+			flex-flow: column wrap;
+			align-items: unset;
+			gap: @gap-inline-form;
 			> .row {
-				width: calc(100% + 2.5rem);
+				flex: 1;
+				margin: unset;
 				&:first-child {
 					display: flex;
 					flex: 1;
 				}
 			}
 		}
+		.dt {
+			&-length {
+				label {
+					white-space: nowrap;
+				}
+				select {
+					margin-right: unset !important;
+					flex: 1;
+				}
+			}
+			&-search {
+				input {
+					margin-left: unset !important;
+					flex: 1;
+				}
+			}
+			&-layout {
+				&-row {
+					align-items: self-start !important;
+					width: 100% !important;
+					&:first-child {
+						align-items: self-end !important;
+					}
+					.dt {
+						&-layout {
+							&-cell {
+								padding: 0;
+								padding-left: 0 !important;
+								padding-right: 0 !important;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	&-layout {
+		&-start {
+			align-content: start;
+			flex-wrap: wrap;
+			>:not(:last-child) {
+				margin-right: unset !important;
+			}
+		}
+		&-end {
+			align-content: flex-end;
+			flex-wrap: wrap;
+		}
+		&-start,
+		&-end {
+			margin-left: unset !important;
+			margin-right: unset !important;
+		}
 		&-cell {
-			gap: 0.5em;
+			gap: @gap-inline-form;
 			display: flex;
 			flex-direction: column;
 			padding-bottom: .5em;
+			justify-content: unset !important;
+			align-items: unset !important;
 			label {
 				min-width: 6em;
 				justify-content: flex-end;
 			}
 		}
+		&-row {
+			.btn {
+				&-group {
+					padding-left: 15px;
+					.btn {
+						flex: 0 0 auto;
+						.fa,
+						.far,
+						.fas,
+						[class^="icon-"],
+						[class*=" icon-"] {
+							display: none;
+							width: 1em;
+							font-size: 1em;
+							text-align: center;
+						}
+						@media (max-width: 840px) {
+							.fa,
+							.far,
+							.fas,
+							[class^="icon-"],
+							[class*=" icon-"] {
+								display: inline-block;
+							}
+							span {
+								font-size: 0;
+							}
+						}
+					}
+				}
+			}
+			th,
+			td {
+				.btn {
+					&-group {
+						.fa,
+						.far,
+						.fas,
+						[class^="icon-"],
+						[class*=" icon-"] {
+							display: inline-block !important;
+						}
+					}
+				}
+			}
+		}
 	}
 	&-button {
-		&s {
-			display: flex;
-			gap: 0.5em;
-		}
 		&.buttons {
+			/**
 			&-excel,
 			&-pdf {
 				&::before {
@@ -181,7 +297,14 @@ a {
 					content: @icon-file-pdf;
 				}
 			}
+			*/
 		}
+	}
+	&-buttons {
+		display: flex;
+		gap: @gap-inline-form;
+		flex-wrap: wrap;
+		justify-content: flex-end;
 	}
 	&-orderable {
 		&-asc,

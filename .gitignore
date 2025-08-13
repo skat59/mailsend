@@ -126,6 +126,8 @@ site/assets/plugins/DocSave/*.txt
 !site/assets/modules/MailSend/*
 !site/assets/modules/MailSend/*.*
 !site/assets/modules/MailSend/**/*.*
+site/assets/modules/MailSend/*.txt
+site/assets/modules/MailSend/**/*.txt
 
 # Module clientSettings
 !site/assets/modules/clientsettings

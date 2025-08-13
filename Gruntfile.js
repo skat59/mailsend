@@ -215,7 +215,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					embed: false,
 					template: 'src/font-build.template'
 				}
-			},
+			}
 		},
 		less: {
 			css: {
@@ -238,7 +238,23 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					],
 					'test/css/tinymce.css' : [
 						'src/less/tinymce.less'
+					]
+				}
+			},
+			admin: {
+				options : {
+					compress: false,
+					ieCompat: false,
+					plugins: [
+						new NpmImportPlugin({prefix: '~'})
 					],
+					modifyVars: {
+						'hashes': '\'' + hash + '\'',
+						'fontpath': '/assets/modules/MailSend/fonts',
+						'imgpath': '/assets/modules/MailSend/images',
+					}
+				},
+				files : {
 					'site/assets/modules/MailSend/css/main.css' : [
 						'bower_components/datatables.net-bs/css/dataTables.bootstrap.css',
 						'bower_components/datatables.net-buttons-bs/css/buttons.bootstrap.css',
@@ -390,21 +406,39 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			default: {
 				src: 'src/fonts/*.ttf',
 				dest: '<%= globalConfig.gosave %>/fonts/'
+			},
+			admin: {
+				src: 'src/fonts/*.ttf',
+				dest: 'site/assets/modules/MailSend/fonts/'
 			}
 		},
 		ttf2woff: {
 			default: {
 				src: 'src/fonts/*.ttf',
 				dest: '<%= globalConfig.gosave %>/fonts/'
+			},
+			admin: {
+				src: 'src/fonts/*.ttf',
+				dest: 'site/assets/modules/MailSend/fonts/'
 			}
 		},
 		ttf2woff2: {
 			default: {
 				src: 'src/fonts/*.ttf',
 				dest: '<%= globalConfig.gosave %>/fonts/'
+			},
+			admin: {
+				src: 'src/fonts/*.ttf',
+				dest: 'site/assets/modules/MailSend/fonts/'
 			}
 		},
 		copy: {
+			admin: {
+				expand: true,
+				cwd: 'src/fonts',
+				src: ['**'],
+				dest: 'site/assets/modules/MailSend/fonts/'
+			},
 			fonts: {
 				expand: true,
 				cwd: 'src/fonts',

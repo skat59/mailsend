@@ -7,9 +7,7 @@
 	"scripts": {
 		"inst": "npm i --legacy-peer-deps && bower install",
 		"build": "grunt -v build",
-		"default": "grunt -v",
-		"watch": "grunt -v watch",
-		"presets": "phplint 'site/cron.php'"
+		"default": "grunt -v"
 	},
 	"repository": {
 		"type": "git",

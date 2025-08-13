@@ -75,19 +75,23 @@
 	$(document).on('click', ".group_edit", (e) => {
 		console.log('Редактировать группу');
 	}).on('click', ".group_delete", (e) => {
-		console.log('groups', typeof groups, groups);
+		console.log('Удалить группу');
+		/**
 		if(typeof groups == 'object'){
 			groups.destroy();
 			groups = false;
 		}
+		*/
 	}).on('click', ".user_edit", (e) => {
 		console.log('Редактировать пользователя');
 	}).on('click', ".user_delete", (e) => {
-		console.log('users', typeof users, users);
+		console.log('Удалить пользователя');
+		/**
 		if(typeof users == 'object'){
 			users.destroy();
 			users = false;
 		}
+		*/
 	});
 
 	function renderTables() {
@@ -156,12 +160,14 @@
 							},
 							text: '<i class="far fa-address-card"></i><span>Добавить пользователя</span>',
 							action: function ( e, dt, node, config ) {
+								/**
 								console.log( {
 									'e=>': e,
 									'dt=>': dt,
 									'node=>': node,
 									'config=>': config
 								} );
+								*/
 							}
 						},
 						{
@@ -171,12 +177,14 @@
 							},
 							text: '<i class="far fa-file-excel"></i><span>Импорт из Excel (*.xlsx)</span>',
 							action: function ( e, dt, node, config ) {
+								/**
 								console.log( {
 									'e=>': e,
 									'dt=>': dt,
 									'node=>': node,
 									'config=>': config
 								} );
+								*/
 							}
 						},
 						// Кнопка экспорта XLSX
@@ -408,12 +416,14 @@
 								title: `Добавить группу`
 							},
 							action: function ( e, dt, node, config ) {
+								/**
 								console.log( {
 									'e=>': e,
 									'dt=>': dt,
 									'node=>': node,
 									'config=>': config
 								} );
+								*/
 							}
 						},
 						// Кнопка экспорта XLSX
@@ -592,7 +602,6 @@
 				url: `/assets/modules/MailSend/js/ru_RU.json`,
 			}
 		});
-		console.log(users);
 	}
 	renderTables();
 }(jQuery))

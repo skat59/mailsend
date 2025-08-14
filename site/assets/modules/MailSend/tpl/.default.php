@@ -11,10 +11,10 @@ if(is_string($content['icon'])){
 }else{
 	$content["icon"] = "fa fa-users";
 }
-$page = (int)$page > 0 ? "&page=" . $page : "";
-$start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $content['id'] . $page;
+
+$start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $content['id'];
 $css = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/css/main.min.css");
-$js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.min.js");
+$js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.js");
 ?>
 <link rel="stylesheet" href="/assets/modules/MailSend/css/main.min.css?<?= $css; ?>" />
 <h1 class="d-none"><i class="<?= $content["icon"];?>"></i><?= $content["name"]; ?></h1>
@@ -51,7 +51,7 @@ $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.min.js");
 							</thead>
 							<tbody>
 <?php
-	$sql = "SELECT users_table.id, users_table.name, users_table.email, GROUP_CONCAT(groups_table.id ORDER BY groups_table.id SEPARATOR \", \r\n\") AS groups_id, GROUP_CONCAT(groups_table.name ORDER BY groups_table.id SEPARATOR \", \r\n\") AS groups_name, users_table.unsubscribe FROM `evo_mailsend_users` users_table inner JOIN `evo_mailsend_group_member` group_memmer_table on group_memmer_table.id_user = users_table.id inner JOIN `evo_mailsend_groups` groups_table on groups_table.id = group_memmer_table.id_group group by users_table.id";
+	$sql = "SELECT users_table.id, users_table.name, users_table.email, GROUP_CONCAT(groups_table.id ORDER BY groups_table.id SEPARATOR \", \r\n\") AS groups_id, GROUP_CONCAT(groups_table.name ORDER BY groups_table.id SEPARATOR \", \r\n\") AS groups_name, users_table.unsubscribe FROM " . $table_users . " users_table inner JOIN " . $table_members . " group_memmer_table on group_memmer_table.id_user = users_table.id inner JOIN " . $table_groups . " groups_table on groups_table.id = group_memmer_table.id_group group by users_table.id";
 	$result = $modx->db->query($sql);
 	while( $row = $modx->db->getRow( $result ) ):
 ?>
@@ -95,9 +95,7 @@ $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.min.js");
 							</thead>
 							<tbody>
 						<?php
-						// SELECT name, id FROM mailsend_groups
-						$table_groups = $modx->getFullTableName('mailsend_groups');
-						$result = $modx->db->select("*", $modx->getFullTableName('mailsend_groups'));
+						$result = $modx->db->select("*", $table_groups);
 						if( $modx->db->getRecordCount( $result ) >= 1 ):
 							while ($row = $modx->db->getRow($result)):?>
 								<tr>
@@ -120,4 +118,4 @@ $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.min.js");
 	</div>
 </div>
 <script src="/assets/modules/MailSend/js/datatables.min.js?<?= $js;?>"></script>
-<script src="/assets/modules/MailSend/js/main.min.js?<?= $js;?>"></script>
+<script src="/assets/modules/MailSend/js/main.js?<?= $js;?>"></script>

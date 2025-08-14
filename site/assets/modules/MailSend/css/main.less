@@ -13,6 +13,68 @@
 	}
 }
 
+dialog {
+	padding: 15px;
+	min-width: calc(100% - 70em);
+	width: 100%;
+	max-width: 600px;
+	overflow: auto;
+	font-size: 1em;
+	border: unset;
+	box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, .3);
+	bacground-color: canvas;
+	color: canvastext;
+	.row {
+		margin-right: -15px;
+		margin-left: -15px;
+	}
+	header {
+		&.row {
+			background-color: #e0e0e0;
+			margin-bottom: 15px;
+			margin-top: -15px;
+			padding: 5px 15px;
+			user-select: none;
+			justify-content: space-between;
+			flex-wrap: nowrap;
+			align-items: center;
+			h2 {
+				flex: 1;
+			}
+		}
+	}
+	form {
+		.btn {
+			.fa,
+			.far,
+			.fas,
+			[class^="icon-"],
+			[class*=" icon-"] {
+				display: none;
+				width: 1em;
+				font-size: 1em;
+				text-align: center;
+			}
+			@media (max-width: 840px) {
+				.fa,
+				.far,
+				.fas,
+				[class^="icon-"],
+				[class*=" icon-"] {
+					display: inline-block;
+				}
+				span {
+					font-size: 0;
+				}
+			}
+		}
+	}
+}
+
+.scroll-lock {
+	overflow: hidden;
+}
+
 #MailSendManager_users,
 #MailSendManager_groups {
 	padding-top: 1rem;

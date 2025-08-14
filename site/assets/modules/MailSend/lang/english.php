@@ -18,5 +18,7 @@ $_MailSendLang = array(
 	"mailsend.groups_table_edit_group"                  => "Edit Group",
 	"mailsend.groups_table_delete_group"                => "Delete Group",
 	"mailsend.groups_table_edit_user"                   => "Edit User",
-	"mailsend.groups_table_delete_user"                 => "Delete User"
+	"mailsend.groups_table_delete_user"                 => "Delete User",
+	"mailsend.form_controll_save"                       => "Save",
+	"mailsend.form_controll_close"                      => "Cancel"
 );

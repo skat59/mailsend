@@ -70,10 +70,38 @@
 	SEND_MAIL = `Рассылка`,
 	url = window.location.origin + "/";
 
-	let users, groups;
+	let users, groups, dialog;
 
 	$(document).on('click', ".group_edit", (e) => {
 		console.log('Редактировать группу');
+		let group_id = $(e.target).data("group");
+		let searchParams = new URLSearchParams(window.location.search);
+		let a = searchParams.get("a");
+		let id = searchParams.get("id");
+		$.ajax({
+			url: `${window.location.origin}${window.location.pathname}?a=${a}&id=${id}`,
+			method: 'post',
+			dataType: 'html',
+			data: {
+				action: 'edit',
+				type: 'group',
+				group_id: group_id
+			},
+			success: function(data) {
+				let $html = $(data);
+				dialog = $html[0];
+				document.body.append(dialog);
+				document.body.classList.add('scroll-lock');
+				dialog.showModal();
+			}
+		});
+		//let searchParams = new URLSearchParams(window.location.search);
+		//let params = new URLSearchParams("");
+		//params.set("a", searchParams.get("a"));
+		//params.set("id", searchParams.get("id"));
+
+		console.log($(e.target).data("group"));
+		//const xhr = new XMLHttpRequest();
 	}).on('click', ".group_delete", (e) => {
 		console.log('Удалить группу');
 		/**
@@ -92,6 +120,19 @@
 			users = false;
 		}
 		*/
+	}).on('click', 'form [type=button], .close_dialog', (e) => {
+		// Закрыть форму
+		if(dialog) {
+			dialog.close();
+			document.body.removeChild(dialog);
+			document.body.classList.remove('scroll-lock');
+			dialog = false;
+		}
+	}).on('submit', 'form', (e) => {
+		e.preventDefault();
+		let form = e.target;
+		console.log(form.name);
+		return !1;
 	});
 
 	function renderTables() {

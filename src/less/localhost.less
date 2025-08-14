@@ -43,37 +43,39 @@
 @icon-icovk: "\e929";
 @icon-icoyt: "\e92a";
 @icon-image: "\e92b";
-@icon-layer-plus: "\e92c";
-@icon-menu-close: "\e92d";
-@icon-menu-open: "\e92e";
-@icon-modx: "\e92f";
-@icon-next: "\e930";
-@icon-ok: "\e931";
-@icon-oks: "\e932";
-@icon-opera: "\e933";
-@icon-phone: "\e934";
-@icon-photo: "\e935";
-@icon-prev: "\e936";
-@icon-print-ic: "\e937";
-@icon-print: "\e938";
-@icon-required: "\e939";
-@icon-reset: "\e93a";
-@icon-rss-logo: "\e93b";
-@icon-rss: "\e93c";
-@icon-rutube: "\e93d";
-@icon-search: "\e93e";
-@icon-share: "\e93f";
-@icon-success: "\e940";
-@icon-telegram: "\e941";
-@icon-twitter: "\e942";
-@icon-tws: "\e943";
-@icon-up: "\e944";
-@icon-vk: "\e945";
-@icon-vks: "\e946";
-@icon-website: "\e947";
-@icon-whatsapp: "\e948";
-@icon-zoom-in: "\e949";
-@icon-zoom-out: "\e94a";
+@icon-layer-minus: "\e92c";
+@icon-layer-plus: "\e92d";
+@icon-layer: "\e92e";
+@icon-menu-close: "\e92f";
+@icon-menu-open: "\e930";
+@icon-modx: "\e931";
+@icon-next: "\e932";
+@icon-ok: "\e933";
+@icon-oks: "\e934";
+@icon-opera: "\e935";
+@icon-phone: "\e936";
+@icon-photo: "\e937";
+@icon-prev: "\e938";
+@icon-print-ic: "\e939";
+@icon-print: "\e93a";
+@icon-required: "\e93b";
+@icon-reset: "\e93c";
+@icon-rss-logo: "\e93d";
+@icon-rss: "\e93e";
+@icon-rutube: "\e93f";
+@icon-search: "\e940";
+@icon-share: "\e941";
+@icon-success: "\e942";
+@icon-telegram: "\e943";
+@icon-twitter: "\e944";
+@icon-tws: "\e945";
+@icon-up: "\e946";
+@icon-vk: "\e947";
+@icon-vks: "\e948";
+@icon-website: "\e949";
+@icon-whatsapp: "\e94a";
+@icon-zoom-in: "\e94b";
+@icon-zoom-out: "\e94c";
 
 // Font family "LocalHost"
 @font-face {
@@ -322,9 +324,19 @@
 			content: @icon-image;
 		}
 	}
+	&-layer-minus {
+		&:before {
+			content: @icon-layer-minus;
+		}
+	}
 	&-layer-plus {
 		&:before {
 			content: @icon-layer-plus;
+		}
+	}
+	&-layer {
+		&:before {
+			content: @icon-layer;
 		}
 	}
 	&-menu-close {

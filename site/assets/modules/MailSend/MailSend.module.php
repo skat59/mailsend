@@ -29,6 +29,34 @@ function getLang() {
 
 $_lang = getLang();
 
-include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
-include_once MODX_MAILSEND_BASE_PATH . 'tpl/.default.php';
-include_once MODX_MANAGER_PATH . 'includes/footer.inc.php';
+$postAction = isset($_POST['action']) ? filter_input(INPUT_POST, 'action', FILTER_SANITIZE_ENCODED) : "";
+
+// Таблица пользователей
+$table_users = $modx->getFullTableName('mailsend_users');
+// Таблица групп
+$table_groups = $modx->getFullTableName('mailsend_groups');
+// К какой группе относится пользователь
+$table_members = $modx->getFullTableName('mailsend_group_member');
+// Таблица ресурсов
+$table_resources = $modx->getFullTableName('mailsend_resources');
+
+switch ($postAction) {
+	case 'delete':
+		include_once MODX_MAILSEND_BASE_PATH . 'tpl/.delete.php';
+		break;
+	case 'edit':
+		include_once MODX_MAILSEND_BASE_PATH . 'tpl/.edit.php';
+		break;
+	case 'save':
+		include_once MODX_MAILSEND_BASE_PATH . 'tpl/.save.php';
+		break;
+	case 'add':
+		include_once MODX_MAILSEND_BASE_PATH . 'tpl/.add.php';
+		break;
+	default:
+		include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
+		include_once MODX_MAILSEND_BASE_PATH . 'tpl/.default.php';
+		include_once MODX_MANAGER_PATH . 'includes/footer.inc.php';
+		break;
+}
+

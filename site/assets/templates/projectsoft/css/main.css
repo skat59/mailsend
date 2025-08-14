@@ -214,128 +214,136 @@
   content: "\e92b";
 }
 
-.icon-layer-plus:before {
+.icon-layer-minus:before {
   content: "\e92c";
 }
 
-.icon-menu-close:before {
+.icon-layer-plus:before {
   content: "\e92d";
 }
 
-.icon-menu-open:before {
+.icon-layer:before {
   content: "\e92e";
 }
 
-.icon-modx:before {
+.icon-menu-close:before {
   content: "\e92f";
 }
 
-.icon-next:before {
+.icon-menu-open:before {
   content: "\e930";
 }
 
-.icon-ok:before {
+.icon-modx:before {
   content: "\e931";
 }
 
-.icon-oks:before {
+.icon-next:before {
   content: "\e932";
 }
 
-.icon-opera:before {
+.icon-ok:before {
   content: "\e933";
 }
 
-.icon-phone:before {
+.icon-oks:before {
   content: "\e934";
 }
 
-.icon-photo:before {
+.icon-opera:before {
   content: "\e935";
 }
 
-.icon-prev:before {
+.icon-phone:before {
   content: "\e936";
 }
 
-.icon-print-ic:before {
+.icon-photo:before {
   content: "\e937";
 }
 
-.icon-print:before {
+.icon-prev:before {
   content: "\e938";
 }
 
-.icon-required:before {
+.icon-print-ic:before {
   content: "\e939";
 }
 
-.icon-reset:before {
+.icon-print:before {
   content: "\e93a";
 }
 
-.icon-rss-logo:before {
+.icon-required:before {
   content: "\e93b";
 }
 
-.icon-rss:before {
+.icon-reset:before {
   content: "\e93c";
 }
 
-.icon-rutube:before {
+.icon-rss-logo:before {
   content: "\e93d";
 }
 
-.icon-search:before {
+.icon-rss:before {
   content: "\e93e";
 }
 
-.icon-share:before {
+.icon-rutube:before {
   content: "\e93f";
 }
 
-.icon-success:before {
+.icon-search:before {
   content: "\e940";
 }
 
-.icon-telegram:before {
+.icon-share:before {
   content: "\e941";
 }
 
-.icon-twitter:before {
+.icon-success:before {
   content: "\e942";
 }
 
-.icon-tws:before {
+.icon-telegram:before {
   content: "\e943";
 }
 
-.icon-up:before {
+.icon-twitter:before {
   content: "\e944";
 }
 
-.icon-vk:before {
+.icon-tws:before {
   content: "\e945";
 }
 
-.icon-vks:before {
+.icon-up:before {
   content: "\e946";
 }
 
-.icon-website:before {
+.icon-vk:before {
   content: "\e947";
 }
 
-.icon-whatsapp:before {
+.icon-vks:before {
   content: "\e948";
 }
 
-.icon-zoom-in:before {
+.icon-website:before {
   content: "\e949";
 }
 
-.icon-zoom-out:before {
+.icon-whatsapp:before {
   content: "\e94a";
+}
+
+.icon-zoom-in:before {
+  content: "\e94b";
+}
+
+.icon-zoom-out:before {
+  content: "\e94c";
 }
 
 *,

@@ -15,8 +15,13 @@ $_MailSendLang = array(
 	"mailsend.groups_table_col1"                        => "ID",
 	"mailsend.groups_table_col2"                        => "Название группы",
 	"mailsend.groups_table_col3"                        => "Действия",
+	"mailsend.groups_edit_group"                        => "Название группы",
+	"mailsend.groups_edit_group_placeholder"            => "Введите имя группы",
 	"mailsend.groups_table_edit_group"                  => "Редактировать группу",
+	"mailsend.groups_edit_group"                        => "Название группы",
 	"mailsend.groups_table_delete_group"                => "Удалить группу",
 	"mailsend.groups_table_edit_user"                   => "Редактировать пользователя",
-	"mailsend.groups_table_delete_user"                 => "Удалить пользователя"
+	"mailsend.groups_table_delete_user"                 => "Удалить пользователя",
+	"mailsend.form_controll_save"                       => "Сохранить",
+	"mailsend.form_controll_close"                      => "Отмена"
 );

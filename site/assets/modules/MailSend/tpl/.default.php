@@ -16,6 +16,9 @@ $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $conte
 $css = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/css/main.min.css");
 $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.js");
 ?>
+<script>
+	const LANG_SENDMAIL = <?= json_encode( $_MailSendLang, JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_FORCE_OBJECT ); ?>;
+</script>
 <link rel="stylesheet" href="/assets/modules/MailSend/css/main.min.css?<?= $css; ?>" />
 <h1 class="d-none"><i class="<?= $content["icon"];?>"></i><?= $content["name"]; ?></h1>
 <div id="actions">

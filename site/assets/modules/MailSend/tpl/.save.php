@@ -67,8 +67,8 @@ switch ($postType) {
 	case 'group':
 		// Сохранение Группы
 		$group_id = isset($_POST["group_id"]) ? $modx->db->escape((int)$_POST['group_id']) : 0;
-		$group_name = isset($_POST["group_name"]) ? $modx->db->escape(filter_input(INPUT_POST, 'group_name', FILTER_SANITIZE_ENCODED)) : "";
-		$group_name = trim(preg_replace('/\s+/', " ", $group_name));
+		$group_name = isset($_POST["group_name"]) ? $_POST['group_name'] : "";
+		$group_name = $modx->db->escape(trim(preg_replace('/\s+/', " ", $group_name)));
 		if($group_name):
 			// Имя группы есть
 			if($group_id):
@@ -84,7 +84,9 @@ switch ($postType) {
 						// Запись обновлена
 						$return = array(
 							"request"   => true,
-							"message"   => "Запись обновлена"
+							"message"   => "Запись обновлена",
+							"name"      => $group_name,
+							"id"      	=> $group_id
 						);
 					else:
 						// Запись не обновлена
@@ -97,7 +99,7 @@ switch ($postType) {
 					// Записи нет
 					$return = array(
 						"request"   => false,
-							"message"   => "Нет записи"
+						"message"   => "Нет записи"
 					);
 				endif;
 			else:
@@ -106,10 +108,12 @@ switch ($postType) {
 					"id" => NULL,
 					"name" => $group_name
 				);
-				$modx->db->insert( $fields, $table_groups);
+				$autoincrement = $modx->db->insert( $fields, $table_groups);
 				$return = array(
 					"request"   => true,
-					"message"   => "Запись добавлена"
+					"message"   => "Запись добавлена",
+					"name"      => $group_name,
+					"id"		=> $autoincrement
 				);
 			endif;
 		else:

@@ -34,6 +34,9 @@
 		},
 		action: function (e, dt, button, config, cb) {}
 	};
+
+	let users, groups, dialog;
+
 	const getDateTime = function(timestamp = 0) {
 		let time = new Date(timestamp),
 			date = time.getDate(),
@@ -68,18 +71,167 @@
 	componentName = `Модуль рассылки`,
 	userName = `ProjectSoft`,
 	SEND_MAIL = `Рассылка`,
-	url = window.location.origin + "/";
+	url = `${window.location.origin}${window.location.pathname}`,
+	searchParams = new URLSearchParams(window.location.search),
+	aUrl = searchParams.get("a"),
+	idUrl = searchParams.get("id"),
+	work = () => {
+		try {
+			window.parent.modx.main.work();
+		}catch(e){}
+	}.
+	stopWork = () => {
+		try {
+			window.parent.modx.main.stopWork();
+		}catch(e){}
+	},
+	dialogClose = () => {
+			if(dialog) {
+				dialog.close();
+				document.body.removeChild(dialog);
+				document.body.classList.remove('scroll-lock');
+				dialog = false;
+			}
+		},
+		errorStatus = (xhr, exception) => {
+			// Коды ошибок
+			// Нужно будет всё заполнить. На будущее ))
+			/**
+			 * 300 Multiple Choice («Множественный выбор»).
+			 * 301 Moved Permanently («Перемещено навсегда»).
+			 * 302 Moved Temporarily («Временно перемещен»).
+			 * 303 See Other («Смотреть другое»).
+			 * 304 Not Modified («Не изменено»).
+			 * 305 Use Proxy («Использовать прокси»).
+			 * 306 Switch Proxy («Переключить прокси»).
+			 * 308 Permanent Redirect («Постоянное перенаправление»).
+			 */
+			dialogClose();
+			// console.log(`Uncaught Error.\n${xhr.responseText}\n${xhr.status}\n${exception}`);
+			let text = "";
+			switch(xhr.status) {
+				case 0:
+					text = '0. Проверьте соединение с Интернетом.';
+					break;
+				case 400:
+					text = '400. Bad Request («Неверный запрос»).';
+					break;
+				case 401:
+					text = '401. Unauthorized («Несанкционированный запрос»).';
+					break;
+				case 402:
+					text = '402. Payment Required («Необходима оплата»).';
+					break;
+				case 403:
+					text = '403. Forbidden («Доступ запрещён»).';
+					break;
+				case 404:
+					text = '404. Not Found («Ничего не найдено»).';
+					break;
+				case 405:
+					text = '405. Method Not Allowed («Метод не поддерживается»).';
+					break;
+				case 406:
+					text = '406. Not Acceptable («Неприемлемо»).';
+					break;
+				case 407:
+					text = '407. Proxy Authentication Required («Необходима аутентификация прокси»).';
+					break;
+				case 408:
+					text = '408. Request Timeout («Истекло время ожидания»).';
+					break;
+				case 409:
+					text = '409. Conflict («Конфликт»).';
+					break;
+				case 410:
+					text = '410. Gone («Удалён»).';
+					break;
+				case 411:
+					text = '411. Length Required («Необходима длина»).';
+					break;
+				case 412:
+					text = '412. Precondition Failed («Предварительное условие не выполнено»).';
+					break;
+				case 413:
+					text = '413. Payload Too Large («Полезная нагрузка слишком большая»).';
+					break;
+				case 414:
+					text = '414. URI Too Long («URI слишком длинный»).';
+					break;
+				case 415:
+					text = '415. Unsupported Media Type («Неподдерживаемый тип данных»).';
+					break;
+				case 500:
+					text = '500. Internal Server Error («Внутренняя ошибка сервера»).';
+					break;
+				case 501:
+					text = '501. Not Implemented («Не реализовано»).';
+					break;
+				case 502:
+					text = '502. Bad Gateway («Плохой, ошибочный шлюз»).';
+					break;
+				case 503:
+					text = '503. Service Unavailable («Сервис недоступен»).';
+					break;
+				case 504:
+					text = '504. Gateway Timeout («Шлюз не отвечает»).';
+					break;
+				case 505:
+					text = '505. HTTP Version Not Supported («Версия HTTP не поддерживается»).';
+					break;
+				case 506:
+					text = '506. Variant Also Negotiates («Вариант тоже проводит согласование»).';
+					break;
+				case 507:
+					text = '507. Insufficient Storage («Переполнение хранилища»).';
+					break;
+				case 508:
+					text = '508. Loop Detected («Пбнаружено бесконечное перенаправление»).';
+					break;
+				case 509:
+					text = '509. Bandwidth Limit Exceeded («Исчерпана пропускная ширина канала»).';
+					break;
+				case 510:
+					text = '510. Not Extended («Не расширено»).';
+					break;
+				case 511:
+					text = '511. Network Authentication Required («Требуется сетевая аутентификация»).';
+					break;
+				case 520:
+					text = '520. Unknown Error («Неизвестная ошибка»).';
+					break;
+				case 521:
+					text = '521. Web Server Is Down («Веб-сервер не работает»).';
+					break;
+				case 522:
+					text = '522. Connection Timed Out («Соединение не отвечает»).';
+					break;
+				case 523:
+					text = '523. Origin Is Unreachable («Источник недоступен»).';
+					break;
+				case 524:
+					text = '524. A Timeout Occurred («Время ожидания истекло»).';
+					break;
+				case 525:
+					text = '525. SSL Handshake Failed («Квитирование SSL не удалось»).';
+					break;
+				case 526:
+					text = '526. Invalid SSL Certificate («Недействительный сертификат SSL»).';
+					break;
+				default:
+					text = `${xhr.status}. Неизвестная ошибка`;
+					break;
+			}
+			stopWork();
+			setTimeout(alert, 100, text);
+		};
 
-	let users, groups, dialog;
 
 	$(document).on('click', ".group_edit", (e) => {
-		console.log('Редактировать группу');
+		work();
 		let group_id = $(e.target).data("group");
-		let searchParams = new URLSearchParams(window.location.search);
-		let a = searchParams.get("a");
-		let id = searchParams.get("id");
 		$.ajax({
-			url: `${window.location.origin}${window.location.pathname}?a=${a}&id=${id}`,
+			url: `${url}?a=${aUrl}&id=${idUrl}`,
 			method: 'post',
 			dataType: 'html',
 			data: {
@@ -93,46 +245,128 @@
 				document.body.append(dialog);
 				document.body.classList.add('scroll-lock');
 				dialog.showModal();
-			}
+				stopWork();
+			},
+			error: errorStatus
 		});
-		//let searchParams = new URLSearchParams(window.location.search);
-		//let params = new URLSearchParams("");
-		//params.set("a", searchParams.get("a"));
-		//params.set("id", searchParams.get("id"));
-
-		console.log($(e.target).data("group"));
-		//const xhr = new XMLHttpRequest();
 	}).on('click', ".group_delete", (e) => {
-		console.log('Удалить группу');
-		/**
-		if(typeof groups == 'object'){
-			groups.destroy();
-			groups = false;
+		let btn = $(e.target),
+			id = btn.data('group'),
+			tr = btn.closest('tr'),
+			$tds = $('td', tr),
+			name = $($tds[1]).text();
+		if(confirm(`${LANG_SENDMAIL["mailsend.groups_table_delete_group"]}: ${name}?`)){
+			work();
+			$.ajax({
+				url: `${url}?a=${aUrl}&id=${idUrl}`,
+				method: 'post',
+				dataType: 'json',
+				data: {
+					type: 'group',
+					action: 'delete',
+					groip_id: id
+				},
+				success: function(data) {
+					if(data.request) {
+						// Удачно
+						if(typeof groups == 'object') {
+							groups.destroy();
+							groups = false;
+						}
+						tr.remove();
+						renderTables();
+					}else{
+						// Неудачно
+					}
+					stopWork();
+				},
+				error: errorStatus
+			});
 		}
-		*/
 	}).on('click', ".user_edit", (e) => {
 		console.log('Редактировать пользователя');
 	}).on('click', ".user_delete", (e) => {
 		console.log('Удалить пользователя');
-		/**
-		if(typeof users == 'object'){
-			users.destroy();
-			users = false;
-		}
-		*/
 	}).on('click', 'form [type=button], .close_dialog', (e) => {
 		// Закрыть форму
-		if(dialog) {
-			dialog.close();
-			document.body.removeChild(dialog);
-			document.body.classList.remove('scroll-lock');
-			dialog = false;
-		}
+		dialogClose();
 	}).on('submit', 'form', (e) => {
-		e.preventDefault();
 		let form = e.target;
-		console.log(form.name);
-		return !1;
+		switch(form.name){
+			// Сначало всё с группами
+			case 'edit_group':
+				e.preventDefault();
+				work();
+				$.ajax({
+					url: `${url}?a=${aUrl}&id=${idUrl}`,
+					method: 'post',
+					dataType: 'json',
+					data: $(form).serialize(),
+					success: function(data) {
+						if(data.request){
+							// Удачно
+							if(typeof groups == 'object') {
+								groups.destroy();
+								groups = false;
+							}
+							let aBtn = $('td .group_edit[data-group=' + data.id + ']');
+							let tds = $('td', aBtn.closest('tr'));
+							if(tds[1]) {
+								$(tds[1]).text(data.name);
+								dialogClose();
+							}
+							renderTables();
+							data.request && setTimeout(alert, 100, `${data.message}\n${data.id}: ${data.name}`);
+						}else{
+							dialogClose();
+							setTimeout(alert, 100, `${data.message}`);
+						}
+						stopWork();
+					},
+					error: errorStatus
+				});
+				return !1;
+				break;
+			case 'insert_group':
+				e.preventDefault();
+				work();
+				$.ajax({
+					url: `${url}?a=${aUrl}&id=${idUrl}`,
+					method: 'post',
+					dataType: 'json',
+					data: $(form).serialize(),
+					success: function(data) {
+						if(data.request){
+							let group_id = data.id,
+								group_name = data.name;
+							// Добавить к таблице
+							let tr = $(`<tr><td>${group_id}</td><td>${group_name}</td><td><div class="btn-group"><a class="btn btn-success group_edit" title="${LANG_SENDMAIL["mailsend.groups_table_edit_group"]}" data-group="${group_id}"><i class="fas fa-user-edit"></i></a>&nbsp;<a class="btn btn-danger group_delete" title="${LANG_SENDMAIL["mailsend.groups_table_delete_group"]}" data-group="${group_id}"><i class="fas fa-user-times"></i></a></div></td></tr>`);
+							if(typeof groups == 'object') {
+								groups.destroy();
+								groups = false;
+							}
+							let groupTable = $("table.grid-groups tbody");
+							groupTable.append(tr);
+							dialogClose();
+							renderTables();
+							setTimeout(alert, 100, `${data.message}\n\n${data.id}. ${data.name}`);
+						}else{
+							dialogClose();
+							setTimeout(alert, 100, `${data.message}`);
+						}
+						stopWork();
+					},
+					error: errorStatus
+				});
+				return !1;
+				break;
+			case 'delete_group':
+				break;
+			default:
+				// Закрыть форму
+				dialogClose();
+				break;
+		}
 	});
 
 	function renderTables() {
@@ -319,7 +553,7 @@
 							},
 							action: function (e, dt, node, config, cb) {
 								DataTable.ext.buttons.excelHtml5.action.call(
-									this,
+									tdThis,
 									e,
 									dt,
 									node,
@@ -452,19 +686,32 @@
 					buttons: [
 						{
 							extend: 'groupAdd',
+							className: 'btn btn-success insert_group',
 							text: '<i class="icon-layer-plus"></i><span>Добавить группу</span>',
 							attr: {
 								title: `Добавить группу`
 							},
 							action: function ( e, dt, node, config ) {
-								/**
-								console.log( {
-									'e=>': e,
-									'dt=>': dt,
-									'node=>': node,
-									'config=>': config
-								} );
-								*/
+								console.log('Добавить группу');
+								work();
+								$.ajax({
+									url: `${url}?a=${aUrl}&id=${idUrl}`,
+									method: 'post',
+									dataType: 'html',
+									data: {
+										action: 'edit',
+										type: 'group'
+									},
+									success: function(data) {
+										let $html = $(data);
+										dialog = $html[0];
+										document.body.append(dialog);
+										document.body.classList.add('scroll-lock');
+										dialog.showModal();
+										stopWork();
+									},
+									error: errorStatus
+								});
 							}
 						},
 						// Кнопка экспорта XLSX

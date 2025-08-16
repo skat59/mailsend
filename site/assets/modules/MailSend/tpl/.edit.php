@@ -15,12 +15,14 @@ switch ($postType) {
 	case 'user':
 		// Редактирование Пользователя
 		$user_id = isset($_POST['user_id']) ? $modx->db->escape($_POST['user_id']) : "";
+		// В вывод должно попасть все данные пользователя и данные о подписках на группы
+		// Предусмотреть изменение о подписке. Т.е. при восстановлении вызвать значение токена и поменять.
 		break;
 	case 'group':
-		// Редактирование Группы
 		$group_id = isset($_POST['group_id']) ? $modx->db->escape((int)$_POST['group_id']) : 0;
 		$result = $modx->db->select("*", $table_groups, "id='" . $group_id . "'");
 		if($modx->db->getRecordCount( $result )):
+			// Редактирование Группы
 			// Отдать форму на редактирование
 			$row = $modx->db->getRow( $result );
 			// Форма редактирования Группы
@@ -53,20 +55,39 @@ switch ($postType) {
 </dialog>
 <?php
 		else:
-			// Вывести сообщение об отмене
+			// Добавить группу
 ?>
-<form class="form-horizontal" name="edit_group" action="<?= $start_link; ?>" method="GET">
-	<div class="form-group">
-		<p class="text-center"><strong>Нет группы для редактирования</strong></p>
+<dialog class="child">
+	<div class="row clearfix">
+		<div class="container-fluid">
+			<header class="clearfix row">
+				<h2><i class="icon-layer"></i>&nbsp;<?= $_lang['mailsend.groups_table_edit_group_insert']; ?></h2>
+				<a href="javascript:;" class="close_dialog btn" tabindex="-1"><i class="icon-menu-close"></i></a>
+			</header>
+			<form class="form-horizontal" name="insert_group" action="<?= $start_link; ?>">
+				<input type="hidden" name="action" value="save">
+				<input type="hidden" name="type" value="group">
+				<div class="form-group">
+					<label for="group_name"><strong><?= $_lang['mailsend.groups_edit_group']; ?>:</strong></label>
+					<div class="input-group">
+						<span class="input-group-addon"><i class="icon-layer"></i></span>
+						<input type="text" class="form-control" name="group_name" id="group_name" placeholder="<?= $_lang['mailsend.groups_edit_group_placeholder']; ?>" required="required" value="<?= $modx->htmlspecialchars($row["name"]);?>">
+					</div>
+				</div>
+				<div class="form-group text-right">
+					<button class="btn btn-success" type="submit" title="<?= $_lang['mailsend.form_controll_save']; ?>"><i class="fa fa-floppy-o"></i><strong>&nbsp;</strong><i class="fa fa-pencil"></i><span><?= $_lang['mailsend.form_controll_save']; ?></span></button>
+					<button class="btn btn-secondary" type="button" title="<?= $_lang['mailsend.form_controll_close']; ?>"><i class="fa fa-times-circle"></i><span><?= $_lang['mailsend.form_controll_close']; ?></span></button>
+				</div>
+			</form>
+		</div>
 	</div>
-	<div class="form-group text-right">
-		<button class="btn btn-default" type="button">Отмена</button>
-	</div>
-</form>
+</dialog>
 <?php
 		endif;
 		break;
 	default:
 		// Обдумать
+		// Пока отдаём недоступность
+		http_response_code(403);
 		break;
 }

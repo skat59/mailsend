@@ -18,6 +18,7 @@ $_MailSendLang = array(
 	"mailsend.groups_edit_group"                        => "Название группы",
 	"mailsend.groups_edit_group_placeholder"            => "Введите имя группы",
 	"mailsend.groups_table_edit_group"                  => "Редактировать группу",
+	"mailsend.groups_table_edit_group_insert"           => "Добавить группу",
 	"mailsend.groups_edit_group"                        => "Название группы",
 	"mailsend.groups_table_delete_group"                => "Удалить группу",
 	"mailsend.groups_table_edit_user"                   => "Редактировать пользователя",

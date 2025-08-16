@@ -14,20 +14,15 @@ $formid = (isset($_REQUEST['formid']) && (int)$_REQUEST['formid'] > 0) ? (int)$_
 $_lang = array();
 $modx = evolutionCMS();
 
-function getLang() {
-	global $modx, $_lang, $manager_language;
-	file_put_contents(MODX_MAILSEND_BASE_PATH . "log.txt", print_r($_lang, true) . PHP_EOL, FILE_APPEND);
-	$_MailSendLang = [];
-	$lang_path = MODX_MAILSEND_BASE_PATH . "lang/";
-	include $lang_path . 'english.php';
-	if (is_file($lang_path . $manager_language.'.php')) {
-		include $lang_path . $manager_language.'.php';
-	}
-	$_lang = array_merge($_lang, $_MailSendLang);
-	return $_lang;
+$_MailSendLang = [];
+$lang_path = MODX_MAILSEND_BASE_PATH . "lang/";
+include $lang_path . 'english.php';
+if (is_file($lang_path . $manager_language.'.php')) {
+	include $lang_path . $manager_language.'.php';
 }
+$_lang = array_merge($_lang, $_MailSendLang);
 
-$_lang = getLang();
+
 
 $postAction = isset($_POST['action']) ? filter_input(INPUT_POST, 'action', FILTER_SANITIZE_ENCODED) : "";
 

@@ -1629,6 +1629,11 @@ html[data-bs-theme=dark] table.dataTable input.dt-select-checkbox:indeterminate:
   content: "";
 }
 
+*:disabled,
+.btn:disabled {
+  cursor: not-allowed !important;
+}
+
 dialog {
   padding: 15px;
   min-width: calc(100% - 70em);

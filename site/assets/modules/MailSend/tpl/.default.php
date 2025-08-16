@@ -48,7 +48,7 @@ $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.js");
 									<th><?= $_lang["mailsend.users_table_col3"]; ?></th>
 									<th><?= $_lang["mailsend.users_table_col4"]; ?></th>
 									<th><?= $_lang["mailsend.users_table_col5"]; ?></th>
-									<th><?= $_lang["mailsend.users_table_col6"]; ?></th>
+									<th class="text-left"><?= $_lang["mailsend.users_table_col6"]; ?></th>
 									<th><?= $_lang["mailsend.users_table_col7"]; ?></th>
 								</tr>
 							</thead>
@@ -64,10 +64,10 @@ $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.js");
 									<td><?= $row["email"]; ?></td>
 									<td><?= $row["groups_id"]; ?></td>
 									<td><?= $row["groups_name"]; ?></td>
-									<td><?= $row["unsubscribe"]; ?></td>
+									<td class="text-left"><?= $row["unsubscribe"]; ?></td>
 									<td>
 										<div class="btn-group">
-											<a class="btn btn-success user_edit" title="<?= $_lang["mailsend.groups_table_edit_user"]; ?>" data-group="<?= $row["id"]; ?>"><i class="fas fa-user-edit"></i></a>&nbsp;<a class="btn btn-danger user_delete" title="<?= $_lang["mailsend.groups_table_delete_user"]; ?>" data-group="<?= $row["id"]; ?>"><i class="fas fa-user-times"></i></a>
+											<a class="btn btn-success user_edit" title="<?= $_lang["mailsend.groups_table_edit_user"]; ?>" data-user="<?= $row["id"]; ?>"><i class="fas fa-user-edit"></i></a>&nbsp;<a class="btn btn-danger user_delete" title="<?= $_lang["mailsend.groups_table_delete_user"]; ?>" data-user="<?= $row["id"]; ?>"><i class="fas fa-user-times"></i></a>
 										</div>
 									</td>
 								</tr>

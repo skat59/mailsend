@@ -56,7 +56,6 @@
 				leftPad(second, 2, '0')
 			];
 		return arrDate.join('-') + ' ' + arrTime.join(':');
-
 	},
 	leftPad = function (str, len, ch) {
 		str = String(str);
@@ -252,6 +251,11 @@
 				document.body.classList.add('scroll-lock');
 				dialog.showModal();
 				stopWork();
+				let input = $('input[type=text]', dialog);
+				if(input.length){
+					input[0].focus();
+					input[0].selectionStart = input[0].selectionEnd = input[0].value.length;
+				}
 			},
 			error: errorStatus
 		});
@@ -303,11 +307,43 @@
 				document.body.classList.add('scroll-lock');
 				dialog.showModal();
 				stopWork();
+				let input = $('input[type=text]', dialog);
+				if(input.length){
+					input[0].focus();
+					input[0].selectionStart = input[0].selectionEnd = input[0].value.length;
+				}
 			},
 			error: errorStatus
 		});
 	}).on('click', ".user_delete", (e) => {
 		// Удалить пользователя
+		let btn = $(e.target),
+			user_id = btn.data('user'),
+			tr = btn.closest('tr'),
+			$tds = $('td', tr),
+			name = $($tds[1]).text();
+		if(confirm(`${LANG_SENDMAIL["mailsend.groups_table_delete_user"]}: ${name}?`)){
+			// Пока не реализовано
+			/*work();
+			$.ajax({
+				url: `${url}?a=${aUrl}&id=${idUrl}`,
+				method: 'post',
+				dataType: 'json',
+				data: {
+					action: 'delete',
+					type: 'user',
+					user_id: user_id
+				},
+				success: function(data) {
+					if(data.request) {
+						// Удачно
+						dialogClose();
+						window.location.reload();
+					}
+				},
+				error: errorStatus
+			});*/
+		}
 	}).on('click', 'form [type=button], .close_dialog', (e) => {
 		// Закрыть форму
 		dialogClose();
@@ -501,6 +537,11 @@
 										document.body.classList.add('scroll-lock');
 										dialog.showModal();
 										stopWork();
+										let input = $('input[type=text]', dialog);
+										if(input.length){
+											input[0].focus();
+											input[0].selectionStart = input[0].selectionEnd = input[0].value.length;
+										}
 									},
 									error: errorStatus
 								});
@@ -516,12 +557,8 @@
 								disabled: "disabled"
 							},
 							action: function ( e, dt, node, config ) {
-								console.log( {
-									'e=>': e,
-									'dt=>': dt,
-									'node=>': node,
-									'config=>': config
-								} );
+								// Выбрать файл и отправить на сервер
+								// Используем POST, $.ajax
 							}
 						},
 						*/
@@ -774,6 +811,11 @@
 										document.body.classList.add('scroll-lock');
 										dialog.showModal();
 										stopWork();
+										let input = $('input[type=text]', dialog);
+										if(input.length){
+											input[0].focus();
+											input[0].selectionStart = input[0].selectionEnd = input[0].value.length;
+										}
 									},
 									error: errorStatus
 								});

@@ -15,8 +15,13 @@ if(is_string($content['icon'])){
 $start_link = $modx->config["site_manager_url"] . 'index.php?a=112&id=' . $content['id'];
 $css = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/css/main.min.css");
 $js = filemtime(MODX_BASE_PATH . "assets/modules/MailSend/js/main.js");
+
+$LANG = preg_replace('/(^[A-z0-9_]+).*$/', '$1', $manager_language);
+$LANG_FILE = is_file(MODX_BASE_PATH . "assets/modules/MailSend/js/lang/" . $LANG . ".json") ? "/assets/modules/MailSend/js/lang/" . $LANG . ".json" : "/assets/modules/MailSend/js/lang/english.json";
 ?>
 <script>
+	const LANG = "<?= $LANG; ?>";
+	const LANG_FILE = "<?= $LANG_FILE; ?>";
 	const LANG_SENDMAIL = <?= json_encode( $_MailSendLang, JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_FORCE_OBJECT ); ?>;
 </script>
 <link rel="stylesheet" href="/assets/modules/MailSend/css/main.min.css?<?= $css; ?>" />

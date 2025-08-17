@@ -5,7 +5,20 @@ if(IN_MANAGER_MODE!='true' && !$modx->hasPermission('exec_module')) {
 }
 header("Content-type: application/json; charset=utf8");
 // header("Content-type: text/plain; charset=utf8");
-// Сохранение Пользователя или Группы
+
+function trimToLower($n = "") {
+	return trim( mb_strtolower($n) );
+}
+
+function isValidEmail($email) {
+	return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/@.+\./', $email);
+}
+
+function gen_token(string $eml = "") {
+	$secret_phrase = $modx->config["secret_phrase"] || "ProjectSoft";
+	$token = hash_hmac('sha256', $eml, $secret_phrase);
+	return $token;
+}
 
 // Нужно помнить, что email не изменяется. Он один и уникальный.
 $return = array(
@@ -24,12 +37,23 @@ switch ($postType) {
 	case 'user':
 		// Сохранение Пользователя
 		$user_id = isset($_POST['user_id']) ? intval($modx->db->escape($_POST['user_id'])) : 0;
-		$user_name = isset($_POST['user_name']) ? $modx->db->escape($_POST['user_name']) : "";
-		$user_email = isset($_POST['user_email']) ? $modx->db->escape($_POST['user_email']) : "";
+		$user_name = isset($_POST['user_name']) ? trim($modx->db->escape($_POST['user_name'])) : "";
+		$user_email = isset($_POST['user_email']) ? trimToLower($modx->db->escape($_POST['user_email'])) : "";
 		$user_groups = isset($_POST['user_groups']) ? $modx->db->escape($_POST['user_groups']) : "";
 		// Запомнить, что данное значение задано как негативное
 		$user_unsubscribe = isset($_POST['user_unsubscribe']) ? intval($modx->db->escape($_POST['user_unsubscribe'])) : 1;
 		$user_unsubscribe = $user_unsubscribe ? 1 : 0;
+		//
+		$user_email = mb_convert_case(trim($user_email, "\r\n\t ;,.'\"-_/|!"), MB_CASE_LOWER, "UTF-8");
+		if(!isValidEmail($user_email) || mb_strlen($user_name) < 3):
+			// Email невалидный или короткое имя
+			// Выходим
+			$return = array(
+				"request" => false,
+				"message" => "Проверьте введённые данные"
+			);
+			break;
+		endif;
 		if($user_id):
 			// Достаём всех по $user_email кроме самого пользователя $user_id
 			// Если $user_email существует -> выходим с сообщением, что данный $user_email уже используется
@@ -57,7 +81,6 @@ switch ($postType) {
 					endwhile;
 				endif;
 				// Достать все рассыки пользователя
-				// $sql = "SELECT * "
 				if($user_groups):
 					if($groups):
 						// Оставляем только существующие
@@ -92,27 +115,10 @@ switch ($postType) {
 								"unsubscribe" => $user_unsubscribe
 							);
 							$modx->db->update( $fields, $table_users, 'id = "' . $user_id . '"' );
-							// Вытащить данные для обновления результата
-							$sql = "SELECT users_table.id, users_table.name, users_table.email, GROUP_CONCAT(groups_table.id ORDER BY groups_table.id SEPARATOR \", \r\n\") AS groups_id, GROUP_CONCAT(groups_table.name ORDER BY groups_table.id SEPARATOR \", \r\n\") AS groups_name, users_table.unsubscribe FROM " . $table_users . " users_table INNER JOIN " . $table_members . " group_memmer_table ON group_memmer_table.id_user = users_table.id INNER JOIN " . $table_groups . " groups_table ON groups_table.id = group_memmer_table.id_group AND users_table.id='" . $user_id . "' GROUP BY users_table.id";
-							$result_user = $modx->db->query($sql);
-							if($modx->db->getRecordCount($result_user)):
-								$row_user = $modx->db->getRow($result_user);
-								$return = array(
-									"request" => true,
-									"message" => "Данные пользователя обновлены",
-									"id" => $row_user['id'],
-									"name" => $row_user['name'],
-									"email" => $row_user['email'],
-									"groups_id" => $row_user['groups_id'],
-									"groups_name" => $row_user['groups_name'],
-									"unsubscribe" => $row_user['unsubscribe']
-								);
-							else:
-								$return = array(
-									"request" => false,
-									"message" => "Что за хрень?"
-								);
-							endif;
+							$return = array(
+								"request" => true,
+								"message" => "Данные пользователя обновлены"
+							);
 						else:
 							// У пользователя нет групп
 							$return = array(
@@ -143,6 +149,19 @@ switch ($postType) {
 			endif;
 		else:
 			// Добавить пользователя
+			// Достаём всех по $user_email
+			// Если $user_email существует -> выходим с сообщением, что данный $user_email уже используется
+			$result_check = $modx->db->select("*", $table_users, "email='" . $user_email . "'");
+			if($modx->db->getRecordCount( $result_check)):
+				// Email уже существует. Выходим
+				$row_check = $modx->db->getRow( $result_check );
+				$return = array(
+					"request" => false,
+					"message" => "Данный Email уже используется.\r\nID:        " . $row_check["id"] . "\r\nNAME: " . $row_check["name"]
+				);
+				break;
+			endif;
+			// Получить все группы рассылок
 			$groups = [];
 			$result_groups = $modx->db->select("id", $table_groups);
 			if($modx->db->getRecordCount( $result_groups )):
@@ -152,20 +171,52 @@ switch ($postType) {
 			endif;
 			if($user_groups):
 				if($groups):
-					// Проверить равенство массивов
-					// echo print_r($groups, true);
+					// Оставляем только существующие
+					$array = array_intersect($user_groups, $groups);
+					if(count($array)):
+						// Вставить данные пользователя
+						$fields = array(
+							"name" => $user_name,
+							"email" => $user_email,
+							"unsubscribe" => $user_unsubscribe,
+							"token" => gen_token($user_email)
+						);
+						$id = $modx->db->insert( $fields, $table_users );
+						if($id):
+							// Добавить в members
+							foreach($array as $key => $value):
+								$modx->db->insert(array(
+									"id_user" => $id,
+									"id_group" => $value
+								), $table_members);
+							endforeach;
+							// Данные вставлены
+							$return = array(
+								"request" => true,
+								"message" => "Организация добавлена.\n\nNAME:  " . $user_name . "\nEMAIL: " . $user_email
+							);
+						endif;
+					else:
+						// Нет групп для обновления или внесения
+						$return = array(
+							"request" => false,
+							"message" => "Нет групп для обновления или внесения"
+						);
+					endif;
 				else:
 					// Нет групп для обновления или внесения
-					// echo "Нет групп для обновления или внесения";
+					$return = array(
+						"request" => false,
+						"message" => "Нет групп для обновления или внесения"
+					);
 				endif;
 			else:
-				//
+				// У пользователя нет групп
+				$return = array(
+					"request" => false,
+					"message" => "Нет групп рассылок"
+				);
 			endif;
-			// У пользователя нет групп
-			$return = array(
-				"request" => false,
-				"message" => "Добавление не реализовано"
-			);
 		endif;
 		break;
 	case 'group':
@@ -188,9 +239,7 @@ switch ($postType) {
 						// Запись обновлена
 						$return = array(
 							"request"   => true,
-							"message"   => "Запись обновлена",
-							"name"      => $group_name,
-							"id"      	=> $group_id
+							"message"   => "Запись обновлена"
 						);
 					else:
 						// Запись не обновлена
@@ -215,9 +264,7 @@ switch ($postType) {
 				$autoincrement = $modx->db->insert( $fields, $table_groups);
 				$return = array(
 					"request"   => true,
-					"message"   => "Запись добавлена",
-					"name"      => $group_name,
-					"id"		=> $autoincrement
+					"message"   => "Запись добавлена"
 				);
 			endif;
 		else:

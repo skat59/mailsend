@@ -19,10 +19,34 @@ $return = array(
 switch ($postType) {
 	case 'user':
 		// Удаление Пользователя
+		$user_id = isset($_POST['user_id']) ? intval($modx->db->escape($_POST['user_id'])) : 0;
+		if($user_id):
+			$row = $modx->db->getRow($modx->db->select('id,name', $table_users, "id='{$user_id}'"));
+			if($row['id']):
+				// Удаляем пользователя
+				$modx->db->delete($table_users, "id=$user_id");
+				// Привязки к группам
+				$modx->db->delete($table_members, "id_user=$user_id");
+				$return = array(
+					"request" => true,
+					"message" => "организация\n\n" . $row['name'] . "\n\nудалена."
+				);
+			else:
+				$return = array(
+					"request" => false,
+					"message" => "Выбранная организация не удалена."
+				);
+			endif;
+		else:
+			$return = array(
+				"request" => false,
+				"message" => "Выбранная организация не удалена."
+			);
+		endif;
 		break;
 	case 'group':
 		// Удаление Группы
-		$group_id = isset($_POST["group_id"]) ? $modx->db->escape((int)$_POST['group_id']) : 0;
+		$group_id = isset($_POST["group_id"]) ? intval($modx->db->escape((int)$_POST['group_id'])) : 0;
 		if($group_id):
 			$name = $modx->db->getValue($modx->db->select('name', $table_groups, "id='{$group_id}'"));
 			if($name):
@@ -32,8 +56,7 @@ switch ($postType) {
 				$modx->db->delete($table_members, "id_group=$group_id");
 				$return = array(
 					"request" => true,
-					"message" => "Группа\n\n«" . $name . "»\n\nудалена.",
-					"id" => $group_id
+					"message" => "Группа\n\n«" . $name . "»\n\nудалена."
 				);
 			else:
 				$return = array(

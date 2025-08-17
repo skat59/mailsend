@@ -230,7 +230,6 @@
 		setTimeout(alert, 100, text);
 	};
 
-
 	$(document).on('click', ".group_edit", (e) => {
 		// Редактировать группу
 		work();
@@ -324,7 +323,7 @@
 			name = $($tds[1]).text();
 		if(confirm(`${LANG_SENDMAIL["mailsend.groups_table_delete_user"]}: ${name}?`)){
 			// Пока не реализовано
-			/*work();
+			work();
 			$.ajax({
 				url: `${url}?a=${aUrl}&id=${idUrl}`,
 				method: 'post',
@@ -342,7 +341,7 @@
 					}
 				},
 				error: errorStatus
-			});*/
+			});
 		}
 	}).on('click', 'form [type=button], .close_dialog', (e) => {
 		// Закрыть форму
@@ -461,6 +460,7 @@
 			groups.destroy();
 			groups = false;
 		}
+		//DataTables_Table_0_users
 		users = new DataTable(`table.grid-users`, {
 			scrollY: false,
 			scrollX: true,
@@ -479,13 +479,19 @@
 				// Разрешено для первой колонки поиск, сортировка
 				{
 					'searchable'    : !0,
-					'targets'       : [1,2,4],
+					'targets'       : [1, 2, 4],
 					'orderable'     : !0
 				},
-				// Запрещено для последующих колонок поиск, сортировка
+				// Разрешено только сортировка
 				{
 					'searchable'    : !1,
-					'targets'       : [0,3,5,6],
+					'targets'       : [0, 3, 5],
+					'orderable'     : !0
+				},
+				// Запрещено ВСЁ
+				{
+					'searchable'    : !1,
+					'targets'       : [6],
 					'orderable'     : !1
 				},
 			],
@@ -494,17 +500,19 @@
 			// Разрешаем запоминание всех свойств
 			stateSave: !0,
 			stateSaveCallback: function (settings, data) {
+				data.search.search = "";
+				data.start = 0;
 				localStorage.setItem(
-					'DataTables_' + settings.sInstance + '_users',
+					settings.sInstance + '_users',
 					JSON.stringify(data)
 				);
 			},
 			stateLoadCallback: function (settings) {
-				return JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance + '_users'));
+				return JSON.parse(localStorage.getItem(settings.sInstance + '_users'));
 			},
 			lengthMenu: [
 				[25, 50, 100, 300, 500, 1000, -1],
-				['по 25', 'по 50', 'по 100', 'по 300', 'по 500', 'по 1000', 'Все']
+				['по 25', 'по 50', 'по 100', 'по 300', 'по 500', 'по 1000', 'All']
 			],
 			layout: {
 				topStart: [
@@ -571,6 +579,9 @@
 							title: `${LANG_SENDMAIL['mailsend.export_download_users']}`,
 							attr: {
 								title: `${LANG_SENDMAIL['mailsend.users_export_excel_title']}`
+							},
+							exportOptions: {
+								columns: [0, 1, 2, 4, 5]
 							},
 							sheetName: `${SEND_MAIL}`,
 							customize: function (xlsx) {
@@ -672,6 +683,9 @@
 							},
 							download: `${LANG_SENDMAIL['mailsend.export_download_users']}`,
 							orientation: `landscape`,
+							exportOptions: {
+								columns: [0, 1, 2, 4, 5]
+							},
 							// Кастомизируем вывод
 							customize: function (doc) {
 								let date = new Date();
@@ -735,9 +749,11 @@
 				}
 			},
 			language: {
-				url: `/assets/modules/MailSend/js/ru_RU.json`,
+				url: `${LANG_FILE}`,
 			}
 		});
+
+		//DataTables_DataTables_Table_1_groups
 		groups = new DataTable(`table.grid-groups`, {
 			responsive: true,
 			scrollY: false,
@@ -756,10 +772,16 @@
 					'targets'       : [1],
 					'orderable'     : !0
 				},
-				// Запрещено для последующих колонок поиск, сортировка
+				// Разрешено только сортировка
 				{
 					'searchable'    : !1,
-					'targets'       : [0,2],
+					'targets'       : [0],
+					'orderable'     : !0
+				},
+				// Запрещено ВСЁ
+				{
+					'searchable'    : !1,
+					'targets'       : [2],
 					'orderable'     : !1
 				},
 			],
@@ -769,16 +791,16 @@
 			stateSave: !0,
 			stateSaveCallback: function (settings, data) {
 				localStorage.setItem(
-					'DataTables_' + settings.sInstance + '_groups',
+					settings.sInstance + '_groups',
 					JSON.stringify(data)
 				);
 			},
 			stateLoadCallback: function (settings) {
-				return JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance + '_groups'));
+				return JSON.parse(localStorage.getItem(settings.sInstance + '_groups'));
 			},
 			lengthMenu: [
 				[25, 50, 100, -1],
-				['по 25', 'по 50', 'по 100', 'Все']
+				['по 25', 'по 50', 'по 100', 'All']
 			],
 			layout: {
 				topStart: [
@@ -832,6 +854,9 @@
 							download: `${LANG_SENDMAIL['mailsend.export_download_groups']}`,
 							filename: `${LANG_SENDMAIL['mailsend.export_download_groups']}`,
 							sheetName: `${SEND_MAIL}`,
+							exportOptions: {
+								columns: [0, 1]
+							},
 							customize: function (xlsx) {
 								let date = new Date();
 								let dateISO = date.toISOString();
@@ -931,6 +956,9 @@
 							attr: {
 								title: `${LANG_SENDMAIL['mailsend.groups_export_pdf_title']}`
 							},
+							exportOptions: {
+								columns: [0, 1]
+							},
 							// Кастомизируем вывод
 							customize: function (doc) {
 								let date = new Date();
@@ -994,7 +1022,7 @@
 				}
 			},
 			language: {
-				url: `/assets/modules/MailSend/js/ru_RU.json`,
+				url: `${LANG_FILE}`,
 			}
 		});
 	}

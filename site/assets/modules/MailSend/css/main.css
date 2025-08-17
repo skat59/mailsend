@@ -1573,48 +1573,52 @@ html[data-bs-theme=dark] table.dataTable input.dt-select-checkbox:indeterminate:
   content: "\e941";
 }
 
-.icon-success:before {
+.icon-skat:before {
   content: "\e942";
 }
 
-.icon-telegram:before {
+.icon-success:before {
   content: "\e943";
 }
 
-.icon-twitter:before {
+.icon-telegram:before {
   content: "\e944";
 }
 
-.icon-tws:before {
+.icon-twitter:before {
   content: "\e945";
 }
 
-.icon-up:before {
+.icon-tws:before {
   content: "\e946";
 }
 
-.icon-vk:before {
+.icon-up:before {
   content: "\e947";
 }
 
-.icon-vks:before {
+.icon-vk:before {
   content: "\e948";
 }
 
-.icon-website:before {
+.icon-vks:before {
   content: "\e949";
 }
 
-.icon-whatsapp:before {
+.icon-website:before {
   content: "\e94a";
 }
 
-.icon-zoom-in:before {
+.icon-whatsapp:before {
   content: "\e94b";
 }
 
-.icon-zoom-out:before {
+.icon-zoom-in:before {
   content: "\e94c";
+}
+
+.icon-zoom-out:before {
+  content: "\e94d";
 }
 
 ::-webkit-search-cancel-button {
@@ -1632,6 +1636,11 @@ html[data-bs-theme=dark] table.dataTable input.dt-select-checkbox:indeterminate:
 *:disabled,
 .btn:disabled {
   cursor: not-allowed !important;
+}
+
+h1 .icon-skat,
+h2 .icon-skat {
+  font-size: 3em;
 }
 
 dialog {
@@ -1907,24 +1916,50 @@ a.btn:not([href]):not([tabindex]) {
   justify-content: flex-end;
 }
 
-.dt-layout-row .btn-group {
-  padding-left: 15px;
-}
-
-.dt-layout-row .btn-group .btn {
+.dt-layout-row .dt-buttons .btn {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
+  font-weight: 700;
+  font-size: 0.97em;
 }
 
-.dt-layout-row .btn-group .btn .fa,
-.dt-layout-row .btn-group .btn .far,
-.dt-layout-row .btn-group .btn .fas,
-.dt-layout-row .btn-group .btn [class^="icon-"],
-.dt-layout-row .btn-group .btn [class*=" icon-"] {
+.dt-layout-row .dt-buttons .btn .fa,
+.dt-layout-row .dt-buttons .btn .far,
+.dt-layout-row .dt-buttons .btn .fas,
+.dt-layout-row .dt-buttons .btn [class^="icon-"],
+.dt-layout-row .dt-buttons .btn [class*=" icon-"] {
   display: none;
   width: 1em;
   font-size: 1em;
   text-align: center;
+}
+
+.dt-layout-row .dt-buttons,
+.dt-layout-row .dt-paging {
+  padding-left: 15px;
+}
+
+.dt-layout-row .dt-paging {
+  margin: 0 !important;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: end;
+  justify-content: end;
+}
+
+.dt-layout-row .dt-paging .page-link {
+  min-width: 3.7em;
+  text-align: center;
+}
+
+.dt-layout-row .dt-paging .page-link,
+.dt-layout-row .dt-paging .page-link:active,
+.dt-layout-row .dt-paging .page-link:hover,
+.dt-layout-row .dt-paging .page-link:focus,
+.dt-layout-row .dt-paging .page-link:focus-visible,
+.dt-layout-row .dt-paging .page-link:focus-within,
+.dt-layout-row .dt-paging .page-link:target {
+  text-decoration: none;
 }
 
 .dt-layout-row th .btn-group .fa,
@@ -1974,7 +2009,7 @@ a.btn:not([href]):not([tabindex]) {
 .dt-buttons {
   display: -ms-flexbox;
   display: flex;
-  gap: 0.5em;
+  gap: 0.7em;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   -ms-flex-pack: end;
@@ -2116,15 +2151,15 @@ table.dataTable thead > tr > td div.dt-column-header {
     font-size: 0;
   }
 
-  .dt-layout-row .btn-group .btn .fa,
-  .dt-layout-row .btn-group .btn .far,
-  .dt-layout-row .btn-group .btn .fas,
-  .dt-layout-row .btn-group .btn [class^="icon-"],
-  .dt-layout-row .btn-group .btn [class*=" icon-"] {
+  .dt-layout-row .dt-buttons .btn .fa,
+  .dt-layout-row .dt-buttons .btn .far,
+  .dt-layout-row .dt-buttons .btn .fas,
+  .dt-layout-row .dt-buttons .btn [class^="icon-"],
+  .dt-layout-row .dt-buttons .btn [class*=" icon-"] {
     display: inline-block;
   }
 
-  .dt-layout-row .btn-group .btn span {
+  .dt-layout-row .dt-buttons .btn span {
     font-size: 0;
   }
 }

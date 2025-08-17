@@ -16,6 +16,11 @@ use Egulias\EmailValidator\Validation\DNSCheckValidation;
 use Egulias\EmailValidator\Validation\MultipleValidationWithAnd;
 use Egulias\EmailValidator\Validation\RFCValidation;
 
+/**
+ * HTML 2 TEXT
+ */
+use Soundasleep\Html2Text;
+
 $dir = str_replace('\\','/',dirname(__FILE__)) . "/";
 
 // Устанавливаем часовой пояс
@@ -118,14 +123,23 @@ function getDocument($object) {
 					endforeach;
 				endif;
 			}
-			$content_arr = parseContentMsg($content);
-			$text = strip_tags($content_arr["content"]);
-			$text = preg_replace('/([\r\n]+(?:\s+)?)/m', "\n", preg_replace('/(&nbsp;| )+/', " ", $text));
-			$content_arr["text"] = $text;
-			$content_arr["id"] = $doc["id"];
-			$content_arr["date"] = $doc["date_send"];
-			$content_arr["title"] = $doc["pagetitle"];
-			$content_arr["files"] = $files_arr;
+			$content = preg_replace('/[\r\n\t]+/', "", $content);
+			$content_arr = parseContentMsg(
+				// Контент сообщения
+				$content,
+				// ID документа
+				$doc["id"],
+				// Дата отправки
+				$doc["date_send"],
+				// Заголовок документа
+				$doc["pagetitle"],
+				// Прикрепляемые файлы (для скачивания)
+				$files_arr
+			);
+			// $content_arr["id"] = $doc["id"];
+			// $content_arr["date"] = $doc["date_send"];
+			// $content_arr["title"] = $doc["pagetitle"];
+			// $content_arr["files"] = $files_arr;
 			// Только один первый документ
 			// Выходим
 			break;
@@ -135,8 +149,18 @@ function getDocument($object) {
 }
 
 // Парсинг контента
-function parseContentMsg($content) {
+function parseContentMsg($content, $id, $date, $title, $files) {
 	$return = array();
+	$arr_return = array(
+		"id"      => $id,
+		"date"    => $date,
+		"title"   => $title,
+		"content" => "",
+		"text"    => "",
+		"files"   => $files,
+		// Файлы изображений для оформления/просмотра в сообщении
+		"matches" => array()
+	);
 	$re = '/<img.*src="(.+)"/Usi';
 	$matches = array();
 	$text = "";
@@ -151,15 +175,9 @@ function parseContentMsg($content) {
 		$content = preg_replace($re, $subst, $content);
 		$return[] = $arr;
 	endforeach;
-	$arr_return = array(
-		"id"      => "",
-		"date"    => "",
-		"title"   => "",
-		"content" => $content,
-		"text"    => "",
-		"files"   => array(),
-		"matches" => $return
-	);
+	$arr_return["content"] = $content;
+	$arr_return["text"] = Html2Text::convert($content);
+	$arr_return["matches"] = $return;
 	return $arr_return;
 }
 

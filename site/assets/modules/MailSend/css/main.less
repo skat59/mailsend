@@ -20,6 +20,13 @@
 	}
 }
 
+h1,
+h2 {
+	.icon-skat {
+		font-size: 3em;
+	}
+}
+
 dialog {
 	padding: 15px;
 	min-width: calc(100% - 70em);
@@ -291,11 +298,12 @@ a {
 			}
 		}
 		&-row {
-			.btn {
-				&-group {
-					padding-left: 15px;
+			.dt {
+				&-buttons {
 					.btn {
 						flex: 0 0 auto;
+						font-weight: 700;
+						font-size: 0.97em;
 						.fa,
 						.far,
 						.fas,
@@ -317,6 +325,28 @@ a {
 							span {
 								font-size: 0;
 							}
+						}
+					}
+				}
+				&-buttons,
+				&-paging {
+					padding-left: 15px;
+				}
+				&-paging {
+					margin: 0 !important;
+					display: flex;
+					justify-content: end;
+					.page-link {
+						min-width: 3.7em;
+						text-align: center;
+						&,
+						&:active,
+						&:hover,
+						&:focus,
+						&:focus-visible,
+						&:focus-within,
+						&:target {
+							text-decoration: none;
 						}
 					}
 				}
@@ -371,7 +401,7 @@ a {
 	}
 	&-buttons {
 		display: flex;
-		gap: @gap-inline-form;
+		gap: 0.7em;
 		flex-wrap: wrap;
 		justify-content: flex-end;
 	}

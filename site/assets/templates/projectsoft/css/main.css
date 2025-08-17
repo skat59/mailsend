@@ -302,48 +302,52 @@
   content: "\e941";
 }
 
-.icon-success:before {
+.icon-skat:before {
   content: "\e942";
 }
 
-.icon-telegram:before {
+.icon-success:before {
   content: "\e943";
 }
 
-.icon-twitter:before {
+.icon-telegram:before {
   content: "\e944";
 }
 
-.icon-tws:before {
+.icon-twitter:before {
   content: "\e945";
 }
 
-.icon-up:before {
+.icon-tws:before {
   content: "\e946";
 }
 
-.icon-vk:before {
+.icon-up:before {
   content: "\e947";
 }
 
-.icon-vks:before {
+.icon-vk:before {
   content: "\e948";
 }
 
-.icon-website:before {
+.icon-vks:before {
   content: "\e949";
 }
 
-.icon-whatsapp:before {
+.icon-website:before {
   content: "\e94a";
 }
 
-.icon-zoom-in:before {
+.icon-whatsapp:before {
   content: "\e94b";
 }
 
-.icon-zoom-out:before {
+.icon-zoom-in:before {
   content: "\e94c";
+}
+
+.icon-zoom-out:before {
+  content: "\e94d";
 }
 
 *,

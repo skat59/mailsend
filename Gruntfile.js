@@ -126,7 +126,6 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					'bower_components/datatables.net/js/dataTables.js',
 					'bower_components/datatables.net-buttons/js/dataTables.buttons.js',
 					'bower_components/datatables.net-buttons/js/buttons.html5.js',
-					'bower_components/datatables.net-buttons/js/buttons.colVis.js',
 					'bower_components/datatables.net-bs/js/dataTables.bootstrap.js'
 				],
 				dest: 'site/assets/modules/MailSend/js/datatables.js'
@@ -256,6 +255,10 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					}
 				},
 				files : {
+					'site/assets/modules/MailSend/css/localhost.css' : [
+						'src/less/localhost.less',
+						//'src/less/plugins/prism.css'
+					],
 					'site/assets/modules/MailSend/css/main.css' : [
 						'bower_components/datatables.net-bs/css/dataTables.bootstrap.css',
 						'bower_components/datatables.net-buttons-bs/css/buttons.bootstrap.css',
@@ -280,6 +283,9 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					'test/css/prefix.tinymce.css' : [
 						'test/css/tinymce.css'
 					],
+					'site/assets/modules/MailSend/css/localhost.css' : [
+						'site/assets/modules/MailSend/css/localhost.css'
+					],
 					'site/assets/modules/MailSend/css/main.css' : [
 						'site/assets/modules/MailSend/css/main.css'
 					]
@@ -291,6 +297,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				files: {
 					'test/css/media/main.css': ['test/css/prefix.main.css'],
 					'test/css/media/tinymce.css': ['test/css/prefix.tinymce.css'],
+					'site/assets/modules/MailSend/css/localhost.css': ['site/assets/modules/MailSend/css/localhost.css'],
 					'site/assets/modules/MailSend/css/main.css': ['site/assets/modules/MailSend/css/main.css']
 				}
 			}
@@ -358,6 +365,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				files: {
 					'site/assets/templates/projectsoft/css/main.min.css' : ['test/css/replace/main.css'],
 					'site/assets/templates/projectsoft/css/tinymce.min.css' : ['test/css/replace/tinymce.css'],
+					'site/assets/modules/MailSend/css/localhost.min.css' : ['site/assets/modules/MailSend/css/localhost.css'],
 					'site/assets/modules/MailSend/css/main.min.css': ['site/assets/modules/MailSend/css/main.css']
 				}
 			}

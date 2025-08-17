@@ -462,8 +462,9 @@
 		}
 		//DataTables_Table_0_users
 		users = new DataTable(`table.grid-users`, {
+			responsive: false,
 			scrollY: false,
-			scrollX: true,
+			scrollX: false,
 			// Колонки
 			columns: [
 				{ name: 'id' },
@@ -499,9 +500,7 @@
 			ordering: !0,
 			// Разрешаем запоминание всех свойств
 			stateSave: !0,
-			stateSaveCallback: function (settings, data) {
-				data.search.search = "";
-				data.start = 0;
+			stateSaveCallback: function (settings, data) {10,
 				localStorage.setItem(
 					settings.sInstance + '_users',
 					JSON.stringify(data)
@@ -511,8 +510,8 @@
 				return JSON.parse(localStorage.getItem(settings.sInstance + '_users'));
 			},
 			lengthMenu: [
-				[25, 50, 100, 300, 500, 1000, -1],
-				['по 25', 'по 50', 'по 100', 'по 300', 'по 500', 'по 1000', 'All']
+				[10, 25, 50, 100, 300, 500, 1000, -1],
+				['по 10', 'по 25', 'по 50', 'по 100', 'по 300', 'по 500', 'по 1000', 'All']
 			],
 			layout: {
 				topStart: [
@@ -745,8 +744,10 @@
 								);
 							}
 						}
-					]
-				}
+					],
+					"paging": "paging"
+				},
+				//bottomEnd: ""
 			},
 			language: {
 				url: `${LANG_FILE}`,
@@ -755,9 +756,9 @@
 
 		//DataTables_DataTables_Table_1_groups
 		groups = new DataTable(`table.grid-groups`, {
-			responsive: true,
+			responsive: false,
 			scrollY: false,
-			scrollX: true,
+			scrollX: false,
 			// Колонки
 			columns: [
 				{ name: 'id' },
@@ -1018,8 +1019,10 @@
 								);
 							}
 						}
-					]
-				}
+					],
+					"paging": "paging"
+				},
+				//bottomEnd: ""
 			},
 			language: {
 				url: `${LANG_FILE}`,

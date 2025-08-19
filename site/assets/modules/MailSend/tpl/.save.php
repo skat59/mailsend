@@ -50,7 +50,7 @@ switch ($postType) {
 			// Выходим
 			$return = array(
 				"request" => false,
-				"message" => "Проверьте введённые данные"
+				"message" => !isValidEmail($user_email) ? $_lang['mailsend.user_save_not_email'] : (mb_strlen($user_name) < 3 ? $_lang['mailsend.user_save_not_name'] : $_lang['mailsend.user_save_not_all'])
 			);
 			break;
 		endif;
@@ -63,7 +63,7 @@ switch ($postType) {
 				$row_check = $modx->db->getRow( $result_check );
 				$return = array(
 					"request" => false,
-					"message" => "Данный Email уже используется.\r\nID:        " . $row_check["id"] . "\r\nNAME: " . $row_check["name"]
+					"message" => $_lang['mailsend.user_save_mail_already'] . ".\r\nID:        " . $row_check["id"] . "\r\nNAME: " . $row_check["name"]
 				);
 				break;
 			endif;
@@ -117,34 +117,34 @@ switch ($postType) {
 							$modx->db->update( $fields, $table_users, 'id = "' . $user_id . '"' );
 							$return = array(
 								"request" => true,
-								"message" => "Данные пользователя обновлены"
+								"message" => $_lang['mailsend.user_save_update']
 							);
 						else:
 							// У пользователя нет групп
 							$return = array(
 								"request" => false,
-								"message" => "У пользователя нет групп"
+								"message" => $_lang['mailsend.user_save_not_groups']
 							);
 						endif;
 					else:
 						// Нет групп для обновления или внесения
 						$return = array(
 							"request" => false,
-							"message" => "Нет групп"
+							"message" => $_lang['mailsend.user_save_not_groups_all']
 						);
 					endif;
 				else:
 					// У пользователя нет групп
 					$return = array(
 						"request" => false,
-						"message" => "У пользователя нет групп"
+						"message" => $_lang['mailsend.user_save_not_groups']
 					);
 				endif;
 			else:
 				// Пользователя с данным id нет
 				$return = array(
 					"request" => false,
-					"message" => "Пользователя с данным ID нет"
+					"message" => $_lang['mailsend.user_save_not_id']
 				);
 			endif;
 		else:
@@ -157,7 +157,7 @@ switch ($postType) {
 				$row_check = $modx->db->getRow( $result_check );
 				$return = array(
 					"request" => false,
-					"message" => "Данный Email уже используется.\r\nID:        " . $row_check["id"] . "\r\nNAME: " . $row_check["name"]
+					"message" => $_lang['mailsend.user_save_mail_already'] . ".\r\nID:        " . $row_check["id"] . "\r\nNAME: " . $row_check["name"]
 				);
 				break;
 			endif;
@@ -193,28 +193,34 @@ switch ($postType) {
 							// Данные вставлены
 							$return = array(
 								"request" => true,
-								"message" => "Организация добавлена.\n\nNAME:  " . $user_name . "\nEMAIL: " . $user_email
+								"message" => $_lang['mailsend.user_save_added'] . ".\n\nNAME:  " . $user_name . "\nEMAIL: " . $user_email
+							);
+						else:
+							// Ошибка. Данные не внесены
+							$return = array(
+								"request" => true,
+								"message" => $_lang['mailsend.user_save_error'] . "."
 							);
 						endif;
 					else:
 						// Нет групп для обновления или внесения
 						$return = array(
 							"request" => false,
-							"message" => "Нет групп для обновления или внесения"
+							"message" => $_lang['mailsend.user_save_not_groups_or_updated']
 						);
 					endif;
 				else:
 					// Нет групп для обновления или внесения
 					$return = array(
 						"request" => false,
-						"message" => "Нет групп для обновления или внесения"
+						"message" => $_lang['mailsend.user_save_not_groups_or_updated']
 					);
 				endif;
 			else:
 				// У пользователя нет групп
 				$return = array(
 					"request" => false,
-					"message" => "Нет групп рассылок"
+					"message" => $_lang['mailsend.user_save_not_groups_all']
 				);
 			endif;
 		endif;
@@ -239,20 +245,20 @@ switch ($postType) {
 						// Запись обновлена
 						$return = array(
 							"request"   => true,
-							"message"   => "Запись обновлена"
+							"message"   => $_lang['mailsend.groups_save_update']
 						);
 					else:
 						// Запись не обновлена
 						$return = array(
 							"request"   => false,
-							"message"   => "Запись не обновлена"
+							"message"   => $_lang['mailsend.groups_save_not_update']
 						);
 					endif;
 				else:
 					// Записи нет
 					$return = array(
 						"request"   => false,
-						"message"   => "Нет записи"
+						"message"   => $_lang['mailsend.groups_save_not_all']
 					);
 				endif;
 			else:
@@ -262,16 +268,25 @@ switch ($postType) {
 					"name" => $group_name
 				);
 				$autoincrement = $modx->db->insert( $fields, $table_groups);
-				$return = array(
-					"request"   => true,
-					"message"   => "Запись добавлена"
-				);
+				if($autoincrement):
+					// Данные внесены
+					$return = array(
+						"request"   => true,
+						"message"   => $_lang['mailsend.groups_save_insert']
+					);
+				else:
+					// Данные не внесены
+					$return = array(
+						"request"   => true,
+						"message"   => $_lang['mailsend.groups_save_insert']
+					);
+				endif;
 			endif;
 		else:
 			// Не задано имя группы
 			$return = array(
 				"request"   => false,
-				"message"   => "Не задано имя группы"
+				"message"   => $_lang['mailsend.groups_save_insert_not_name']
 			);
 		endif;
 		break;

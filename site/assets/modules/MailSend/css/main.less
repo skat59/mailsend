@@ -3,6 +3,41 @@
 	opacity: 1;
 	cursor: pointer;
 }
+html,
+body {
+	&,
+	> .container-fluid {
+		position: relative;
+		height: 100%;
+		min-height: 100%;
+	}
+	> .container-fluid {
+		.tab-pane {
+			position: relative;
+			height: ~'calc(100% - 8.5em)';
+			min-height: ~'calc(100% - 8.5em)';
+			> .tab-page {
+				position: relative;
+				height: ~'calc(100% - 2.5rem - 1.3em)';
+				min-height: ~'calc(100% - 2.5rem - 1.3em)';
+				> .container-fluid {
+					position: relative;
+					height: 100%;
+					min-height: 100%;
+					.tab-body-mailsend {
+						&,
+						> div,
+						.dt-container.form-inline {
+							position: relative;
+							height: 100%;
+							min-height: 100%;
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
 .clearfix {
 	&::before,
@@ -23,7 +58,9 @@
 h1,
 h2 {
 	.icon-skat {
-		font-size: 3em;
+		&::before {
+			font-size: 3em;
+		}
 	}
 }
 
@@ -220,15 +257,37 @@ a {
 	}
 	&-container {
 		&.form-inline {
-			flex-flow: column wrap;
+			flex-flow: column;
 			align-items: unset;
 			gap: @gap-inline-form;
 			> .row {
-				flex: 1;
+				flex: 0;
 				margin: unset;
-				&:first-child {
-					display: flex;
+				&.dt-layout-table {
 					flex: 1;
+					max-height: ~'calc(100% - 5.3em - 30px);';
+					height: 100%;
+					overflow: hidden;
+					> .dt-layout-full {
+						height: 100%;
+						max-height: 100%;
+						overflow: auto;
+						.dt-scroll {
+							overflow: auto;
+							height: 100%;
+							.dt-scroll-head,
+							.dt-scroll-foot {
+								position: sticky !important;
+								z-index: 3;
+							}
+							.dt-scroll-head {
+								top: 0;
+							}
+							.dt-scroll-foot {
+								bottom: 0;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -337,7 +396,7 @@ a {
 					display: flex;
 					justify-content: end;
 					.page-link {
-						min-width: 3.7em;
+						min-width: 3.3em;
 						text-align: center;
 						&,
 						&:active,
@@ -367,38 +426,6 @@ a {
 			}
 		}
 	}
-	&-button {
-		&.buttons {
-			/**
-			&-excel,
-			&-pdf {
-				&::before {
-					font-family: "LocalHost" !important;
-					speak: none;
-					font-style: normal;
-					font-weight: normal;
-					font-variant: normal;
-					text-transform: none;
-					line-height: 1;
-					text-rendering: auto;
-					-webkit-font-smoothing: antialiased;
-					-moz-osx-font-smoothing: grayscale;
-					margin-right: 0.3em;
-				}
-			}
-			&-excel {
-				&::before {
-					content: @icon-file-excel;
-				}
-			}
-			&-pdf {
-				&::before {
-					content: @icon-file-pdf;
-				}
-			}
-			*/
-		}
-	}
 	&-buttons {
 		display: flex;
 		gap: 0.7em;
@@ -415,6 +442,13 @@ a {
 		}
 	}
 }
+
+.page {
+	&-link {
+		padding: 0.3rem 0.45rem;
+	}
+}
+
 table.dataTable {
 	thead {
 		> tr {
@@ -426,4 +460,9 @@ table.dataTable {
 			}
 		}
 	}
+}
+
+.dynamic-tab-pane-control.tab-pane {
+	position: relative;
+	width: 100%;
 }

@@ -49,9 +49,6 @@ switch ($postAction) {
 	case 'save':
 		include_once MODX_MAILSEND_BASE_PATH . 'tpl/.save.php';
 		break;
-	case 'add':
-		include_once MODX_MAILSEND_BASE_PATH . 'tpl/.add.php';
-		break;
 	default:
 		include_once MODX_MANAGER_PATH . 'includes/header.inc.php';
 		include_once MODX_MAILSEND_BASE_PATH . 'tpl/.default.php';

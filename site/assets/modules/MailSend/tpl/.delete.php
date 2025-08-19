@@ -29,7 +29,7 @@ switch ($postType) {
 				$modx->db->delete($table_members, "id_user=$user_id");
 				$return = array(
 					"request" => true,
-					"message" => "организация\n\n" . $row['name'] . "\n\nудалена."
+					"message" => "Организация\n\n" . $row['name'] . "\n\nудалена."
 				);
 			else:
 				$return = array(

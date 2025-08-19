@@ -1,6 +1,9 @@
 <?php
-
+// Russian lang
 $_MailSendLang = array(
+	"mailsend.name"                                     => "Модуль рассылки",
+	"mailsend.sheets"                                   => "Листы",
+	"mail.sheet_name"                                   => "Рассылка",
 	"mailsend.title"                                    => "Настройки рассылки",
 	"mailsend.close"                                    => "Закрыть модуль",
 	"mailsend.users_tab_title"                          => "Адреса рассылки",
@@ -40,5 +43,26 @@ $_MailSendLang = array(
 	"mailsend.groups_export_pdf_title"                  => "Экспорт Групп рассылки в PDF файл (*.pdf)",
 	"mailsend.groups_table_delete_user"                 => "Удалить организацию",
 	"mailsend.form_controll_save"                       => "Сохранить",
-	"mailsend.form_controll_close"                      => "Отмена"
+	"mailsend.form_controll_close"                      => "Отмена",
+
+	"mailsend.user_save_not_email"                      => "Проверьте введённый email организации",
+	"mailsend.user_save_not_name"                       => "Проверьте введённое имя организации",
+	"mailsend.user_save_not_all"                        => "Проверьте введённые данные организации",
+	"mailsend.user_save_error"                          => "Данные организации не внесены",
+
+	"mailsend.user_save_mail_already"                   => "Данный Email уже используется",
+	"mailsend.user_save_update"                         => "Данные организации обновлены",
+	"mailsend.user_save_not_groups"                     => "У организации нет групп рассылок",
+	"mailsend.user_save_not_groups_all"                 => "Нет групп рассылок",
+	"mailsend.user_save_not_id"                         => "Организации с данным ID нет",
+	"mailsend.user_save_added"                          => "Организация добавлена",
+	"mailsend.user_save_not_groups_or_updated"          => "Нет групп рассылок для обновления или внесения",
+
+	"mailsend.groups_save_update"                       => "Группа рассылки обновлена",
+	"mailsend.groups_save_not_update"                   => "Группа рассылки не обновлена",
+	"mailsend.groups_save_not_all"                      => "Нет группы рассылки для обновления",
+
+	"mailsend.groups_save_insert"                       => "Запись группы рассылки добавлена",
+	"mailsend.groups_save_insert_not_name"              => "Не задано имя группы рассылки",
+	"mailsend.groups_save_insert_error"                 => "Данные группы рассылки не внесены"
 );

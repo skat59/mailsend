@@ -1,36 +1,40 @@
 (function($){
 	DataTable.Buttons.defaults.dom.button.liner.tag = '';
 	DataTable.Buttons.defaults.dom.container.className = DataTable.Buttons.defaults.dom.container.className + ' btn-group';
+	// PDF
 	DataTable.ext.buttons.pdfHtml5.className = DataTable.ext.buttons.pdfHtml5.className + ' btn btn-secondary';
 	DataTable.ext.buttons.pdfHtml5.attr = {
-		title: "Экспорт в PDF"
+		title: `${LANG_SENDMAIL['mailsend.users_export_pdf_title']}`
 	};
+	// Excel
 	DataTable.ext.buttons.excelHtml5.className = DataTable.ext.buttons.excelHtml5.className + ' btn btn-secondary';
 	DataTable.ext.buttons.excelHtml5.attr = {
-		title: "Экспорт в XLSX"
+		title: `${LANG_SENDMAIL['mailsend.users_export_excel_title']}`
 	};
+	// Add user
 	DataTable.ext.buttons.userAdd = {
-		//<i class="far fa-address-card"></i>&nbsp;<span>[+text+]</span>
 		className: 'btn btn-success',
-		text: '<i class="far fa-address-card"></i><span>Добавить пользователя</span>',
+		text: `<i class="far fa-address-card"></i><span>${LANG_SENDMAIL['mailsend.user_edit_add']}</span>`,
 		attr: {
-			title: "Добавить пользователя"
+			title: `${LANG_SENDMAIL['mailsend.user_edit_add']}`
 		},
 		action: function (e, dt, button, config, cb) {}
 	};
-	DataTable.ext.buttons.userImport = {
-		className: 'btn btn-secondary',
-		text: '<i class="far fa-file-excel"></i><span>Импорт из Excel (*.xlsx)</span>',
-		attr: {
-			title: "Импорт из Excel (*.xlsx)"
-		},
-		action: function (e, dt, button, config, cb) {}
-	};
+	// Add group
 	DataTable.ext.buttons.groupAdd = {
 		className: 'btn btn-success',
-		text: '<i class="icon-layer-plus"></i><span>Добавить группу</span>',
+		text: `<i class="icon-layer-plus"></i><span>${LANG_SENDMAIL['mailsend.user_edit_add']}</span>`,
 		attr: {
-			title: "Добавить группу"
+			title: `${LANG_SENDMAIL['mailsend.user_edit_add']}`
+		},
+		action: function (e, dt, button, config, cb) {}
+	};
+	// Import user from Excel
+	DataTable.ext.buttons.userImport = {
+		className: 'btn btn-secondary',
+		text: `<i class="far fa-file-excel"></i><span>${LANG_SENDMAIL['mailsend.users_import_excel']}</span>`,
+		attr: {
+			title: `${LANG_SENDMAIL['mailsend.users_import_excel_title']}`
 		},
 		action: function (e, dt, button, config, cb) {}
 	};
@@ -67,9 +71,6 @@
 		}
 		return str;
 	},
-	componentName = `Модуль рассылки`,
-	userName = `ProjectSoft`,
-	SEND_MAIL = `Рассылка`,
 	url = `${window.location.origin}${window.location.pathname}`,
 	searchParams = new URLSearchParams(window.location.search),
 	aUrl = searchParams.get("a"),
@@ -364,7 +365,7 @@
 							dialogClose();
 							window.location.reload();
 						}else{
-							dialogClose();
+							//dialogClose();
 							setTimeout(alert, 100, `${data.message}`);
 						}
 						stopWork();
@@ -387,7 +388,7 @@
 							dialogClose();
 							window.location.reload();
 						}else{
-							dialogClose();
+							//dialogClose();
 							setTimeout(alert, 100, `${data.message}`);
 						}
 						stopWork();
@@ -411,10 +412,10 @@
 							dialogClose();
 							window.location.reload();
 						}else{
-							dialogClose();
-							stopWork();
+							//dialogClose();
 							setTimeout(alert, 100, `${data.message}`);
 						}
+						stopWork();
 					},
 					error: errorStatus
 				});
@@ -435,10 +436,10 @@
 							dialogClose();
 							window.location.reload();
 						}else{
-							dialogClose();
-							stopWork();
+							//dialogClose();
 							setTimeout(alert, 100, `${data.message}`);
 						}
+						stopWork();
 					},
 					error: errorStatus
 				});
@@ -462,9 +463,6 @@
 		}
 		//DataTables_Table_0_users
 		users = new DataTable(`table.grid-users`, {
-			responsive: false,
-			scrollY: false,
-			scrollX: false,
 			// Колонки
 			columns: [
 				{ name: 'id' },
@@ -582,7 +580,7 @@
 							exportOptions: {
 								columns: [0, 1, 2, 4, 5]
 							},
-							sheetName: `${SEND_MAIL}`,
+							sheetName: `${LANG_SENDMAIL['mail.sheet_name']}`,
 							customize: function (xlsx) {
 								let date = new Date();
 								let dateISO = date.toISOString();
@@ -604,7 +602,7 @@
 										// Создатель
 										`<dc:creator>ProjectSoft</dc:creator>` +
 										// Теги
-										`<cp:keywords />` +
+										`<cp:keywords>${LANG_SENDMAIL['mailsend.export_download_users']}</cp:keywords>` +
 										// Описание
 										`<dc:description>${LANG_SENDMAIL['mailsend.export_download_users']}</dc:description>` +
 										// Последнее изменение
@@ -625,7 +623,7 @@
 										`<HeadingPairs>` +
 											`<vt:vector size="2" baseType="variant">` +
 												`<vt:variant>` +
-													`<vt:lpstr>Листы</vt:lpstr>` +
+													`<vt:lpstr>${LANG_SENDMAIL['mailsend.sheets']}</vt:lpstr>` +
 												`</vt:variant>` +
 												`<vt:variant>` +
 													`<vt:i4>1</vt:i4>` +
@@ -640,7 +638,7 @@
 										// Руководитель - автор компонента
 										`<Manager>ProjectSoft</Manager>` +
 										// Организация - автор компонента
-										`<Company>STUDIONIONS</Company>` +
+										`<Company>ProjectSoft</Company>` +
 										`<LinksUpToDate>false</LinksUpToDate>` +
 										`<SharedDoc>false</SharedDoc>` +
 										`<HyperlinkBase>${url}</HyperlinkBase>` +
@@ -756,9 +754,6 @@
 
 		//DataTables_DataTables_Table_1_groups
 		groups = new DataTable(`table.grid-groups`, {
-			responsive: false,
-			scrollY: false,
-			scrollX: false,
 			// Колонки
 			columns: [
 				{ name: 'id' },
@@ -854,7 +849,7 @@
 							},
 							download: `${LANG_SENDMAIL['mailsend.export_download_groups']}`,
 							filename: `${LANG_SENDMAIL['mailsend.export_download_groups']}`,
-							sheetName: `${SEND_MAIL}`,
+							sheetName: `${LANG_SENDMAIL['mail.sheet_name']}`,
 							exportOptions: {
 								columns: [0, 1]
 							},
@@ -879,7 +874,7 @@
 										// Создатель
 										`<dc:creator>ProjectSoft</dc:creator>` +
 										// Теги
-										`<cp:keywords />` +
+										`<cp:keywords>${LANG_SENDMAIL['mailsend.export_download_groups']}</cp:keywords>` +
 										// Описание
 										`<dc:description>${LANG_SENDMAIL['mailsend.export_download_groups']}</dc:description>` +
 										// Последнее изменение
@@ -900,7 +895,7 @@
 										`<HeadingPairs>` +
 											`<vt:vector size="2" baseType="variant">` +
 												`<vt:variant>` +
-													`<vt:lpstr>Листы</vt:lpstr>` +
+													`<vt:lpstr>${LANG_SENDMAIL['mailsend.sheets']}</vt:lpstr>` +
 												`</vt:variant>` +
 												`<vt:variant>` +
 													`<vt:i4>1</vt:i4>` +
@@ -915,7 +910,7 @@
 										// Руководитель - автор компонента
 										`<Manager>ProjectSoft</Manager>` +
 										// Организация - автор компонента
-										`<Company>STUDIONIONS</Company>` +
+										`<Company>ProjectSoft</Company>` +
 										`<LinksUpToDate>false</LinksUpToDate>` +
 										`<SharedDoc>false</SharedDoc>` +
 										`<HyperlinkBase>${url}</HyperlinkBase>` +

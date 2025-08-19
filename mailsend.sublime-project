@@ -21,13 +21,13 @@
 		{
 			"name": "Запуск проекта",
 			"working_dir": "${project_path}",
-			"cmd": ["start", "grunt", "-v", "build"],
+			"cmd": ["start", "/wait", "grunt", "-v", "build"],
 			"shell": true
 		},
 		{
 			"name": "Запуск полной сборки проекта",
 			"working_dir": "${project_path}",
-			"cmd": ["start", "grunt", "-v"],
+			"cmd": ["start", "/wait", "grunt", "-v"],
 			"shell": true
 		},
 	]

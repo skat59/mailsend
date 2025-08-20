@@ -257,6 +257,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 				files : {
 					'site/assets/modules/MailSend/css/localhost.css' : [
 						'src/less/localhost.less',
+						'site/assets/modules/MailSend/css/localhost.less'
 						//'src/less/plugins/prism.css'
 					],
 					'site/assets/modules/MailSend/css/main.css' : [

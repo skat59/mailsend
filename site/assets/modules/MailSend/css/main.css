@@ -1723,6 +1723,23 @@ dialog header.row h2 {
   flex: 1;
 }
 
+dialog form select.form-control {
+  height: auto !important;
+}
+
+dialog form .btn {
+  height: auto;
+}
+
+dialog form .btn[type=file] {
+  font-size: 0.8125rem;
+}
+
+dialog form .btn[type=file]::-webkit-file-upload-button {
+  appearance: none;
+  display: none;
+}
+
 dialog form .btn .fa,
 dialog form .btn .far,
 dialog form .btn .fas,

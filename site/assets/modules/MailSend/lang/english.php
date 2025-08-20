@@ -64,5 +64,10 @@ $_MailSendLang = array(
 
 	"mailsend.groups_save_insert"                       => "Mailing group entry added",
 	"mailsend.groups_save_insert_not_name"              => "Distribution group name not specified",
-	"mailsend.groups_save_insert_error"                 => "Mailing group data not entered"
+	"mailsend.groups_save_insert_error"                 => "Mailing group data not entered",
+
+	"mailsend.file_import_excel"                        => "Importing organizations from Excel (*.xlsx)",
+	"mailsend.file_import"                              => "Select import file",
+	"mailsend.file_import_groups"                       => "Select import group (required)",
+	"mailsend.form_controll_import"                     => "Send",
 );

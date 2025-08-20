@@ -64,7 +64,6 @@ switch ($postType) {
 						$result_groups = $modx->db->select("*", $table_groups);
 						if($modx->db->getRecordCount( $result_groups )):
 							while ($row_groups = $modx->db->getRow( $result_groups )):
-								print_r($row['groups_id']);
 								if(in_array($row_groups["id"], $groups)):
 ?>
 							<option value="<?= $row_groups['id']; ?>" selected="selected"><?= $row_groups['name']; ?></option>

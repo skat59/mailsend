@@ -331,3 +331,18 @@
 .icon-zoom-out:before {
   content: "\e94d";
 }
+
+#treeHolder {
+  height: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+#treePane {
+  min-height: 100%;
+  height: 100%;
+}
+
+#treePane .tab-page {
+  min-height: calc(100% - 40px);
+}

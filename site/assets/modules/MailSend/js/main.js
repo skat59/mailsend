@@ -443,8 +443,37 @@
 					},
 					error: errorStatus
 				});
-				break;
 				return !1;
+				break;
+			case 'import_user':
+				// Импорт Из excel
+				e.preventDefault();
+				work();
+				let formData = new FormData(e.target);
+				$.ajax({
+					url: `${url}?a=${aUrl}&id=${idUrl}`,
+					method: 'post',
+					contentType: false,
+					processData: false,
+					dataType: 'json',
+					data: formData,
+					dataType: 'json',
+					success: function(data) {
+						if(data.request){
+							// Удачно
+							console.log(data);
+							dialogClose();
+							//window.location.reload();
+						}else{
+							//dialogClose();
+							setTimeout(alert, 100, `${data.message}`);
+						}
+						stopWork();
+					},
+					error: errorStatus
+				});
+				return !1;
+				break;
 			default:
 				// Закрыть форму
 				dialogClose();
@@ -553,20 +582,40 @@
 							}
 						},
 						// Кнопка импорта
-						/**
 						{
 							extend: 'userImport',
 							text: `<i class="far fa-file-excel"></i><span>${LANG_SENDMAIL['mailsend.users_import_excel']}</span>`,
 							attr: {
-								title: `${LANG_SENDMAIL['mailsend.users_import_excel_title']}`,
-								disabled: "disabled"
+								title: `${LANG_SENDMAIL['mailsend.users_import_excel_title']}`
 							},
 							action: function ( e, dt, node, config ) {
 								// Выбрать файл и отправить на сервер
 								// Используем POST, $.ajax
+								work();
+								$.ajax({
+									url: `${url}?a=${aUrl}&id=${idUrl}`,
+									method: 'post',
+									dataType: 'html',
+									data: {
+										action: 'import',
+										type: 'default'
+									},
+									success: function(data) {
+										let $html = $(data);
+										dialog = $html[0];
+										document.body.append(dialog);
+										document.body.classList.add('scroll-lock');
+										dialog.showModal();
+										stopWork();
+										let input = $('input[type=file]', dialog);
+										if(input.length){
+											input[0].focus();
+										}
+									},
+									error: errorStatus
+								});
 							}
 						},
-						*/
 						// Кнопка экспорта XLSX
 						{
 							extend: 'excel',
@@ -795,8 +844,8 @@
 				return JSON.parse(localStorage.getItem(settings.sInstance + '_groups'));
 			},
 			lengthMenu: [
-				[25, 50, 100, -1],
-				['по 25', 'по 50', 'по 100', 'All']
+				[10, 25, 50, 100, -1],
+				['по 10', 'по 25', 'по 50', 'по 100', 'All']
 			],
 			layout: {
 				topStart: [

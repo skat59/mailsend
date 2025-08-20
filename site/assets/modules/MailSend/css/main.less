@@ -95,7 +95,20 @@ dialog {
 		}
 	}
 	form {
+		select {
+			&.form-control {
+				height: auto !important;
+			}
+		}
 		.btn {
+			height: auto;
+			&[type=file] {
+				font-size: 0.8125rem;
+				&::-webkit-file-upload-button {
+					appearance: none;
+					display: none;
+				}
+			}
 			.fa,
 			.far,
 			.fas,

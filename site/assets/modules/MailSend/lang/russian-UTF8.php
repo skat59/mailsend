@@ -64,5 +64,14 @@ $_MailSendLang = array(
 
 	"mailsend.groups_save_insert"                       => "Запись группы рассылки добавлена",
 	"mailsend.groups_save_insert_not_name"              => "Не задано имя группы рассылки",
-	"mailsend.groups_save_insert_error"                 => "Данные группы рассылки не внесены"
+	"mailsend.groups_save_insert_error"                 => "Данные группы рассылки не внесены",
+
+	"mailsend.file_import_excel"                        => "Импорт организаций из Excel (*.xlsx)",
+	"mailsend.file_import"                              => "Выбрать файл импорта",
+	"mailsend.file_import_groups"                       => "Выбрать группу импорта (обязательно)",
+	"mailsend.form_controll_import"                     => "Отправить",
+
+	"mailsend.import_error_file"                        => "Файл не загружен",
+	"mailsend.import_error_file_type"                   => "Данный тип файла не поддерживается",
+
 );

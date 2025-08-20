@@ -114,6 +114,10 @@ switch ($e->name) {
 						$groups = isset($rows["value"]) ? $rows["value"] : "0";
 						$groups = explode("||", $groups);
 						sort($groups);
+						if((int)$groups[0] == 0):
+							// Если первая группа равна 0 обрезаем массив до одной группы - не отправлять
+							$groups = array("0");
+						endif;
 						$groups = implode("||", $groups);
 						$data = array(
 							"value" => $groups,

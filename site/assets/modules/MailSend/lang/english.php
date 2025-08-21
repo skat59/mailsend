@@ -69,5 +69,9 @@ $_MailSendLang = array(
 	"mailsend.file_import_excel"                        => "Importing organizations from Excel (*.xlsx)",
 	"mailsend.file_import"                              => "Select import file",
 	"mailsend.file_import_groups"                       => "Select import group (required)",
-	"mailsend.form_controll_import"                     => "Send",
+	"mailsend.form_controll_import"                     => "Upload",
+
+	"mailsend.import_error_file"                        => "File not uploaded",
+	"mailsend.import_error_file_type"                   => "This file type is not supported",
+	"mailsend.import_error_file_read"                   => "Error reading file"
 );

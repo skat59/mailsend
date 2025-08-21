@@ -38,6 +38,9 @@
 		},
 		action: function (e, dt, button, config, cb) {}
 	};
+	// Изменим layout Классы
+	DataTable.ext.classes.layout.end = 'dt-layout-end col-lg-6';
+	DataTable.ext.classes.layout.start = 'dt-layout-start col-lg-6'
 
 	let users, groups, dialog;
 
@@ -461,11 +464,10 @@
 					success: function(data) {
 						if(data.request){
 							// Удачно
-							console.log(data);
 							dialogClose();
-							//window.location.reload();
+							window.location.reload();
 						}else{
-							//dialogClose();
+							dialogClose();
 							setTimeout(alert, 100, `${data.message}`);
 						}
 						stopWork();

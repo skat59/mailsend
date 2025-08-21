@@ -15,6 +15,14 @@ site/*.*
 *.xls
 *.xlsx
 *.csv
+**/*.txt
+**/*.zip
+**/*.rar
+**/*.doc
+**/*.docx
+**/*.xls
+**/*.xlsx
+**/*.csv
 
 # sublime
 *.sublime-workspace
@@ -126,6 +134,7 @@ site/assets/plugins/DocSave/*.txt
 !site/assets/modules/MailSend/*
 !site/assets/modules/MailSend/*.*
 !site/assets/modules/MailSend/**/*.*
+site/assets/modules/MailSend/**/upload
 site/assets/modules/MailSend/*.txt
 site/assets/modules/MailSend/**/*.txt
 

@@ -222,7 +222,7 @@ switch ($postType) {
 						} catch(ReaderException $e) {
 							$return = array(
 								"request"        => false,
-								"message"         => "Ошибка чтения файла",
+								"message"         => $_lang['mailsend.import_error_file_read'],
 							);
 						}
 					else:
@@ -248,7 +248,9 @@ switch ($postType) {
 			endif;
 		endif;
 		// Удаляем файл
-		@unlink($upload_dir . $file_name);
+		if(is_file($upload_dir . $file_name)):
+			@unlink($upload_dir . $file_name);
+		endif;
 		echo json_encode($return);
 		break;
 	case 'default':

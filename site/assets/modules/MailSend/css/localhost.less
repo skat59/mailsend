@@ -1,13 +1,28 @@
-#treeHolder {
-	height: 100%;
-	overflow: hidden;
-	max-height: 100%;
-}
-
-#treePane {
-	min-height: 100%;
-	height: 100%;
-	.tab-page {
-		min-height: ~'calc(100% - 40px)';
+#tree {
+	background-color: #dfdfdf;
+	&Holder {
+		height: 100%;
+		overflow: hidden;
+		max-height: 100%;
+		padding-top: unset !important;
+		padding-left: unset !important;
+		padding-bottom: unset !important;
+	}
+	&Pane {
+		min-height: 100%;
+		height: 100%;
+		.tab-page {
+			min-height: ~'calc(100% - 1.875rem)';
+		}
+		.tab-row {
+			.tab {
+				height: 1.875rem;
+				line-height: 2rem;
+				&,
+				&.selected {
+					padding-bottom: unset;
+				}
+			}
+		}
 	}
 }

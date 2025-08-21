@@ -1867,8 +1867,8 @@ a.btn:not([href]):not([tabindex]) {
   display: table;
 }
 
-.dt-length,
-.dt-search {
+div.dt-length,
+div.dt-search {
   display: -ms-flexbox;
   display: flex;
   gap: 1em;
@@ -1877,7 +1877,11 @@ a.btn:not([href]):not([tabindex]) {
   width: 100%;
 }
 
-.dt-container.form-inline {
+div.dt-container div.dt-search input {
+  width: 100%;
+}
+
+div.dt-container.form-inline {
   -ms-flex-flow: column;
   flex-flow: column;
   -ms-flex-align: unset;
@@ -1885,13 +1889,13 @@ a.btn:not([href]):not([tabindex]) {
   gap: 0.5em;
 }
 
-.dt-container.form-inline > .row {
+div.dt-container.form-inline > .row {
   -ms-flex: 0;
   flex: 0;
   margin: unset;
 }
 
-.dt-container.form-inline > .row.dt-layout-table {
+div.dt-container.form-inline > .row.dt-layout-table {
   -ms-flex: 1;
   flex: 1;
   max-height: calc(100% - 5.3em - 30px);
@@ -1899,89 +1903,98 @@ a.btn:not([href]):not([tabindex]) {
   overflow: hidden;
 }
 
-.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full {
+div.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full {
   height: 100%;
   max-height: 100%;
   overflow: auto;
 }
 
-.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll {
+div.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll {
   overflow: auto;
   height: 100%;
 }
 
-.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll .dt-scroll-head,
-.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll .dt-scroll-foot {
+div.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll .dt-scroll-head,
+div.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll .dt-scroll-foot {
   position: sticky !important;
   z-index: 3;
 }
 
-.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll .dt-scroll-head {
+div.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll .dt-scroll-head {
   top: 0;
 }
 
-.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll .dt-scroll-foot {
+div.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll .dt-scroll-foot {
   bottom: 0;
 }
 
-.dt-container .dt-length label {
+div.dt-container .dt-length label {
   white-space: nowrap;
 }
 
-.dt-container .dt-length select {
+div.dt-container .dt-length select {
   margin-right: unset !important;
   -ms-flex: 1;
   flex: 1;
 }
 
-.dt-container .dt-search input {
+div.dt-container .dt-search input {
   margin-left: unset !important;
   -ms-flex: 1;
   flex: 1;
 }
 
-.dt-container .dt-layout-row {
+div.dt-container .dt-layout-row {
   -ms-flex-align: self-start !important;
   align-items: self-start !important;
   width: 100% !important;
 }
 
-.dt-container .dt-layout-row:first-child {
+div.dt-container .dt-layout-row:first-child {
   -ms-flex-align: self-end !important;
   align-items: self-end !important;
 }
 
-.dt-container .dt-layout-row .dt-layout-cell {
+div.dt-container .dt-layout-row .dt-layout-cell {
   padding: 0;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-.dt-layout-start {
+div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell {
+  display: -ms-flexbox !important;
+  display: flex !important;
+}
+
+div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell > * {
+  margin: 0 !important;
+}
+
+div.dt-layout-start {
   -ms-flex-line-pack: start;
   align-content: start;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
-.dt-layout-start > :not(:last-child) {
+div.dt-layout-start > :not(:last-child) {
   margin-right: unset !important;
 }
 
-.dt-layout-end {
+div.dt-layout-end {
   -ms-flex-line-pack: end;
   align-content: flex-end;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
-.dt-layout-start,
-.dt-layout-end {
+div.dt-layout-start,
+div.dt-layout-end {
   margin-left: unset !important;
   margin-right: unset !important;
 }
 
-.dt-layout-cell {
+div.dt-layout-cell {
   gap: 0.5em;
   display: -ms-flexbox;
   display: flex;
@@ -1994,36 +2007,37 @@ a.btn:not([href]):not([tabindex]) {
   align-items: unset !important;
 }
 
-.dt-layout-cell label {
+div.dt-layout-cell label {
   min-width: 6em;
   -ms-flex-pack: end;
   justify-content: flex-end;
 }
 
-.dt-layout-row .dt-buttons .btn {
+div.dt-layout-row .dt-buttons .btn {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   font-weight: 700;
   font-size: 0.97em;
+  min-width: 14em;
 }
 
-.dt-layout-row .dt-buttons .btn .fa,
-.dt-layout-row .dt-buttons .btn .far,
-.dt-layout-row .dt-buttons .btn .fas,
-.dt-layout-row .dt-buttons .btn [class^="icon-"],
-.dt-layout-row .dt-buttons .btn [class*=" icon-"] {
+div.dt-layout-row .dt-buttons .btn .fa,
+div.dt-layout-row .dt-buttons .btn .far,
+div.dt-layout-row .dt-buttons .btn .fas,
+div.dt-layout-row .dt-buttons .btn [class^="icon-"],
+div.dt-layout-row .dt-buttons .btn [class*=" icon-"] {
   display: none;
   width: 1em;
   font-size: 1em;
   text-align: center;
 }
 
-.dt-layout-row .dt-buttons,
-.dt-layout-row .dt-paging {
+div.dt-layout-row .dt-buttons,
+div.dt-layout-row .dt-paging {
   padding-left: 15px;
 }
 
-.dt-layout-row .dt-paging {
+div.dt-layout-row .dt-paging {
   margin: 0 !important;
   display: -ms-flexbox;
   display: flex;
@@ -2031,35 +2045,35 @@ a.btn:not([href]):not([tabindex]) {
   justify-content: end;
 }
 
-.dt-layout-row .dt-paging .page-link {
+div.dt-layout-row .dt-paging .page-link {
   min-width: 3.3em;
   text-align: center;
 }
 
-.dt-layout-row .dt-paging .page-link,
-.dt-layout-row .dt-paging .page-link:active,
-.dt-layout-row .dt-paging .page-link:hover,
-.dt-layout-row .dt-paging .page-link:focus,
-.dt-layout-row .dt-paging .page-link:focus-visible,
-.dt-layout-row .dt-paging .page-link:focus-within,
-.dt-layout-row .dt-paging .page-link:target {
+div.dt-layout-row .dt-paging .page-link,
+div.dt-layout-row .dt-paging .page-link:active,
+div.dt-layout-row .dt-paging .page-link:hover,
+div.dt-layout-row .dt-paging .page-link:focus,
+div.dt-layout-row .dt-paging .page-link:focus-visible,
+div.dt-layout-row .dt-paging .page-link:focus-within,
+div.dt-layout-row .dt-paging .page-link:target {
   text-decoration: none;
 }
 
-.dt-layout-row th .btn-group .fa,
-.dt-layout-row td .btn-group .fa,
-.dt-layout-row th .btn-group .far,
-.dt-layout-row td .btn-group .far,
-.dt-layout-row th .btn-group .fas,
-.dt-layout-row td .btn-group .fas,
-.dt-layout-row th .btn-group [class^="icon-"],
-.dt-layout-row td .btn-group [class^="icon-"],
-.dt-layout-row th .btn-group [class*=" icon-"],
-.dt-layout-row td .btn-group [class*=" icon-"] {
+div.dt-layout-row th .btn-group .fa,
+div.dt-layout-row td .btn-group .fa,
+div.dt-layout-row th .btn-group .far,
+div.dt-layout-row td .btn-group .far,
+div.dt-layout-row th .btn-group .fas,
+div.dt-layout-row td .btn-group .fas,
+div.dt-layout-row th .btn-group [class^="icon-"],
+div.dt-layout-row td .btn-group [class^="icon-"],
+div.dt-layout-row th .btn-group [class*=" icon-"],
+div.dt-layout-row td .btn-group [class*=" icon-"] {
   display: inline-block !important;
 }
 
-.dt-buttons {
+div.dt-buttons {
   display: -ms-flexbox;
   display: flex;
   gap: 0.7em;
@@ -2069,13 +2083,13 @@ a.btn:not([href]):not([tabindex]) {
   justify-content: flex-end;
 }
 
-.dt-orderable-asc,
-.dt-orderable-desc {
+div.dt-orderable-asc,
+div.dt-orderable-desc {
   cursor: pointer;
 }
 
-.dt-orderable-asc *,
-.dt-orderable-desc * {
+div.dt-orderable-asc *,
+div.dt-orderable-desc * {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
@@ -2213,15 +2227,27 @@ table.dataTable thead > tr > td div.dt-column-header {
     font-size: 0;
   }
 
-  .dt-layout-row .dt-buttons .btn .fa,
-  .dt-layout-row .dt-buttons .btn .far,
-  .dt-layout-row .dt-buttons .btn .fas,
-  .dt-layout-row .dt-buttons .btn [class^="icon-"],
-  .dt-layout-row .dt-buttons .btn [class*=" icon-"] {
+  div.dt-layout-row .dt-buttons .btn .fa,
+  div.dt-layout-row .dt-buttons .btn .far,
+  div.dt-layout-row .dt-buttons .btn .fas,
+  div.dt-layout-row .dt-buttons .btn [class^="icon-"],
+  div.dt-layout-row .dt-buttons .btn [class*=" icon-"] {
     display: inline-block;
   }
 
-  .dt-layout-row .dt-buttons .btn span {
+  div.dt-layout-row .dt-buttons .btn span {
     font-size: 0;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  div.dt-container div.row > * {
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  div.dt-layout-row .dt-buttons .btn {
+    min-width: auto;
   }
 }

@@ -332,10 +332,17 @@
   content: "\e94d";
 }
 
+#tree {
+  background-color: #dfdfdf;
+}
+
 #treeHolder {
   height: 100%;
   overflow: hidden;
   max-height: 100%;
+  padding-top: unset !important;
+  padding-left: unset !important;
+  padding-bottom: unset !important;
 }
 
 #treePane {
@@ -344,5 +351,15 @@
 }
 
 #treePane .tab-page {
-  min-height: calc(100% - 40px);
+  min-height: calc(100% - 1.875rem);
+}
+
+#treePane .tab-row .tab {
+  height: 1.875rem;
+  line-height: 2rem;
+}
+
+#treePane .tab-row .tab,
+#treePane .tab-row .tab.selected {
+  padding-bottom: unset;
 }

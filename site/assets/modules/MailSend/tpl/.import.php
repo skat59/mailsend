@@ -87,41 +87,27 @@ switch ($postType) {
 				// Файл загружен
 				// Начинаем проверки
 				$extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+				// Разрешённый формат файла
 				if(in_array($extension, $allow)):
-					// Разрешённый формат файла
 					// Перемещаем файл в директорию.
 					$inputFileName = $upload_dir . $file_name;
 					if (move_uploaded_file($file['tmp_name'], $inputFileName)):
 						// Удачное перемещение
 						// Читаем файл
 						try {
-							/**
-							 * Определяем тип файла
-							*/
+							// Определяем тип файла
 							$inputFileType = IOFactory::identify($inputFileName);
-							/**
-							 * Создаём новый объект Reader определенного типа.
-							*/
+							// Создаём новый объект Reader определенного типа.
 							$reader = IOFactory::createReader($inputFileType);
-							/**
-							 * Загружаем файл в объект и получаем SpreadSheet
-							*/
+							// Загружаем файл в объект и получаем SpreadSheet
 							$spreadsheet = $reader->load($inputFileName);
-							/**
-							 * Только чтение данных
-							 */
+							// Только чтение данных
 							$reader->setReadDataOnly(true);
-							/**
-							 * Данные в виде массива
-							 */
+							// Данные в виде массива
 							$data = $spreadsheet->getActiveSheet()->toArray();
-							/**
-							 * Цикл по данным
-							 */
+							// Цикл по данным
 							foreach ($data as $item):
-								/**
-								 * Email's
-								 */
+								// Email's
 								$mails = explode("\n", $item[1]);
 								// Удаляем пробелы сначала и конца, переводим в нижний регистр
 								$mails = array_map('trimToLower', $mails);
@@ -130,15 +116,11 @@ switch ($postType) {
 								// Сортируем
 								sort($mails);
 								$mail_array = array();
-								/**
-								 * Пробежим по массиву адресов
-								 */
+								// Пробежим по массиву адресов
 								foreach($mails as $mail):
 									$email = mb_convert_case(trim($mail, "\r\n\t ;,.'\"-_/|!"), MB_CASE_LOWER, "UTF-8");
-									/**
-									 * Если адрес валидный
-									 * И имя больше или равен трём символам
-									 */
+									// Если адрес валидный
+									// И имя больше или равен трём символам
 									if(isValidEmail($email) && mb_strlen($item[0]) >= 3):
 										$std = new stdClass;
 										$std->name = $item[0];
@@ -147,10 +129,7 @@ switch ($postType) {
 										$std->unsubscribe = "0";
 										$result = $modx->db->select("*", $table_users,  "email='" . $std->email ."'");
 										$total_rows = $modx->db->getRecordCount( $result );
-
-										/**
-										 * Если в базе нет адресов. Вносим
-										 */
+										// Если в базе нет адресов. Вносим
 										if($total_rows < 1):
 											$fields = array(
 												'name'        => $modx->db->escape($std->name),
@@ -158,55 +137,39 @@ switch ($postType) {
 												'unsubscribe' => $modx->db->escape($std->unsubscribe),
 												'token'       => $modx->db->escape($std->token)
 											);
-											/**
-											 * Если удалось внести адрес
-											 */
+											// Если удалось внести адрес
 											$modx->db->insert( $fields, $table_users);
 											$id = $modx->db->getInsertId();
 											if(!is_null($id)):
-												/**
-												 * Пытаемся вставить принадлежность к группе
-												 * Но сначало проверим, есть ли записи в базе
-												 */
+												// Пытаемся вставить принадлежность к группе
+												// Но сначало проверим, есть ли записи в базе
 												$result = $modx->db->select("*", $table_members,  "`id_user`='$id' AND `id_group`='$user_group'");
-												/**
-												 * Если результата нет
-												 */
+												// Если результата нет
 												if( !$modx->db->getRecordCount( $result ) ):
 													$fields = array(
 														'id_user' => $modx->db->escape($id),
 														'id_group'=> $modx->db->escape($user_group)
 													);
-													/**
-													 * Вставляем сточку
-													 */
+													// Вставляем сточку
 													$modx->db->insert( $fields, $table_members);
 												endif;
 												$string[] = str_pad((string)$id, 10, " ", STR_PAD_RIGHT) . "->" . $std->email;
 											endif;
 										else:
-											/**
-											 * Если в базе есть запись
-											 * Достаём её.
-											 */
+											// Если в базе есть запись
+											// Достаём её.
 											while($row = $modx->db->getRow( $result )):
 												$id = $modx->db->escape($row['id']);
-												/**
-												 * Пытаемся вставить принадлежность к группе
-												 * Но сначало проверим, есть ли записи в базе
-												 */
+												// Пытаемся вставить принадлежность к группе
+												// Но сначало проверим, есть ли записи в базе
 												$result_members = $modx->db->select("*", $table_members,  "`id_user`='$id' AND `id_group`='$user_group'");
-												/**
-												 * Если результата нет
-												 */
+												// Если результата нет
 												if( !$modx->db->getRecordCount( $result_members ) ):
 													$fields = array(
 														'id_user' => $id,
 														'id_group'=> $user_group
 													);
-													/**
-													 * Вставляем сточку
-													 */
+													// Вставляем сточку
 													$modx->db->insert( $fields, $table_members);
 												endif;
 												$string[] = str_pad((string)$id, 10, " ", STR_PAD_RIGHT) . "->" . $std->email;
@@ -249,7 +212,12 @@ switch ($postType) {
 		endif;
 		// Удаляем файл
 		if(is_file($upload_dir . $file_name)):
-			@unlink($upload_dir . $file_name);
+			try {
+				unlink($upload_dir . $file_name);
+			}catch(Exception $e) {
+				// Файл не удалён.
+				// Пока оставим. Смотреть если будут ошибки
+			}
 		endif;
 		echo json_encode($return);
 		break;
@@ -279,7 +247,7 @@ switch ($postType) {
 					<label for="user_groups"><strong><?= $_lang['mailsend.file_import_groups']; ?>:</strong></label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="icon-layer"></i></span>
-						<select class="form-control" name="user_groups" id="user_groups" tabindex="3">
+						<select class="form-control" name="user_groups" id="user_groups" tabindex="2" required="required">
 <?php
 						$result_groups = $modx->db->select("*", $table_groups);
 						if($modx->db->getRecordCount( $result_groups )):
@@ -296,8 +264,8 @@ switch ($postType) {
 				</div>
 				<!-- Кнопки -->
 				<div class="form-group text-right">
-					<button class="btn btn-success" type="submit" title="<?= $_lang['mailsend.form_controll_import']; ?>" tabindex="5"><i class="fa fa-floppy-o"></i><strong>&nbsp;</strong><i class="fa fa-pencil"></i><span><?= $_lang['mailsend.form_controll_import']; ?></span></button>
-					<button class="btn btn-secondary" type="button" title="<?= $_lang['mailsend.form_controll_close']; ?>" tabindex="6"><i class="fa fa-times-circle"></i><span><?= $_lang['mailsend.form_controll_close']; ?></span></button>
+					<button class="btn btn-success" type="submit" title="<?= $_lang['mailsend.form_controll_import']; ?>" tabindex="3"><i class="fa fa-floppy-o"></i><strong>&nbsp;</strong><i class="fa fa-pencil"></i><span><?= $_lang['mailsend.form_controll_import']; ?></span></button>
+					<button class="btn btn-secondary" type="button" title="<?= $_lang['mailsend.form_controll_close']; ?>" tabindex="4"><i class="fa fa-times-circle"></i><span><?= $_lang['mailsend.form_controll_close']; ?></span></button>
 				</div>
 			</form>
 		</div>

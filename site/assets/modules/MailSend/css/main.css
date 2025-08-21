@@ -2110,6 +2110,14 @@ table.dataTable thead > tr > td div.dt-column-header {
   width: 100%;
 }
 
+div.dt-buttons .btn.processing {
+  pointer-events: none;
+}
+
+div.dt-buttons .btn.processing:after {
+  border: 2px solid transparent;
+}
+
 @media screen and (max-width: 767px) {
   div.dt-container div.dt-layout-row:not(.dt-layout-table) {
     display: block;

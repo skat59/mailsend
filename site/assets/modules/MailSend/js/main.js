@@ -101,6 +101,13 @@
 			dialog = false;
 		}
 	},
+	proceeingButton = function ( e, indicator ) {
+		if ( indicator ) {
+			work();
+		} else {
+			stopWork();
+		}
+	},
 	errorStatus = (xhr, exception) => {
 		// Коды ошибок
 		// Нужно будет всё заполнить. На будущее ))
@@ -485,10 +492,12 @@
 
 	function renderTables() {
 		if(typeof users == 'object') {
+			users.off( 'buttons-processing', proceeingButton);
 			users.destroy();
 			users = false;
 		}
 		if(typeof groups == 'object') {
+			groups.off( 'buttons-processing', proceeingButton);
 			groups.destroy();
 			groups = false;
 		}
@@ -1074,6 +1083,8 @@
 				url: `${LANG_FILE}`,
 			}
 		});
+		users.on( 'buttons-processing', proceeingButton);
+		groups.on( 'buttons-processing', proceeingButton);
 	}
 	renderTables();
 }(jQuery))

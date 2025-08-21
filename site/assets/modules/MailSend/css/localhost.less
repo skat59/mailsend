@@ -7,6 +7,11 @@
 		padding-top: unset !important;
 		padding-left: unset !important;
 		padding-bottom: unset !important;
+		.rootNode {
+			a {
+				padding: 0.5em 0.5em 0.5em .25em;
+			}
+		}
 	}
 	&Pane {
 		min-height: 100%;
@@ -24,8 +29,23 @@
 				}
 			}
 		}
+		.panel {
+			&-heading {
+				padding-left: 5px;
+			}
+			&-collapse {
+				padding-left: 15px;
+			}
+		}
+		#tree {
+			&Root {
+				a {
+					padding-left: 1.5em !important
+				}
+			}
+		}
 	}
-	&Footer {
-		background-color: transparent;
+	&loader {
+		top: 0.45em;
 	}
 }

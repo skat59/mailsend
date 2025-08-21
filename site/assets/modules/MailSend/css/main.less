@@ -428,6 +428,12 @@ div.dt {
 								font-size: 0;
 							}
 						}
+						&.processing {
+							pointer-events: none;
+							&:after {
+								border: 2px solid transparent;
+							}
+						}
 					}
 				}
 				&-buttons,
@@ -435,10 +441,9 @@ div.dt {
 					padding-left: 15px;
 				}
 				&-paging {
-					margin: 0 !important;
-					display: flex;
-					justify-content: end;
+
 					.page-link {
+						/*
 						min-width: 3.3em;
 						text-align: center;
 						&,
@@ -450,6 +455,7 @@ div.dt {
 						&:target {
 							text-decoration: none;
 						}
+						*/
 					}
 				}
 			}
@@ -485,7 +491,49 @@ div.dt {
 		}
 	}
 }
-
+.dt-paging {
+	margin: 0 !important;
+	display: flex;
+	justify-content: end;
+	.pagination {
+		user-select: none;
+		.page-item {
+			.page-link {
+				//
+				color: var(--secondary, #6c757d);
+				min-width: 3.3em;
+				text-align: center;
+				text-decoration: none !important;
+				&:hover {
+					//
+				}
+				&:focus {
+					box-shadow: unset;
+				}
+				&.ellipsis {
+					pointer-events: none;
+				}
+			}
+			&.active {
+				.page-link {
+					color: var(--white, #ffffff);
+					background-color: var(--success, #007bff);
+					border-color: var(--success, #007bff);
+					pointer-events: none;
+					&:hover {
+						//
+					}
+				}
+			}
+			&.disabled {
+				.page-link {
+					//
+					pointer-events: none;
+				}
+			}
+		}
+	}
+}
 .page {
 	&-link {
 		padding: 0.3rem 0.45rem;
@@ -508,10 +556,4 @@ table.dataTable {
 .dynamic-tab-pane-control.tab-pane {
 	position: relative;
 	width: 100%;
-}
-div.dt-buttons .btn.processing {
-	pointer-events: none;
-	&:after {
-		border: 2px solid transparent;
-	}
 }

@@ -2032,32 +2032,33 @@ div.dt-layout-row .dt-buttons .btn [class*=" icon-"] {
   text-align: center;
 }
 
+div.dt-layout-row .dt-buttons .btn.processing {
+  pointer-events: none;
+}
+
+div.dt-layout-row .dt-buttons .btn.processing:after {
+  border: 2px solid transparent;
+}
+
 div.dt-layout-row .dt-buttons,
 div.dt-layout-row .dt-paging {
   padding-left: 15px;
 }
 
-div.dt-layout-row .dt-paging {
-  margin: 0 !important;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: end;
-  justify-content: end;
-}
-
 div.dt-layout-row .dt-paging .page-link {
-  min-width: 3.3em;
-  text-align: center;
-}
-
-div.dt-layout-row .dt-paging .page-link,
-div.dt-layout-row .dt-paging .page-link:active,
-div.dt-layout-row .dt-paging .page-link:hover,
-div.dt-layout-row .dt-paging .page-link:focus,
-div.dt-layout-row .dt-paging .page-link:focus-visible,
-div.dt-layout-row .dt-paging .page-link:focus-within,
-div.dt-layout-row .dt-paging .page-link:target {
-  text-decoration: none;
+  /*
+						min-width: 3.3em;
+						text-align: center;
+						&,
+						&:active,
+						&:hover,
+						&:focus,
+						&:focus-visible,
+						&:focus-within,
+						&:target {
+							text-decoration: none;
+						}
+						*/
 }
 
 div.dt-layout-row th .btn-group .fa,
@@ -2095,6 +2096,46 @@ div.dt-orderable-desc * {
   user-select: none;
 }
 
+.dt-paging {
+  margin: 0 !important;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: end;
+  justify-content: end;
+}
+
+.dt-paging .pagination {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.dt-paging .pagination .page-item .page-link {
+  color: var(--secondary, #6c757d);
+  min-width: 3.3em;
+  text-align: center;
+  text-decoration: none !important;
+}
+
+.dt-paging .pagination .page-item .page-link:focus {
+  box-shadow: unset;
+}
+
+.dt-paging .pagination .page-item .page-link.ellipsis {
+  pointer-events: none;
+}
+
+.dt-paging .pagination .page-item.active .page-link {
+  color: var(--white, #ffffff);
+  background-color: var(--success, #007bff);
+  border-color: var(--success, #007bff);
+  pointer-events: none;
+}
+
+.dt-paging .pagination .page-item.disabled .page-link {
+  pointer-events: none;
+}
+
 .page-link {
   padding: 0.3rem 0.45rem;
 }
@@ -2108,14 +2149,6 @@ table.dataTable thead > tr > td div.dt-column-header {
 .dynamic-tab-pane-control.tab-pane {
   position: relative;
   width: 100%;
-}
-
-div.dt-buttons .btn.processing {
-  pointer-events: none;
-}
-
-div.dt-buttons .btn.processing:after {
-  border: 2px solid transparent;
 }
 
 @media screen and (max-width: 767px) {

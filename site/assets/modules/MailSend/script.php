@@ -20,6 +20,8 @@ if (empty($modx->config)) {
 	$modx->getSettings();
 }
 
+$path = str_replace(MODX_BASE_PATH, "/", $module_path)  . 'js/lang/';
+
 $_MailSendLang = [];
 $_lang = [];
 
@@ -32,7 +34,8 @@ if (is_file($lang_path . $manager_language . '.php')) {
 $_lang = array_merge($_lang, $_MailSendLang);
 
 $LANG = preg_replace('/(^[A-z0-9_]+).*$/', '$1', $manager_language);
-$LANG_FILE = is_file(MODX_BASE_PATH . "assets/modules/MailSend/js/lang/" . $LANG . ".json") ? "/assets/modules/MailSend/js/lang/" . $LANG . ".json" : "/assets/modules/MailSend/js/lang/english.json";
+
+$LANG_FILE = is_file($$module_path . 'js/lang/' . $LANG . ".json") ? $path . $LANG . ".json" : $path . "english.json";
 
 echo 'const LANG = "' . $LANG . '";' . PHP_EOL;
 echo 'const LANG_FILE = "' . $LANG_FILE . '";' . PHP_EOL;

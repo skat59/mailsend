@@ -363,3 +363,7 @@
 #treePane .tab-row .tab.selected {
   padding-bottom: unset;
 }
+
+#treeFooter {
+  background-color: transparent;
+}

@@ -1,6 +1,9 @@
 {
 	"processing": "Пачакайце...",
 	"lengthMenu": "Паказваць: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"zeroRecords": "Запісы адсутнічаюць.",
 	"info": "Запісы з _START_ па _END_ з _TOTAL_ запісаў",
 	"infoEmpty": "Запісы з 0 па 0 з 0 запісаў",

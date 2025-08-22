@@ -6,6 +6,9 @@
 	"infoThousands": " ",
 	"loadingRecords": "Lastar...",
 	"lengthMenu": "Syn: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"processing": "Lastar...",
 	"search": "Търси:",
 	"zeroRecords": "Inga linjer treff p&aring; s&oslash;ket",

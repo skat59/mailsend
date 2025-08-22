@@ -1,6 +1,9 @@
 {
 	"processing": "Henter...",
 	"lengthMenu": "Vis: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"zeroRecords": "Ingen linjer matcher s&oslash;gningen",
 	"info": "Viser _START_ til _END_ af _TOTAL_ linjer",
 	"infoEmpty": "Viser 0 til 0 af 0 linjer",

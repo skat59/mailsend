@@ -126,4 +126,4 @@ $LANG_FILE = is_file(MODX_BASE_PATH . "assets/modules/MailSend/js/lang/" . $LANG
 	</div>
 </div>
 <script src="/assets/modules/MailSend/js/datatables.min.js?<?= $js;?>"></script>
-<script src="/assets/modules/MailSend/js/main.js?<?= $js;?>"></script>
+<script src="/assets/modules/MailSend/js/main.min.js?<?= $js;?>"></script>

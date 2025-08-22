@@ -233,6 +233,9 @@
 	"infoFiltered": "(從 _MAX_ 筆結果中過濾)",
 	"infoThousands": ",",
 	"lengthMenu": "顯示: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"search": "搜尋：",
 	"searchPlaceholder": "請輸入關鍵字",
 	"thousands": ","

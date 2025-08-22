@@ -4,6 +4,9 @@
 	"infoFiltered": "(filtrerade från totalt _MAX_ rader)",
 	"infoThousands": " ",
 	"lengthMenu": "Visa: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"loadingRecords": "Laddar …",
 	"processing": "Bearbetar …",
 	"search": "Sök:",

@@ -1,5 +1,8 @@
 {
 	"lengthMenu": "Показати: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"infoFiltered": "(відфільтровано з _MAX_ записів)",
 	"search": "Пошук:",
 	"paginate": {

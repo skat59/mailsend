@@ -148,6 +148,9 @@
 	"thousands": ".",
 	"zeroRecords": "Keine passenden Einträge gefunden",
 	"lengthMenu": "_MENU_ Zeilen anzeigen",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"datetime": {
 		"previous": "Vorher",
 		"next": "Nachher",

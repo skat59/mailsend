@@ -47,6 +47,8 @@ module.exports = function(grunt) {
 		let get_path = path.normalize(path.join(__dirname, 'bower_components', 'datatables.net-plugins', 'i18n', langArray[key] + '.json'));
 		let set_path = path.normalize(path.join(__dirname, 'site', 'assets', 'modules', 'MailSend', 'js', 'lang', key + '.json'));
 		if(fs.existsSync(get_path)) {
+			// Копирование файлов только один раз
+			// Если нужно заменить какой-то файл нужно просто удалить этот файл в директории модуля (set_path).
 			if(!fs.existsSync(set_path)) {
 				fs.copyFileSync(get_path, set_path);
 				let readFile = fs.readFileSync(set_path, {encoding: 'utf8'});
@@ -175,12 +177,15 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			},
 			datatables: {
 				src: [
+					'bower_components/sprintf/src/sprintf.js',
 					'bower_components/pdfmake/build/pdfmake.js',
 					'bower_components/jszip/dist/jszip.js',
 					'bower_components/pdfmake/build/vfs_fonts.js',
 					'bower_components/datatables.net/js/dataTables.js',
 					'bower_components/datatables.net-buttons/js/dataTables.buttons.js',
 					'bower_components/datatables.net-buttons/js/buttons.html5.js',
+					'bower_components/datatables.net-buttons/js/buttons.print.js',
+					'bower_components/datatables.net-buttons/js/buttons.colVis.js',
 					'bower_components/datatables.net-bs/js/dataTables.bootstrap.js'
 				],
 				dest: 'site/assets/modules/MailSend/js/datatables.js'
@@ -287,11 +292,10 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					}
 				},
 				files : {
-					'test/css/main.css' : [
+					'site/assets/templates/projectsoft/css/main.css' : [
 						'src/less/main.less',
-						//'src/less/plugins/prism.css'
 					],
-					'test/css/tinymce.css' : [
+					'site/assets/templates/projectsoft/css/tinymce.css' : [
 						'src/less/tinymce.less'
 					]
 				}
@@ -313,7 +317,6 @@ Sitemap: ${port}://${domain}/sitemap.xml
 					'site/assets/modules/MailSend/css/localhost.css' : [
 						'src/less/localhost.less',
 						'site/assets/modules/MailSend/css/localhost.less'
-						//'src/less/plugins/prism.css'
 					],
 					'site/assets/modules/MailSend/css/main.css' : [
 						'bower_components/datatables.net-bs/css/dataTables.bootstrap.css',
@@ -333,11 +336,11 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			},
 			css: {
 				files: {
-					'test/css/prefix.main.css' : [
-						'test/css/main.css'
+					'site/assets/templates/projectsoft/css/main.css' : [
+						'site/assets/templates/projectsoft/css/main.css'
 					],
-					'test/css/prefix.tinymce.css' : [
-						'test/css/tinymce.css'
+					'site/assets/templates/projectsoft/css/tinymce.css' : [
+						'site/assets/templates/projectsoft/css/tinymce.css'
 					],
 					'site/assets/modules/MailSend/css/localhost.css' : [
 						'site/assets/modules/MailSend/css/localhost.css'
@@ -351,8 +354,8 @@ Sitemap: ${port}://${domain}/sitemap.xml
 		group_css_media_queries: {
 			group: {
 				files: {
-					'test/css/media/main.css': ['test/css/prefix.main.css'],
-					'test/css/media/tinymce.css': ['test/css/prefix.tinymce.css'],
+					'site/assets/templates/projectsoft/css/main.css': ['site/assets/templates/projectsoft/css/main.css'],
+					'site/assets/templates/projectsoft/css/tinymce.css': ['site/assets/templates/projectsoft/css/tinymce.css'],
 					'site/assets/modules/MailSend/css/localhost.css': ['site/assets/modules/MailSend/css/localhost.css'],
 					'site/assets/modules/MailSend/css/main.css': ['site/assets/modules/MailSend/css/main.css']
 				}
@@ -377,7 +380,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 						expand: true,
 						flatten : true,
 						src: [
-							'test/css/media/main.css'
+							'site/assets/templates/projectsoft/css/main.css'
 						],
 						dest: 'test/css/replace/',
 						filter: 'isFile'
@@ -386,7 +389,7 @@ Sitemap: ${port}://${domain}/sitemap.xml
 						expand: true,
 						flatten : true,
 						src: [
-							'test/css/media/main.css'
+							'site/assets/templates/projectsoft/css/main.css'
 						],
 						dest: 'site/assets/templates/projectsoft/css/',
 						filter: 'isFile'
@@ -395,16 +398,16 @@ Sitemap: ${port}://${domain}/sitemap.xml
 						expand: true,
 						flatten : true,
 						src: [
-							'test/css/media/tinymce.css'
+							'site/assets/templates/projectsoft/css/tinymce.css'
 						],
-						dest: 'test/css/replace/',
+						dest: 'site/assets/templates/projectsoft/css/',
 						filter: 'isFile'
 					},
 					{
 						expand: true,
 						flatten : true,
 						src: [
-							'test/css/media/tinymce.css'
+							'site/assets/templates/projectsoft/css/tinymce.css'
 						],
 						dest: 'site/assets/templates/projectsoft/css/',
 						filter: 'isFile'
@@ -419,8 +422,8 @@ Sitemap: ${port}://${domain}/sitemap.xml
 			},
 			minify: {
 				files: {
-					'site/assets/templates/projectsoft/css/main.min.css' : ['test/css/replace/main.css'],
-					'site/assets/templates/projectsoft/css/tinymce.min.css' : ['test/css/replace/tinymce.css'],
+					'site/assets/templates/projectsoft/css/main.min.css' : ['site/assets/templates/projectsoft/css/main.css'],
+					'site/assets/templates/projectsoft/css/tinymce.min.css' : ['site/assets/templates/projectsoft/css/tinymce.css'],
 					'site/assets/modules/MailSend/css/localhost.min.css' : ['site/assets/modules/MailSend/css/localhost.css'],
 					'site/assets/modules/MailSend/css/main.min.css': ['site/assets/modules/MailSend/css/main.css']
 				}

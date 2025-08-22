@@ -4,6 +4,9 @@
 	"infoFiltered": "(suodatettu _MAX_ tuloksen joukosta)",
 	"infoThousands": ",",
 	"lengthMenu": "Näytä kerralla: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"loadingRecords": "Ladataan...",
 	"processing": "Hetkinen...",
 	"search": "Etsi:",

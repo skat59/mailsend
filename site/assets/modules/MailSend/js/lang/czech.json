@@ -3,6 +3,10 @@
 	"info": "Zobrazuji _START_ až _END_ z celkem _TOTAL_ záznamů",
 	"infoEmpty": "Zobrazuji 0 až 0 z 0 záznamů",
 	"infoFiltered": "(filtrováno z celkem _MAX_ záznamů)",
+	"lengthMenu": "Zobrazit: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"loadingRecords": "Načítám...",
 	"zeroRecords": "Žádné záznamy nebyly nalezeny",
 	"paginate": {
@@ -142,7 +146,6 @@
 		"sortAscending": "Aktivujte pro seřazení vzestupně",
 		"sortDescending": "Aktivujte pro seřazení sestupně"
 	},
-	"lengthMenu": "Zobrazit: _MENU_",
 	"processing": "Zpracovávání...",
 	"search": "Vyhledávání:",
 	"datetime": {

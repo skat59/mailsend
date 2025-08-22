@@ -5,6 +5,9 @@
 	"infoFiltered": "(filtered from _MAX_ total entries)",
 	"infoThousands": ",",
 	"lengthMenu": "Show: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"loadingRecords": "Loading...",
 	"processing": "Processing...",
 	"search": "Search:",

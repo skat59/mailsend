@@ -20,7 +20,9 @@ if (empty($modx->config)) {
 	$modx->getSettings();
 }
 
-$path = str_replace(MODX_BASE_PATH, "/", $module_path)  . 'js/lang/';
+$js_path = str_replace(MODX_BASE_PATH, "/", $module_path)  . 'js/';
+
+$path = $js_path . 'lang/';
 
 $_MailSendLang = [];
 $_lang = [];
@@ -35,8 +37,8 @@ $_lang = array_merge($_lang, $_MailSendLang);
 
 $LANG = preg_replace('/(^[A-z0-9_]+).*$/', '$1', $manager_language);
 
-$LANG_FILE = is_file($$module_path . 'js/lang/' . $LANG . ".json") ? $path . $LANG . ".json" : $path . "english.json";
-
+$LANG_FILE = is_file($module_path . 'js/lang/' . $LANG . ".json") ? $path . $LANG . ".json" : $path . "english.json";
+echo 'const MOD_JS_PATH = "' . $js_path . '";' . PHP_EOL;
 echo 'const LANG = "' . $LANG . '";' . PHP_EOL;
 echo 'const LANG_FILE = "' . $LANG_FILE . '";' . PHP_EOL;
 echo "const LANG_SENDMAIL = " . json_encode( $_MailSendLang, JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_FORCE_OBJECT ) . ";";

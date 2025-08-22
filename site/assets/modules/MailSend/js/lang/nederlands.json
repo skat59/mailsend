@@ -1,5 +1,8 @@
 {
 	"lengthMenu": "_MENU_ resultaten weergeven",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"zeroRecords": "Geen resultaten gevonden",
 	"infoEmpty": "Geen resultaten om weer te geven",
 	"search": "Zoeken:",

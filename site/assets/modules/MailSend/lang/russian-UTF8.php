@@ -1,6 +1,10 @@
 <?php
 // Russian lang
 $_MailSendLang = array(
+	"mailsend.button_print"                             => "Печать",
+	"mailsend.button_colvis"                            => "Видимость столбцов",
+	"mailsend.length_menu_text"                         => "по %s",
+	"mailsend.length_menu_text_all"                     => "Все",
 	"mailsend.name"                                     => "Модуль рассылки",
 	"mailsend.sheets"                                   => "Листы",
 	"mail.sheet_name"                                   => "Рассылка",

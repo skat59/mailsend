@@ -1497,128 +1497,132 @@ html[data-bs-theme=dark] table.dataTable input.dt-select-checkbox:indeterminate:
   content: "\e92e";
 }
 
-.icon-menu-close:before {
+.icon-line-columns:before {
   content: "\e92f";
 }
 
-.icon-menu-open:before {
+.icon-menu-close:before {
   content: "\e930";
 }
 
-.icon-modx:before {
+.icon-menu-open:before {
   content: "\e931";
 }
 
-.icon-next:before {
+.icon-modx:before {
   content: "\e932";
 }
 
-.icon-ok:before {
+.icon-next:before {
   content: "\e933";
 }
 
-.icon-oks:before {
+.icon-ok:before {
   content: "\e934";
 }
 
-.icon-opera:before {
+.icon-oks:before {
   content: "\e935";
 }
 
-.icon-phone:before {
+.icon-opera:before {
   content: "\e936";
 }
 
-.icon-photo:before {
+.icon-phone:before {
   content: "\e937";
 }
 
-.icon-prev:before {
+.icon-photo:before {
   content: "\e938";
 }
 
-.icon-print-ic:before {
+.icon-prev:before {
   content: "\e939";
 }
 
-.icon-print:before {
+.icon-print-ic:before {
   content: "\e93a";
 }
 
-.icon-required:before {
+.icon-print:before {
   content: "\e93b";
 }
 
-.icon-reset:before {
+.icon-required:before {
   content: "\e93c";
 }
 
-.icon-rss-logo:before {
+.icon-reset:before {
   content: "\e93d";
 }
 
-.icon-rss:before {
+.icon-rss-logo:before {
   content: "\e93e";
 }
 
-.icon-rutube:before {
+.icon-rss:before {
   content: "\e93f";
 }
 
-.icon-search:before {
+.icon-rutube:before {
   content: "\e940";
 }
 
-.icon-share:before {
+.icon-search:before {
   content: "\e941";
 }
 
-.icon-skat:before {
+.icon-share:before {
   content: "\e942";
 }
 
-.icon-success:before {
+.icon-skat:before {
   content: "\e943";
 }
 
-.icon-telegram:before {
+.icon-success:before {
   content: "\e944";
 }
 
-.icon-twitter:before {
+.icon-telegram:before {
   content: "\e945";
 }
 
-.icon-tws:before {
+.icon-twitter:before {
   content: "\e946";
 }
 
-.icon-up:before {
+.icon-tws:before {
   content: "\e947";
 }
 
-.icon-vk:before {
+.icon-up:before {
   content: "\e948";
 }
 
-.icon-vks:before {
+.icon-vk:before {
   content: "\e949";
 }
 
-.icon-website:before {
+.icon-vks:before {
   content: "\e94a";
 }
 
-.icon-whatsapp:before {
+.icon-website:before {
   content: "\e94b";
 }
 
-.icon-zoom-in:before {
+.icon-whatsapp:before {
   content: "\e94c";
 }
 
-.icon-zoom-out:before {
+.icon-zoom-in:before {
   content: "\e94d";
+}
+
+.icon-zoom-out:before {
+  content: "\e94e";
 }
 
 ::-webkit-search-cancel-button {
@@ -1928,6 +1932,10 @@ div.dt-container.form-inline > .row.dt-layout-table > .dt-layout-full .dt-scroll
   bottom: 0;
 }
 
+div.dt-container.form-inline:empty {
+  display: none;
+}
+
 div.dt-container .dt-length label {
   white-space: nowrap;
 }
@@ -1970,6 +1978,37 @@ div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell > * {
   margin: 0 !important;
 }
 
+div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell.dt-layout-start .dt-buttons {
+  padding-left: unset;
+}
+
+div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell.dt-layout-start .dt-buttons .buttons-colvis .dt-button-down-arrow {
+  padding-left: 0.8em;
+}
+
+div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell.dt-layout-start .dt-buttons .dt-button-collection {
+  padding: 10px;
+}
+
+div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell.dt-layout-start .dt-buttons .dt-button-collection [role=menu] {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell.dt-layout-start .dt-buttons .dt-button-collection [role=menu] .dt-button {
+  -ms-flex: auto;
+  flex: auto;
+  padding-right: 3em;
+  padding-left: 3em;
+}
+
 div.dt-layout-start {
   -ms-flex-line-pack: start;
   align-content: start;
@@ -1979,6 +2018,12 @@ div.dt-layout-start {
 
 div.dt-layout-start > :not(:last-child) {
   margin-right: unset !important;
+}
+
+div.dt-layout-start > .dt-buttons {
+  padding-left: unset;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
 }
 
 div.dt-layout-end {

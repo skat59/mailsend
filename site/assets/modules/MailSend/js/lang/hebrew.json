@@ -1,6 +1,9 @@
 {
 	"processing": "מעבד...",
 	"lengthMenu": "הצג: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"zeroRecords": "לא נמצאו רשומות מתאימות",
 	"emptyTable": "לא נמצאו רשומות מתאימות",
 	"infoEmpty": "0 עד 0 מתוך 0 רשומות",

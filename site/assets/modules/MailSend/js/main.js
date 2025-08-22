@@ -549,13 +549,57 @@
 			},
 			lengthMenu: [
 				[10, 25, 50, 100, 300, 500, 1000, -1],
-				['по 10', 'по 25', 'по 50', 'по 100', 'по 300', 'по 500', 'по 1000', 'All']
+				[
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 10),
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 25),
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 50),
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 100),
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 300),
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 500),
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 1000)
+				]
+			],
+			columnDefs: [
+				{
+					targets: -1,
+					visible: false
+				}
 			],
 			layout: {
-				topStart: [
-					'pageLength',
-					'search'
-				],
+				topStart: {
+					buttons: [
+						{
+							extend: 'colvis',
+							className: 'button-colvis btn btn-primary',
+							text: `<i class="icon-line-columns"></i><span>${LANG_SENDMAIL['mailsend.button_colvis']}</span>`,
+							attr: {
+								title: `${LANG_SENDMAIL['mailsend.button_colvis']}`
+							}
+						},
+						{
+							extend: 'print',
+							className: 'button-print btn btn-success',
+							text: `<i class="fas fa-print"></i><span>${LANG_SENDMAIL['mailsend.button_print']}</span>`,
+							attr: {
+								title: LANG_SENDMAIL['mailsend.button_print']
+							},
+							exportOptions: {
+								columns: ':visible'
+							},
+							header: true,
+							footer: true,
+							title: LANG_SENDMAIL['mailsend.users_tab_title'],
+							messageTop: false,
+							messageBottom: false,
+							autoPrint: true,
+							customScripts: [
+								MOD_JS_PATH + 'print.js'
+							]
+						},
+					],
+					'pageLength': 'pageLength',
+					'search': 'search',
+				},
 				topEnd: {
 					buttons: [
 						// Кнопка Добавить пользователя
@@ -638,7 +682,7 @@
 								title: `${LANG_SENDMAIL['mailsend.users_export_excel_title']}`
 							},
 							exportOptions: {
-								columns: [0, 1, 2, 4, 5]
+								columns: ':visible'
 							},
 							sheetName: `${LANG_SENDMAIL['mail.sheet_name']}`,
 							customize: function (xlsx) {
@@ -741,7 +785,7 @@
 							download: `${LANG_SENDMAIL['mailsend.export_download_users']}`,
 							orientation: `landscape`,
 							exportOptions: {
-								columns: [0, 1, 2, 4, 5]
+								columns: ':visible'
 							},
 							// Кастомизируем вывод
 							customize: function (doc) {
@@ -805,7 +849,7 @@
 					],
 					"paging": "paging"
 				},
-				//bottomEnd: ""
+				//bottomEnd: []
 			},
 			language: {
 				url: `${LANG_FILE}`,
@@ -856,7 +900,12 @@
 			},
 			lengthMenu: [
 				[10, 25, 50, 100, -1],
-				['по 10', 'по 25', 'по 50', 'по 100', 'All']
+				[
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 10),
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 25),
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 50),
+					sprintf(LANG_SENDMAIL['mailsend.length_menu_text'], 100)
+				]
 			],
 			layout: {
 				topStart: [

@@ -5,6 +5,9 @@
 	"infoFiltered": "(فیلتر شده از _MAX_ ردیف)",
 	"infoThousands": ",",
 	"lengthMenu": "نمایش: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"processing": "در حال پردازش...",
 	"search": "جستجو:",
 	"zeroRecords": "رکوردی با این مشخصات پیدا نشد",

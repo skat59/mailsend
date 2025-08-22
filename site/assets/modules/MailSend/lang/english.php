@@ -1,6 +1,10 @@
 <?php
 // English lang
 $_MailSendLang = array(
+	"mailsend.button_print"                             => "Print",
+	"mailsend.button_colvis"                            => "Column visibility",
+	"mailsend.length_menu_text"                         => "by %s",
+	"mailsend.length_menu_text_all"                     => "All",
 	"mailsend.name"                                     => "Mailing module",
 	"mailsend.sheets"                                   => "Sheets",
 	"mail.sheet_name"                                   => "Mailing list",

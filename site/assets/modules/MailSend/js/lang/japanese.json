@@ -5,6 +5,9 @@
 	"infoFiltered": "（全 _MAX_ 件より抽出）",
 	"infoThousands": ",",
 	"lengthMenu": "_MENU_ 件表示",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"loadingRecords": "読み込み中...",
 	"processing": "処理中...",
 	"search": "検索:",

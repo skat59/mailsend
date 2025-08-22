@@ -321,6 +321,9 @@ div.dt {
 					}
 				}
 			}
+			&:empty {
+				display: none;
+			}
 		}
 		.dt {
 			&-length {
@@ -360,6 +363,31 @@ div.dt {
 							> * {
 								margin: 0 !important;
 							}
+							&.dt-layout-start {
+								.dt-buttons {
+									padding-left: unset;
+									.buttons-colvis {
+										.dt-button-down-arrow {
+											padding-left: .8em;
+										}
+									}
+									.dt-button-collection {
+										padding: 10px;
+										[role=menu] {
+											display: flex;
+											flex-direction: column;
+											flex-wrap: wrap;
+											gap: @gap-inline-form;
+											justify-content: space-between;
+											.dt-button {
+												flex: auto;
+												padding-right: 3em;
+												padding-left: 3em;
+											}
+										}
+									}
+								}
+							}
 						}
 					}
 				}
@@ -372,6 +400,10 @@ div.dt {
 			flex-wrap: wrap;
 			>:not(:last-child) {
 				margin-right: unset !important;
+			}
+			> .dt-buttons {
+				padding-left: unset;
+				justify-content: flex-start;
 			}
 		}
 		&-end {

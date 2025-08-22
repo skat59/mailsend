@@ -3,6 +3,9 @@
 	"loadingRecords": "A carregar...",
 	"processing": "A processar...",
 	"lengthMenu": "Mostrar: _MENU_",
+	"lengthLabels": {
+		"-1": "All"
+	},
 	"zeroRecords": "Não foram encontrados resultados",
 	"search": "Procurar:",
 	"paginate": {

@@ -1,4 +1,8 @@
 @import "../../../../../src/less/localhost.less";
+:root {
+	--success-link: #5cb85c;
+	--success-link-hover: #449d44;
+}
 ::-webkit-search-cancel-button {
 	opacity: 1;
 	cursor: pointer;
@@ -230,12 +234,7 @@ a {
 	thead,
 	tbody {
 		th,td {
-			&:nth-child(2) {
-				//word-break: unset;
-				//width: 100%;
-			}
-			&:first-child,
-			&:last-child {
+			&.action {
 				width: 1%;
 			}
 		}
@@ -362,6 +361,7 @@ div.dt {
 							display: flex !important;
 							> * {
 								margin: 0 !important;
+								user-select: none !important;
 							}
 							&.dt-layout-start {
 								.dt-buttons {
@@ -369,6 +369,7 @@ div.dt {
 									.buttons-colvis {
 										.dt-button-down-arrow {
 											padding-left: .8em;
+											font-size: .97em;
 										}
 									}
 									.dt-button-collection {
@@ -472,24 +473,6 @@ div.dt {
 				&-paging {
 					padding-left: 15px;
 				}
-				&-paging {
-
-					.page-link {
-						/*
-						min-width: 3.3em;
-						text-align: center;
-						&,
-						&:active,
-						&:hover,
-						&:focus,
-						&:focus-visible,
-						&:focus-within,
-						&:target {
-							text-decoration: none;
-						}
-						*/
-					}
-				}
 			}
 			th,
 			td {
@@ -549,11 +532,13 @@ div.dt {
 			&.active {
 				.page-link {
 					color: var(--white, #ffffff);
-					background-color: var(--success, #007bff);
-					border-color: var(--success, #007bff);
+					background-color: var(--success-link, #007bff);
+					border-color: var(--success-link, #007bff);
+					font-weight: 700;
 					pointer-events: none;
 					&:hover {
-						//
+						background-color: var(--success-link-hover, #0098ff);
+						border-color: var(--success-link-hover, #0098ff);
 					}
 				}
 			}
@@ -566,6 +551,7 @@ div.dt {
 		}
 	}
 }
+
 .page {
 	&-link {
 		padding: 0.3rem 0.45rem;

@@ -46,13 +46,13 @@ $LANG_FILE = is_file(MODX_BASE_PATH . "assets/modules/MailSend/js/lang/" . $LANG
 						<table class="grid grid-users">
 							<thead>
 								<tr>
-									<th><?= $_lang["mailsend.users_table_col1"]; ?></th>
+									<th class="action"><?= $_lang["mailsend.users_table_col1"]; ?></th>
 									<th><?= $_lang["mailsend.users_table_col2"]; ?></th>
 									<th><?= $_lang["mailsend.users_table_col3"]; ?></th>
-									<th><?= $_lang["mailsend.users_table_col4"]; ?></th>
 									<th><?= $_lang["mailsend.users_table_col5"]; ?></th>
+									<th class="action"><?= $_lang["mailsend.users_table_col4"]; ?></th>
 									<th class="text-left"><?= $_lang["mailsend.users_table_col6"]; ?></th>
-									<th><?= $_lang["mailsend.users_table_col7"]; ?></th>
+									<th class="action"><?= $_lang["mailsend.users_table_col7"]; ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -64,13 +64,13 @@ $LANG_FILE = is_file(MODX_BASE_PATH . "assets/modules/MailSend/js/lang/" . $LANG
 	while( $row = $modx->db->getRow( $result ) ):
 ?>
 								<tr>
-									<td><?= $row["id"]; ?></td>
+									<td class="action"><?= $row["id"]; ?></td>
 									<td><?= $row["name"]; ?></td>
 									<td><?= $row["email"]; ?></td>
-									<td><?= $row["groups_id"]; ?></td>
 									<td><?= $row["groups_name"]; ?></td>
+									<td class="action"><?= $row["groups_id"]; ?></td>
 									<td class="text-left"><?= $row["unsubscribe"]; ?></td>
-									<td>
+									<td class="action">
 										<div class="btn-group">
 											<a class="btn btn-success user_edit" title="<?= $_lang["mailsend.groups_table_edit_user"]; ?>" data-user="<?= $row["id"]; ?>"><i class="fas fa-user-edit"></i></a>&nbsp;<a class="btn btn-danger user_delete" title="<?= $_lang["mailsend.groups_table_delete_user"]; ?>" data-user="<?= $row["id"]; ?>"><i class="fas fa-user-times"></i></a>
 										</div>
@@ -96,9 +96,9 @@ $LANG_FILE = is_file(MODX_BASE_PATH . "assets/modules/MailSend/js/lang/" . $LANG
 						<table class="grid grid-groups">
 							<thead>
 								<tr>
-									<th><?= $_lang["mailsend.groups_table_col1"]; ?></th>
+									<th class="action"><?= $_lang["mailsend.groups_table_col1"]; ?></th>
 									<th><?= $_lang["mailsend.groups_table_col2"]; ?></th>
-									<th><?= $_lang["mailsend.groups_table_col3"]; ?></th>
+									<th class="action"><?= $_lang["mailsend.groups_table_col3"]; ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -107,9 +107,9 @@ $LANG_FILE = is_file(MODX_BASE_PATH . "assets/modules/MailSend/js/lang/" . $LANG
 						if( $modx->db->getRecordCount( $result ) >= 1 ):
 							while ($row = $modx->db->getRow($result)):?>
 								<tr>
-									<td><?= $row["id"]; ?></td>
+									<td class="action"><?= $row["id"]; ?></td>
 									<td><?= $row["name"]; ?></td>
-									<td>
+									<td class="action">
 										<div class="btn-group">
 											<a class="btn btn-success group_edit" title="<?= $_lang["mailsend.groups_table_edit_group"]; ?>" data-group="<?= $row["id"]; ?>"><i class="fas fa-user-edit"></i></a>&nbsp;<a class="btn btn-danger group_delete" title="<?= $_lang["mailsend.groups_table_delete_group"]; ?>" data-group="<?= $row["id"]; ?>"><i class="fas fa-user-times"></i></a>
 										</div>

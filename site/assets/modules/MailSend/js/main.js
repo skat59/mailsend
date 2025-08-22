@@ -579,7 +579,7 @@
 						{
 							extend: 'print',
 							className: 'button-print btn btn-success',
-							text: `<i class="fas fa-print"></i><span>${LANG_SENDMAIL['mailsend.button_print']}</span>`,
+							text: `<i class="icon-print"></i><span>${LANG_SENDMAIL['mailsend.button_print']}</span>`,
 							attr: {
 								title: LANG_SENDMAIL['mailsend.button_print']
 							},
@@ -682,7 +682,7 @@
 								title: `${LANG_SENDMAIL['mailsend.users_export_excel_title']}`
 							},
 							exportOptions: {
-								columns: ':visible'
+								columns: [':visible']
 							},
 							sheetName: `${LANG_SENDMAIL['mail.sheet_name']}`,
 							customize: function (xlsx) {
@@ -785,7 +785,7 @@
 							download: `${LANG_SENDMAIL['mailsend.export_download_users']}`,
 							orientation: `landscape`,
 							exportOptions: {
-								columns: ':visible'
+								columns: [':visible']
 							},
 							// Кастомизируем вывод
 							customize: function (doc) {
@@ -908,10 +908,40 @@
 				]
 			],
 			layout: {
-				topStart: [
-					'pageLength',
-					'search'
-				],
+				topStart: {
+					buttons: [
+						{
+							extend: 'colvis',
+							className: 'button-colvis btn btn-primary',
+							text: `<i class="icon-line-columns"></i><span>${LANG_SENDMAIL['mailsend.button_colvis']}</span>`,
+							attr: {
+								title: `${LANG_SENDMAIL['mailsend.button_colvis']}`
+							}
+						},
+						{
+							extend: 'print',
+							className: 'button-print btn btn-success',
+							text: `<i class="icon-print"></i><span>${LANG_SENDMAIL['mailsend.button_print']}</span>`,
+							attr: {
+								title: LANG_SENDMAIL['mailsend.button_print']
+							},
+							exportOptions: {
+								columns: ':visible'
+							},
+							header: true,
+							footer: true,
+							title: LANG_SENDMAIL['mailsend.users_tab_title'],
+							messageTop: false,
+							messageBottom: false,
+							autoPrint: true,
+							customScripts: [
+								MOD_JS_PATH + 'print.js'
+							]
+						},
+					],
+					'pageLength': 'pageLength',
+					'search': 'search',
+				},
 				topEnd: {
 					buttons: [
 						{
@@ -960,7 +990,7 @@
 							filename: `${LANG_SENDMAIL['mailsend.export_download_groups']}`,
 							sheetName: `${LANG_SENDMAIL['mail.sheet_name']}`,
 							exportOptions: {
-								columns: [0, 1]
+								columns: [':visible']
 							},
 							customize: function (xlsx) {
 								let date = new Date();
@@ -1062,7 +1092,7 @@
 								title: `${LANG_SENDMAIL['mailsend.groups_export_pdf_title']}`
 							},
 							exportOptions: {
-								columns: [0, 1]
+								columns: [':visible']
 							},
 							// Кастомизируем вывод
 							customize: function (doc) {

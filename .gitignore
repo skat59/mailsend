@@ -15,6 +15,7 @@ site/*.*
 *.xls
 *.xlsx
 *.csv
+*.pdf
 **/*.txt
 **/*.zip
 **/*.rar
@@ -22,6 +23,7 @@ site/*.*
 **/*.docx
 **/*.xls
 **/*.xlsx
+**/*.pdf
 **/*.csv
 
 # sublime

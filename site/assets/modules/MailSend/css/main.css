@@ -1625,6 +1625,11 @@ html[data-bs-theme=dark] table.dataTable input.dt-select-checkbox:indeterminate:
   content: "\e94e";
 }
 
+:root {
+  --success-link: #5cb85c;
+  --success-link-hover: #449d44;
+}
+
 ::-webkit-search-cancel-button {
   opacity: 1;
   cursor: pointer;
@@ -1850,14 +1855,10 @@ a.btn:not([href]):not([tabindex]) {
   user-select: none;
 }
 
-.grid thead th:first-child,
-.grid tbody th:first-child,
-.grid thead td:first-child,
-.grid tbody td:first-child,
-.grid thead th:last-child,
-.grid tbody th:last-child,
-.grid thead td:last-child,
-.grid tbody td:last-child {
+.grid thead th.action,
+.grid tbody th.action,
+.grid thead td.action,
+.grid tbody td.action {
   width: 1%;
 }
 
@@ -1976,6 +1977,9 @@ div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell {
 
 div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell > * {
   margin: 0 !important;
+  -webkit-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
 }
 
 div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell.dt-layout-start .dt-buttons {
@@ -1984,6 +1988,7 @@ div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell.dt-layout-
 
 div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell.dt-layout-start .dt-buttons .buttons-colvis .dt-button-down-arrow {
   padding-left: 0.8em;
+  font-size: 0.97em;
 }
 
 div.dt-container .dt-layout-row:not(.dt-layout-table) .dt-layout-cell.dt-layout-start .dt-buttons .dt-button-collection {
@@ -2090,22 +2095,6 @@ div.dt-layout-row .dt-paging {
   padding-left: 15px;
 }
 
-div.dt-layout-row .dt-paging .page-link {
-  /*
-						min-width: 3.3em;
-						text-align: center;
-						&,
-						&:active,
-						&:hover,
-						&:focus,
-						&:focus-visible,
-						&:focus-within,
-						&:target {
-							text-decoration: none;
-						}
-						*/
-}
-
 div.dt-layout-row th .btn-group .fa,
 div.dt-layout-row td .btn-group .fa,
 div.dt-layout-row th .btn-group .far,
@@ -2172,9 +2161,15 @@ div.dt-orderable-desc * {
 
 .dt-paging .pagination .page-item.active .page-link {
   color: var(--white, #ffffff);
-  background-color: var(--success, #007bff);
-  border-color: var(--success, #007bff);
+  background-color: var(--success-link, #007bff);
+  border-color: var(--success-link, #007bff);
+  font-weight: 700;
   pointer-events: none;
+}
+
+.dt-paging .pagination .page-item.active .page-link:hover {
+  background-color: var(--success-link-hover, #0098ff);
+  border-color: var(--success-link-hover, #0098ff);
 }
 
 .dt-paging .pagination .page-item.disabled .page-link {

@@ -44,24 +44,26 @@ module.exports = function(grunt) {
 		"ukrainian": "uk",
 	};
 	for (const key in langArray) {
-		let get_file = langArray[key] + '.json';
-		let set_file = key + '.json';
-		let get_path = path.normalize(path.join(__dirname, 'bower_components', 'datatables.net-plugins', 'i18n', get_file));
-		let set_path = path.normalize(path.join(__dirname, 'site', 'assets', 'modules', 'MailSend', 'js', 'lang', set_file));
+		let get_path = path.normalize(path.join(__dirname, 'bower_components', 'datatables.net-plugins', 'i18n', langArray[key] + '.json'));
+		let set_path = path.normalize(path.join(__dirname, 'site', 'assets', 'modules', 'MailSend', 'js', 'lang', key + '.json'));
 		if(fs.existsSync(get_path)) {
 			if(!fs.existsSync(set_path)) {
 				fs.copyFileSync(get_path, set_path);
 				let readFile = fs.readFileSync(set_path, {encoding: 'utf8'});
 				let jsonObject = JSON.parse(readFile);
+				// Пагинация
 				jsonObject.paginate = {
 					"first": "<i class=\"icon-angles-left\"></i>",
 					"previous": "<i class=\"icon-angle-left\"></i>",
 					"next": "<i class=\"icon-angle-right\"></i>",
 					"last": "<i class=\"icon-angles-right\"></i>"
 				};
+				// Вывод выбора кол-ва отображаемых элементов
 				if(jsonObject.lengthMenu) {
+					// Перезапишем
 					jsonObject.lengthMenu = jsonObject.lengthMenu.replace(/(.+)\s+?(_MENU_).+/g, `$1: $2`);
 				}else{
+					// Дефолт
 					jsonObject.lengthMenu = "Show: _MENU_";
 				}
 				let stringFile = JSON.stringify(jsonObject, null, "\t");

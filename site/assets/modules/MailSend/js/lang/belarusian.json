@@ -1,0 +1,19 @@
+{
+	"processing": "Пачакайце...",
+	"lengthMenu": "Паказваць: _MENU_",
+	"zeroRecords": "Запісы адсутнічаюць.",
+	"info": "Запісы з _START_ па _END_ з _TOTAL_ запісаў",
+	"infoEmpty": "Запісы з 0 па 0 з 0 запісаў",
+	"infoFiltered": "(адфільтравана з _MAX_ запісаў)",
+	"search": "Пошук:",
+	"paginate": {
+		"first": "<i class=\"icon-angles-left\"></i>",
+		"previous": "<i class=\"icon-angle-left\"></i>",
+		"next": "<i class=\"icon-angle-right\"></i>",
+		"last": "<i class=\"icon-angles-right\"></i>"
+	},
+	"aria": {
+		"sortAscending": ": актываваць для сартавання слупка па ўзрастанні",
+		"sortDescending": ": актываваць для сартавання слупка па змяншэнні"
+	}
+}

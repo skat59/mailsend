@@ -1,22 +1,78 @@
 module.exports = function(grunt) {
+	const fs = require('node:fs');
+	const path = require('node:path');
+	const chalk = require('chalk');
 	let PACK = grunt.file.readJSON('package.json');
 	require('dotenv').config();
+
 	const DEBUG = parseInt(process.env.DEBUG) || false,
 		VERSION = process.env.VERSION == undefined ? PACK.font_version : process.env.VERSION,
 		font = `localhost`,
 		fontName = `LocalHost`,
 		domAin = `mailsend.skat59.ru`,
 		porT = `https`,
-		domain_url = `${porT}://${domAin}`;
-	var fs = require('fs'),
-		chalk = require('chalk'),
-		//PACK = grunt.file.readJSON('package.json'),
+		domain_url = `${porT}://${domAin}`,
 		uniqid = function () {
 			let md5 = require('md5');
 			result = md5(`v${VERSION}`).toString();// (new Date()).getTime()
 			grunt.verbose.writeln("Generate hash: " + chalk.cyan(result) + " >>> OK");
 			return result;
 		};
+
+	let langArray = {
+		"belarusian": "be",
+		"bulgarian": "bg",
+		"chinese": "zh",
+		"czech": "cs",
+		"danish": "da",
+		"english": "en-GB",
+		"finnish": "fi",
+		"francais": "fr-FR",
+		"german": "de-DE",
+		"hebrew": "he",
+		"italian": "it-IT",
+		"japanese": "ja",
+		"nederlands": "nl-NL",
+		"norsk": "no-NO",
+		"persian": "fa",
+		"polish": "pl",
+		"portuguese": "pt-PT",
+		"russian": "ru",
+		"simple_chinese": "zh-HANT",
+		"spanish": "es-ES",
+		"svenska": "sv-SE",
+		"ukrainian": "uk",
+	};
+	for (const key in langArray) {
+		let get_file = langArray[key] + '.json';
+		let set_file = key + '.json';
+		let get_path = path.normalize(path.join(__dirname, 'bower_components', 'datatables.net-plugins', 'i18n', get_file));
+		let set_path = path.normalize(path.join(__dirname, 'site', 'assets', 'modules', 'MailSend', 'js', 'lang', set_file));
+		if(fs.existsSync(get_path)) {
+			if(fs.existsSync(set_path)) {
+				fs.unlinkSync(set_path);
+			}
+			fs.copyFileSync(get_path, set_path);
+			let readFile = fs.readFileSync(set_path, {encoding: 'utf8'});
+			let jsonObject = JSON.parse(readFile);
+			jsonObject.paginate = {
+				"first": "<i class=\"icon-angles-left\"></i>",
+				"previous": "<i class=\"icon-angle-left\"></i>",
+				"next": "<i class=\"icon-angle-right\"></i>",
+				"last": "<i class=\"icon-angles-right\"></i>"
+			};
+			if(jsonObject.lengthMenu) {
+				jsonObject.lengthMenu = jsonObject.lengthMenu.replace(/(.+)\s+?(_MENU_).+/g, `$1: $2`);
+			}else{
+				jsonObject.lengthMenu = "Show: _MENU_";
+			}
+			let stringFile = JSON.stringify(jsonObject, null, "\t");
+			fs.writeFileSync(set_path, stringFile, {encoding: 'utf8'});
+		}
+		console.log(get_path);
+		console.log(set_path);
+	}
+
 	String.prototype.hashCode = function() {
 		let hash = 0, i, chr;
 		if (this.length === 0) return hash;

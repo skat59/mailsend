@@ -49,28 +49,25 @@ module.exports = function(grunt) {
 		let get_path = path.normalize(path.join(__dirname, 'bower_components', 'datatables.net-plugins', 'i18n', get_file));
 		let set_path = path.normalize(path.join(__dirname, 'site', 'assets', 'modules', 'MailSend', 'js', 'lang', set_file));
 		if(fs.existsSync(get_path)) {
-			if(fs.existsSync(set_path)) {
-				fs.unlinkSync(set_path);
+			if(!fs.existsSync(set_path)) {
+				fs.copyFileSync(get_path, set_path);
+				let readFile = fs.readFileSync(set_path, {encoding: 'utf8'});
+				let jsonObject = JSON.parse(readFile);
+				jsonObject.paginate = {
+					"first": "<i class=\"icon-angles-left\"></i>",
+					"previous": "<i class=\"icon-angle-left\"></i>",
+					"next": "<i class=\"icon-angle-right\"></i>",
+					"last": "<i class=\"icon-angles-right\"></i>"
+				};
+				if(jsonObject.lengthMenu) {
+					jsonObject.lengthMenu = jsonObject.lengthMenu.replace(/(.+)\s+?(_MENU_).+/g, `$1: $2`);
+				}else{
+					jsonObject.lengthMenu = "Show: _MENU_";
+				}
+				let stringFile = JSON.stringify(jsonObject, null, "\t");
+				fs.writeFileSync(set_path, stringFile, {encoding: 'utf8'});
 			}
-			fs.copyFileSync(get_path, set_path);
-			let readFile = fs.readFileSync(set_path, {encoding: 'utf8'});
-			let jsonObject = JSON.parse(readFile);
-			jsonObject.paginate = {
-				"first": "<i class=\"icon-angles-left\"></i>",
-				"previous": "<i class=\"icon-angle-left\"></i>",
-				"next": "<i class=\"icon-angle-right\"></i>",
-				"last": "<i class=\"icon-angles-right\"></i>"
-			};
-			if(jsonObject.lengthMenu) {
-				jsonObject.lengthMenu = jsonObject.lengthMenu.replace(/(.+)\s+?(_MENU_).+/g, `$1: $2`);
-			}else{
-				jsonObject.lengthMenu = "Show: _MENU_";
-			}
-			let stringFile = JSON.stringify(jsonObject, null, "\t");
-			fs.writeFileSync(set_path, stringFile, {encoding: 'utf8'});
 		}
-		console.log(get_path);
-		console.log(set_path);
 	}
 
 	String.prototype.hashCode = function() {

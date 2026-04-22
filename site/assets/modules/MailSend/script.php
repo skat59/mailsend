@@ -29,7 +29,7 @@ $_lang = [];
 
 $manager_language = $modx->config['manager_language'];
 
-include $lang_path . 'english.php';
+include $lang_path . 'ru.php';
 if (is_file($lang_path . $manager_language . '.php')) {
 	include $lang_path. $manager_language . '.php';
 }
@@ -38,6 +38,7 @@ $_lang = array_merge($_lang, $_MailSendLang);
 $LANG = preg_replace('/(^[A-z0-9_]+).*$/', '$1', $manager_language);
 
 $LANG_FILE = is_file($module_path . 'js/lang/' . $LANG . ".json") ? $path . $LANG . ".json" : $path . "english.json";
+echo "const MODX_CRF = \"" . $csrf . "\";" . PHP_EOL;
 echo 'const MOD_JS_PATH = "' . $js_path . '";' . PHP_EOL;
 echo 'const LANG = "' . $LANG . '";' . PHP_EOL;
 echo 'const LANG_FILE = "' . $LANG_FILE . '";' . PHP_EOL;

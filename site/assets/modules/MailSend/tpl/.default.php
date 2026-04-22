@@ -1,5 +1,5 @@
 <?php
-if(IN_MANAGER_MODE!='true' && !$modx->hasPermission('exec_module')) {
+if(IN_MANAGER_MODE!=true && !$modx->hasPermission('exec_module')) {
 	http_response_code(403);
 	die('For');
 }

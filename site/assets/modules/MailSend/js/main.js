@@ -78,6 +78,7 @@
 	searchParams = new URLSearchParams(window.location.search),
 	aUrl = searchParams.get("a"),
 	idUrl = searchParams.get("id"),
+	csrf = MODX_CRF;
 	work = () => {
 		// Обработка ошибки
 		// window.parent.modx, window.parent.modx.main или window.parent.modx.main.work могут быть недоступны
@@ -250,9 +251,10 @@
 			method: 'post',
 			dataType: 'html',
 			data: {
-				action: 'edit',
-				type: 'group',
-				group_id: group_id
+				'action': 'edit',
+				'type': 'group',
+				'group_id': group_id,
+				'_token': csrf,
 			},
 			success: function(data) {
 				let $html = $(data);
@@ -283,9 +285,10 @@
 				method: 'post',
 				dataType: 'json',
 				data: {
-					action: 'delete',
-					type: 'group',
-					group_id: id
+					'action': 'delete',
+					'type': 'group',
+					'group_id': id,
+					'_token': csrf,
 				},
 				success: function(data) {
 					if(data.request) {
@@ -308,7 +311,8 @@
 			data: {
 				'action': 'edit',
 				'type': 'user',
-				'user_id': user_id
+				'user_id': user_id,
+				'_token': csrf,
 			},
 			success: function(data) {
 				let $html = $(data);
@@ -340,9 +344,10 @@
 				method: 'post',
 				dataType: 'json',
 				data: {
-					action: 'delete',
-					type: 'user',
-					user_id: user_id
+					'action': 'delete',
+					'type': 'user',
+					'user_id': user_id,
+					'_token': csrf,
 				},
 				success: function(data) {
 					if(data.request) {
@@ -365,7 +370,7 @@
 				e.preventDefault();
 				work();
 				$.ajax({
-					url: `${url}?a=${aUrl}&id=${idUrl}`,
+					url: `${url}?a=${aUrl}&id=${idUrl}&_token=${csrf}`,
 					method: 'post',
 					dataType: 'json',
 					data: $(form).serialize(),
@@ -389,7 +394,7 @@
 				e.preventDefault();
 				work();
 				$.ajax({
-					url: `${url}?a=${aUrl}&id=${idUrl}`,
+					url: `${url}?a=${aUrl}&id=${idUrl}&_token=${csrf}`,
 					method: 'post',
 					dataType: 'json',
 					data: $(form).serialize(),
@@ -412,7 +417,7 @@
 				e.preventDefault();
 				work();
 				$.ajax({
-					url: `${url}?a=${aUrl}&id=${idUrl}`,
+					url: `${url}?a=${aUrl}&id=${idUrl}&_token=${csrf}`,
 					method: 'post',
 					dataType: 'json',
 					data: $(form).serialize(),
@@ -436,7 +441,7 @@
 				e.preventDefault();
 				work();
 				$.ajax({
-					url: `${url}?a=${aUrl}&id=${idUrl}`,
+					url: `${url}?a=${aUrl}&id=${idUrl}&_token=${csrf}`,
 					method: 'post',
 					dataType: 'json',
 					data: $(form).serialize(),
@@ -461,7 +466,7 @@
 				work();
 				let formData = new FormData(e.target);
 				$.ajax({
-					url: `${url}?a=${aUrl}&id=${idUrl}`,
+					url: `${url}?a=${aUrl}&id=${idUrl}&_token=${csrf}`,
 					method: 'post',
 					contentType: false,
 					processData: false,
@@ -616,8 +621,9 @@
 									method: 'post',
 									dataType: 'html',
 									data: {
-										action: 'edit',
-										type: 'user'
+										'action': 'edit',
+										'type': 'user',
+										'_token': csrf,
 									},
 									success: function(data) {
 										let $html = $(data);
@@ -652,8 +658,9 @@
 									method: 'post',
 									dataType: 'html',
 									data: {
-										action: 'import',
-										type: 'default'
+										'action': 'import',
+										'type': 'default',
+										'_token': csrf,
 									},
 									success: function(data) {
 										let $html = $(data);
@@ -958,8 +965,9 @@
 									method: 'post',
 									dataType: 'html',
 									data: {
-										action: 'edit',
-										type: 'group'
+										'action': 'edit',
+										'type': 'group',
+										'_token': csrf,
 									},
 									success: function(data) {
 										let $html = $(data);

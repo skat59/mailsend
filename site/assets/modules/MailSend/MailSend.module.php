@@ -14,13 +14,13 @@ $page = (isset($_REQUEST['page']) && (int)$_REQUEST['page'] > 0) ? (int)$_REQUES
 $a = (isset($_REQUEST['a']) && (int)$_REQUEST['a'] > 0) ? (int)$_REQUEST['a'] : 0;
 $formid = (isset($_REQUEST['formid']) && (int)$_REQUEST['formid'] > 0) ? (int)$_REQUEST['formid'] : 0;
 $_lang = array();
-$modx = evolutionCMS();
+$modx = evo();
 
 
 
 $_MailSendLang = [];
 $lang_path = MODX_MAILSEND_BASE_PATH . "lang/";
-include $lang_path . 'english.php';
+include $lang_path . 'ru.php';
 if (is_file($lang_path . $manager_language . '.php')) {
 	include $lang_path . $manager_language . '.php';
 }
@@ -38,7 +38,7 @@ $table_members = $modx->getFullTableName('mailsend_group_member');
 $table_resources = $modx->getFullTableName('mailsend_resources');
 
 function existsMailSendTable(string $table_name) {
-	$modx = evolutionCMS();
+	$modx = evo();
 	$tn = explode('.', $table_name);
 	$sql = "SELECT COUNT(*) AS COUNT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=" . $tn[0] . " AND TABLE_NAME=" . $tn[1];
 	$sql = preg_replace('/`/', "'", $sql);
@@ -50,7 +50,7 @@ function existsMailSendTable(string $table_name) {
 function getEngineAndCollation() {
 	global $rowCollationEngine;
 	if(!$rowCollationEngine):
-		$modx = evolutionCMS();
+		$modx = evo();
 		// Таблица контента сайта
 		$table_content = $modx->getFullTableName('site_content');
 		$table_content = preg_replace('/`/', "'", $table_content);
@@ -76,6 +76,7 @@ function getEngineAndCollation() {
  */
 
 
+/*
 // Таблица пользователей
 if(!existsMailSendTable($table_users)):
 	// Таблица пользователей не существует.
@@ -84,7 +85,6 @@ if(!existsMailSendTable($table_users)):
 	$sql = "CREATE TABLE " . $table_users . " (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(255) NOT NULL, `email` varchar(255) NOT NULL, `unsubscribe` int NOT NULL DEFAULT '0', `token` varchar(255) NOT NULL, PRIMARY KEY (`id`)) ENGINE=" . $rowCollationEngine['Engine'] . " AUTO_INCREMENT=1 DEFAULT CHARSET=" . $modx->db->config['charset'] . " COLLATE=" . $rowCollationEngine['Collation'] . " COMMENT='Получатели'";
 	$modx->db->query($sql);
 endif;
-
 // Таблица групп
 if(!existsMailSendTable($table_groups)):
 	// Таблица групп не существует
@@ -111,9 +111,9 @@ if(!existsMailSendTable($table_resources)):
 	$sql = "CREATE TABLE " . $table_resources . " (`id` int NOT NULL AUTO_INCREMENT COMMENT 'ID записи', `resource` int NOT NULL COMMENT 'ID ресурса', `groups` varchar(255) NOT NULL DEFAULT '0' COMMENT 'Группы отправки', `status` int NOT NULL DEFAULT '0' COMMENT 'Статус отправки', `count` int NOT NULL DEFAULT '0' COMMENT 'Кол-во пользователей получивших сообщение', `length` int NOT NULL DEFAULT '0' COMMENT 'Общее количество пользователей', `time` int NOT NULL DEFAULT '946670400' COMMENT 'Дата отправки', PRIMARY KEY (`id`)) ENGINE=" . $rowCollationEngine['Engine'] . " AUTO_INCREMENT=1 DEFAULT CHARSET=" . $modx->db->config['charset'] . " COLLATE=" . $rowCollationEngine['Collation'] . " COMMENT='Обработка ресурсов кроном'";
 	$modx->db->query($sql);
 endif;
-
+*/
 $postAction = isset($_POST['action']) ? filter_input(INPUT_POST, 'action', FILTER_SANITIZE_ENCODED) : "";
-
+$csrf = csrf_token();
 switch ($postAction) {
 	case 'delete':
 		include_once MODX_MAILSEND_BASE_PATH . 'tpl/.delete.php';
